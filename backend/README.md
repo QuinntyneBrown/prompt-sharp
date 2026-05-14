@@ -19,7 +19,7 @@ dotnet build PromptSharp.sln --warnaserror
 dotnet test PromptSharp.sln
 ```
 
-SQL Server integration tests use Testcontainers when `RUN_TESTCONTAINERS=true`. They are disabled on ARM64 because the SQL Server Linux container image is amd64-only.
+SQL Server integration tests use Testcontainers when `RUN_TESTCONTAINERS=true`. On ARM64 they use Azure SQL Edge because the SQL Server 2022 Linux container image is amd64-only.
 
 ## Database
 

@@ -19,7 +19,7 @@ namespace PromptSharp.Api.IntegrationTests;
 public sealed class PromptSharpApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly MsSqlContainer? _container = TestEnvironment.RunTestcontainers
-        ? new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
+        ? new MsSqlBuilder(TestEnvironment.SqlServerImage)
             .WithPassword("PromptSharp_test_2026!")
             .Build()
         : null;
@@ -138,6 +138,9 @@ public static class HttpClientAuthExtensions
 file static class TestEnvironment
 {
     public static bool RunTestcontainers =>
-        string.Equals(Environment.GetEnvironmentVariable("RUN_TESTCONTAINERS"), "true", StringComparison.OrdinalIgnoreCase) &&
-        RuntimeInformation.ProcessArchitecture != Architecture.Arm64;
+        string.Equals(Environment.GetEnvironmentVariable("RUN_TESTCONTAINERS"), "true", StringComparison.OrdinalIgnoreCase);
+
+    public static string SqlServerImage => RuntimeInformation.ProcessArchitecture == Architecture.Arm64
+        ? "mcr.microsoft.com/azure-sql-edge:latest"
+        : "mcr.microsoft.com/mssql/server:2022-latest";
 }
