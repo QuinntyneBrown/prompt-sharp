@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp — Tutorial Catalog / Skeleton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* =========================================================
+       PromptSharp · Tutorial Catalog (skeleton)
+       Same design system as home/signin. Browseable list of
+       step-by-step tutorials, filter by Microsoft tech.
+       ========================================================= */
+
+    :root {
+      --bg:         #00000F;
+      --surface:    #002A54;
+      --surface-2:  #003E80AA;
+      --rule:       #003E80;
+      --rule-soft:  #001A36;
+
+      --skel:       #002A54;
+      --skel-hi:    #003E80;
+
+      --ink:        #FBFFFF;
+      --ink-dim:    #C5CDE4;
+      --muted:      #6B7AAF;
+      --hush:       #3A4880;
+
+      --accent:     #FF9800;
+      --accent-2:   #8AA8FF;
+      --gold:       #FFC85C;
+      --moss:       #8AA8FF;
+
+      --sans:       "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono:       "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+      --max-w:      1440px;
+      --gutter:     clamp(20px, 4vw, 64px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(255, 152, 0, 0.16), transparent 60%),
+        radial-gradient(900px 500px at -10% 30%, rgba(138, 168, 255, 0.10), transparent 70%),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(251, 255, 255, 0.014) 3px 4px);
+    }
+
+    /* ---------- Shared type ---------- */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .eyebrow .dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: var(--accent); margin-right: 10px; vertical-align: middle;
+    }
+    .mono { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-dim); }
+    .display {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 75, "wght" 600;
+      letter-spacing: -0.035em;
+      line-height: 0.92;
+      color: var(--ink);
+    }
+    .display em {
+      font-style: italic;
+      font-variation-settings: "wdth" 85, "wght" 500;
+      color: var(--accent);
+    }
+
+    /* ---------- Wordmark ---------- */
+    .brand {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 82, "wght" 700;
+      font-size: 24px; letter-spacing: -0.035em; line-height: 1;
+      display: inline-flex; align-items: baseline; gap: 0;
+    }
+    .brand .slash {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 92, "wght" 500;
+    }
+
+    /* =========================================================
+       NAV — full-width sticky (matches home)
+       ========================================================= */
+    ps-nav {
+      display: block;
+      position: sticky; top: 0;
+      border-bottom: 1px solid var(--rule);
+      background: rgba(0, 0, 15, 0.82);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      backdrop-filter: blur(14px) saturate(160%);
+      z-index: 50;
+    }
+    ps-nav .inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 32px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 24px calc(var(--gutter) + 12px) 22px calc(var(--gutter) + 12px);
+    }
+    ps-nav .links {
+      display: flex; gap: 32px; justify-content: center;
+      font-size: 13px; color: var(--ink-dim);
+    }
+    ps-nav .links span { position: relative; padding-bottom: 4px; cursor: pointer; }
+    ps-nav .links span.active { color: var(--ink); }
+    ps-nav .links span.active::after {
+      content: ""; position: absolute; left: -4px; right: -4px; bottom: -22px;
+      height: 2px; background: var(--accent);
+    }
+    ps-nav .actions {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--mono); font-size: 12px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 22px; border: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 12px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink); background: transparent; cursor: pointer;
+      line-height: 1;
+    }
+    .btn.solid { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+    .btn.ghost { color: var(--ink-dim); }
+    .btn.ghost:hover { color: var(--ink); border-color: var(--ink-dim); }
+    .btn .arr { display: inline-block; transform: translateY(-1px); }
+
+    /* =========================================================
+       SHELL
+       ========================================================= */
+    ps-shell {
+      display: block;
+      position: relative; z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* =========================================================
+       CATALOG HEADER
+       ========================================================= */
+    ps-catalog-header {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      align-items: end;
+      padding: 72px 0 32px;
+      border-bottom: 1px solid var(--rule);
+    }
+    ps-catalog-header .meta-rail {
+      grid-column: 1 / -1;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 24px;
+    }
+    ps-catalog-header h1.display {
+      font-size: clamp(48px, 8vw, 112px);
+      margin: 0;
+    }
+    ps-catalog-header .lede {
+      max-width: 42ch;
+      color: var(--ink-dim);
+      font-size: 17px; line-height: 1.55;
+      margin: 0;
+    }
+    ps-catalog-header .lede strong { color: var(--ink); font-weight: 500; }
+
+    /* =========================================================
+       TOOLBAR — count + sort + view toggle
+       ========================================================= */
+    ps-catalog-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--rule);
+      flex-wrap: wrap;
+    }
+    .result-count {
+      font-family: var(--mono); font-size: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+    .result-count b { color: var(--accent); font-weight: 600; }
+    .toolbar-right {
+      display: flex; align-items: center; gap: 24px;
+    }
+    .sort-control {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+    .sort-control .sort-val {
+      color: var(--ink);
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
+      cursor: pointer;
+    }
+    .sort-control .sort-val .arr { color: var(--accent); margin-left: 8px; }
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--rule);
+    }
+    .view-toggle .vt {
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--muted);
+      transition: color .15s ease, background .15s ease;
+      border-right: 1px solid var(--rule);
+    }
+    .view-toggle .vt:last-child { border-right: none; }
+    .view-toggle .vt:hover { color: var(--ink); }
+    .view-toggle .vt.active { color: var(--bg); background: var(--accent); }
+
+    /* =========================================================
+       BODY — rail + grid
+       ========================================================= */
+    ps-catalog-body {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 48px;
+      padding: 40px 0 80px;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    /* ---------- Filter rail ---------- */
+    ps-filter-rail {
+      display: flex; flex-direction: column; gap: 28px;
+      position: sticky;
+      top: 100px;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 10px; }
+    .filter-group h4 {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 6px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .filter-group h4::before {
+      content: ""; width: 14px; height: 1px; background: var(--accent);
+    }
+    .filter-chip {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px; padding: 8px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      color: var(--ink-dim); letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: color .15s ease;
+    }
+    .filter-chip:hover { color: var(--ink); }
+    .filter-chip.on { color: var(--ink); }
+    .filter-chip.on::before { content: "■"; color: var(--accent); margin-right: 10px; }
+    .filter-chip .n { color: var(--muted); }
+    .filter-chip.on .n { color: var(--ink-dim); }
+
+    .chip-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .pill {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 6px 10px; border: 1px solid var(--rule);
+      color: var(--ink-dim); cursor: pointer;
+      transition: color .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .pill:hover { color: var(--ink); border-color: var(--ink-dim); }
+    .pill.on {
+      color: var(--bg); background: var(--accent); border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .reset-link {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); cursor: pointer;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
+      align-self: flex-start;
+      background: none; border-top: none; border-left: none; border-right: none;
+      margin-top: 4px;
+    }
+    .reset-link:hover { filter: brightness(1.1); }
+
+    /* ---------- Card grid ---------- */
+    ps-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    ps-tutorial-card {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--rule);
+      background: var(--surface);
+      position: relative;
+      cursor: pointer;
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    ps-tutorial-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    ps-tutorial-card .num {
+      position: absolute; top: 12px; right: 12px;
+      font-family: var(--mono); font-size: 11px;
+      color: var(--muted); letter-spacing: 0.12em;
+      z-index: 1;
+    }
+    ps-tutorial-card .thumb-wrap {
+      aspect-ratio: 16 / 10; position: relative; overflow: hidden;
+    }
+    ps-tutorial-card .badges {
+      position: absolute; top: 12px; left: 12px;
+      display: flex; gap: 6px; z-index: 1;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      padding: 4px 8px; background: var(--bg); color: var(--ink);
+      border: 1px solid var(--rule);
+    }
+    .chip.accent { color: var(--accent); border-color: var(--accent); }
+    ps-tutorial-card .body {
+      padding: 18px 20px 22px;
+      display: flex; flex-direction: column; gap: 12px;
+      flex: 1;
+    }
+    ps-tutorial-card h3 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 88, "wght" 550;
+      font-size: 20px; letter-spacing: -0.02em;
+      line-height: 1.2; margin: 0;
+      min-height: 48px;
+    }
+    ps-tutorial-card .desc {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      font-size: 13px; color: var(--ink-dim);
+      line-height: 1.5; margin: 0;
+    }
+    ps-tutorial-card .lines { display: flex; flex-direction: column; gap: 6px; margin-top: 2px; }
+    ps-tutorial-card footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px; color: var(--ink-dim);
+      letter-spacing: 0.06em;
+    }
+    ps-tutorial-card footer .steps b { color: var(--accent); font-weight: 600; }
+    ps-tutorial-card footer .diff {
+      padding: 3px 8px; border: 1px solid currentColor;
+      font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    ps-tutorial-card footer .diff.b { color: var(--moss); }
+    ps-tutorial-card footer .diff.i { color: var(--gold); }
+    ps-tutorial-card footer .diff.a { color: var(--accent); }
+
+    /* =========================================================
+       PAGINATION
+       ========================================================= */
+    ps-pagination {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 40px 0 64px;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .page-info {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+    .page-info b { color: var(--accent); }
+    .page-controls { display: inline-flex; gap: 0; }
+    .page-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 40px; height: 40px;
+      border: 1px solid var(--rule);
+      border-right: none;
+      font-family: var(--mono); font-size: 12px;
+      color: var(--ink-dim); background: transparent;
+      cursor: pointer; padding: 0 14px;
+      letter-spacing: 0.06em;
+      transition: color .15s ease, background .15s ease;
+    }
+    .page-btn:last-child { border-right: 1px solid var(--rule); }
+    .page-btn:hover { color: var(--ink); }
+    .page-btn.current {
+      color: var(--bg); background: var(--accent); border-color: var(--accent);
+      font-weight: 600;
+    }
+    .page-btn.ghost { color: var(--muted); }
+    .page-btn .arr { color: var(--accent); }
+
+    /* =========================================================
+       FOOTER (minimal, matches home pattern)
+       ========================================================= */
+    ps-footer { display: block; padding: 64px 0 28px; }
+    .foot-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 32px;
+      padding-bottom: 48px;
+    }
+    .foot-grid h4 {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin: 0 0 18px;
+    }
+    .foot-grid ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 10px;
+      font-size: 13px; color: var(--ink-dim);
+    }
+    .foot-mark {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 80, "wght" 700;
+      font-size: 64px; line-height: 1;
+      letter-spacing: -0.05em; margin-bottom: 18px;
+    }
+    .foot-mark em {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 90, "wght" 500;
+    }
+    .foot-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 22px; border-top: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 1200px) {
+      ps-catalog-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 1000px) {
+      ps-catalog-header { grid-template-columns: 1fr; gap: 24px; }
+      ps-catalog-body { grid-template-columns: 1fr; gap: 32px; }
+      ps-filter-rail { position: static; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      ps-nav .inner {
+        grid-template-columns: 1fr auto; gap: 16px;
+        padding: 20px calc(var(--gutter) + 8px) 18px calc(var(--gutter) + 8px);
+      }
+      ps-nav .links { display: none; }
+      ps-catalog-header { padding: 48px 0 24px; }
+      ps-catalog-header h1.display { font-size: clamp(40px, 11vw, 72px); }
+      ps-catalog-toolbar { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .toolbar-right { width: 100%; justify-content: space-between; }
+      ps-catalog-grid { grid-template-columns: 1fr; }
+      ps-pagination { flex-direction: column; align-items: stretch; }
+      .foot-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-nav></ps-nav>
+  <ps-shell></ps-shell>
+
+  <script type="module">
+    /* =========================================================
+       Web Components — same MDN pattern as home/signin.
+       Light DOM for sections, shadow DOM for skeleton primitives.
+       ========================================================= */
+
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+        this.afterRender?.();
+      }
+      #rendered = false;
+      render() { return ""; }
+    }
+
+    /* ---------- Skeleton primitives (shadow DOM, shared) ---------- */
+    const SHIMMER_SHEET = new CSSStyleSheet();
+    SHIMMER_SHEET.replaceSync(`
+      :host {
+        display: block;
+        background:
+          linear-gradient(
+            100deg,
+            #002A54 0%,
+            #002A54 28%,
+            #003E80 50%,
+            #002A54 72%,
+            #002A54 100%
+          );
+        background-size: 220% 100%;
+        animation: shimmer 3.2s cubic-bezier(.4,0,.2,1) infinite;
+        border: 1px solid #001A36;
+      }
+      :host([delay="1"]) { animation-delay: -1.1s; }
+      :host([delay="2"]) { animation-delay: -2.0s; }
+      @keyframes shimmer {
+        0%   { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+    `);
+
+    class SkLine extends HTMLElement {
+      constructor() {
+        super();
+        const root = this.attachShadow({ mode: "open" });
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(`:host { height: 12px; }`);
+        root.adoptedStyleSheets = [SHIMMER_SHEET, sheet];
+      }
+      static get observedAttributes() { return ["w"]; }
+      connectedCallback() { this.#applyWidth(); }
+      attributeChangedCallback() { this.#applyWidth(); }
+      #applyWidth() {
+        const w = this.getAttribute("w");
+        if (w) this.style.width = `${w}%`;
+      }
+    }
+    class SkTile extends HTMLElement {
+      constructor() {
+        super();
+        const root = this.attachShadow({ mode: "open" });
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(`:host { aspect-ratio: 16 / 10; width: 100%; }`);
+        root.adoptedStyleSheets = [SHIMMER_SHEET, sheet];
+      }
+    }
+
+    /* ---------- Page composition ---------- */
+    class PsShell extends LightElement {
+      render() {
+        return `
+          <ps-catalog-header></ps-catalog-header>
+          <ps-catalog-toolbar></ps-catalog-toolbar>
+          <ps-catalog-body></ps-catalog-body>
+          <ps-pagination></ps-pagination>
+          <ps-footer></ps-footer>
+        `;
+      }
+    }
+
+    class PsNav extends LightElement {
+      render() {
+        return `
+          <div class="inner">
+            <div class="brand">Prompt<span class="slash">/</span>Sharp</div>
+            <div class="links">
+              <span class="active">Tutorials</span>
+              <span>Categories</span>
+              <span>About</span>
+            </div>
+            <div class="actions">
+              <button class="btn ghost">Sign in</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    class PsCatalogHeader extends LightElement {
+      render() {
+        return `
+          <div class="meta-rail">
+            <div class="eyebrow"><span class="dot"></span>Tutorial Catalog</div>
+            <div class="mono">412 tutorials · updated daily</div>
+          </div>
+          <h1 class="display">
+            Every <em>step</em> we've<br/>
+            written down.
+          </h1>
+          <p class="lede">
+            <strong>412 step-by-step tutorials</strong> across .NET, Azure, Blazor and the rest of the
+            Microsoft stack — filter by category, difficulty, or duration to find your next build.
+          </p>
+        `;
+      }
+    }
+
+    class PsCatalogToolbar extends LightElement {
+      render() {
+        return `
+          <div class="result-count">Showing <b>412</b> of <b>412</b> tutorials</div>
+          <div class="toolbar-right">
+            <div class="sort-control">
+              <span>Sort by</span>
+              <span class="sort-val">Latest <span class="arr">▾</span></span>
+            </div>
+            <div class="view-toggle" role="group" aria-label="View mode">
+              <span class="vt active" title="Grid">▦</span>
+              <span class="vt" title="List">≡</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    class PsCatalogBody extends LightElement {
+      render() {
+        return `
+          <ps-filter-rail></ps-filter-rail>
+          <ps-catalog-grid></ps-catalog-grid>
+        `;
+      }
+    }
+
+    class PsFilterRail extends LightElement {
+      render() {
+        const categories = [
+          ["All", 412, true],
+          [".NET", 142],
+          ["Blazor", 68],
+          ["Azure", 94],
+          ["EF Core", 41],
+          ["Auth / RBAC", 23],
+          ["DevOps", 31],
+          ["Architecture", 52],
+          ["MediatR", 12],
+          ["SQL Server", 38],
+        ];
+        const catChips = categories
+          .map(([l, n, on]) =>
+            `<div class="filter-chip${on ? " on" : ""}">${l}<span class="n">${n}</span></div>`
+          )
+          .join("");
+
+        const difficulties = [
+          ["Beginner", 138],
+          ["Intermediate", 184],
+          ["Advanced", 90],
+        ];
+        const diffChips = difficulties
+          .map(([l, n]) =>
+            `<div class="filter-chip">${l}<span class="n">${n}</span></div>`
+          )
+          .join("");
+
+        const durations = ["< 30 min", "30–60 min", "1h+"];
+        const durChips = durations
+          .map((l, i) => `<span class="pill${i === 0 ? " on" : ""}">${l}</span>`)
+          .join("");
+
+        const tags = ["Clean Arch", "OAuth2", "CQRS", "Aspire", "MAUI", "Service Bus"];
+        const tagChips = tags.map(t => `<span class="pill">${t}</span>`).join("");
+
+        return `
+          <div class="filter-group">
+            <h4>Category</h4>
+            ${catChips}
+          </div>
+          <div class="filter-group">
+            <h4>Difficulty</h4>
+            ${diffChips}
+          </div>
+          <div class="filter-group">
+            <h4>Duration</h4>
+            <div class="chip-row">${durChips}</div>
+          </div>
+          <div class="filter-group">
+            <h4>Tags</h4>
+            <div class="chip-row">${tagChips}</div>
+          </div>
+          <button class="reset-link">Reset filters</button>
+        `;
+      }
+    }
+
+    class PsCatalogGrid extends LightElement {
+      render() {
+        const tutorials = [
+          {
+            badges: [["accent", "DEEP DIVE"], ["", ".NET 9"]],
+            title: "Wiring MediatR into a Clean Architecture API",
+            desc: "Vertical-slice handlers, validators and the pipeline behaviors I'd ship to production.",
+            steps: 22, time: "58 MIN", diff: "i", diffLabel: "INTERMEDIATE"
+          },
+          {
+            badges: [["", "AZURE"]],
+            title: "RBAC, properly — claims and policy design",
+            desc: "Claims, policies, and the lies tutorials tell about role-based authorization.",
+            steps: 14, time: "36 MIN", diff: "a", diffLabel: "ADVANCED"
+          },
+          {
+            badges: [["", "BLAZOR"]],
+            title: "Atomic design for Blazor components",
+            desc: "Building a token-driven component library that scales beyond the demo.",
+            steps: 9, time: "24 MIN", diff: "b", diffLabel: "BEGINNER"
+          },
+          {
+            badges: [["accent", "NEW"], ["", "EF CORE"]],
+            title: "EF Core 9 migrations under load",
+            desc: "What breaks first — and a SQL Server reproduction repo to play with.",
+            steps: 18, time: "52 MIN", diff: "a", diffLabel: "ADVANCED"
+          },
+          {
+            badges: [["", "AUTH"]],
+            title: "OAuth2 confidential clients, in one sitting",
+            desc: "PKCE, refresh tokens, and exactly which lib to reach for in .NET 9.",
+            steps: 12, time: "44 MIN", diff: "i", diffLabel: "INTERMEDIATE"
+          },
+          {
+            badges: [["", ".NET"]],
+            title: "A MediatR pipeline I'd ship to production",
+            desc: "Validation, logging, transactions — without the ceremony or surprises.",
+            steps: 10, time: "33 MIN", diff: "i", diffLabel: "INTERMEDIATE"
+          },
+          {
+            badges: [["", "ASPIRE"]],
+            title: "Aspire 9 dashboards for local development",
+            desc: "OpenTelemetry, the resource graph, and what stays useful in production.",
+            steps: 16, time: "41 MIN", diff: "i", diffLabel: "INTERMEDIATE"
+          },
+          {
+            badges: [["", "BLAZOR"], ["", "RBAC"]],
+            title: "Building the admin shell — CMS without a CMS",
+            desc: "Roles, audit trails, and the editor your sysadmin will actually use.",
+            steps: 28, time: "1H 04M", diff: "a", diffLabel: "ADVANCED"
+          },
+          {
+            badges: [["", "CSS"]],
+            title: "Responsive admin tables from xs to xl",
+            desc: "From xs to xl without giving up dense data tables or sortable columns.",
+            steps: 7, time: "21 MIN", diff: "b", diffLabel: "BEGINNER"
+          },
+        ];
+
+        const cards = tutorials.map((t, i) => {
+          const num = String(i + 1).padStart(3, "0");
+          const badges = t.badges
+            .map(([cls, label]) => `<span class="chip ${cls}">${label}</span>`)
+            .join("");
+          return `
+            <ps-tutorial-card>
+              <span class="num">${num} / 412</span>
+              <div class="thumb-wrap">
+                <sk-tile></sk-tile>
+                <div class="badges">${badges}</div>
+              </div>
+              <div class="body">
+                <h3>${t.title}</h3>
+                <p class="desc">${t.desc}</p>
+                <div class="lines">
+                  <sk-line w="100"></sk-line>
+                  <sk-line w="70" delay="1"></sk-line>
+                </div>
+                <footer>
+                  <span class="steps"><b>${t.steps}</b> STEPS · ${t.time}</span>
+                  <span class="diff ${t.diff}">${t.diffLabel}</span>
+                </footer>
+              </div>
+            </ps-tutorial-card>
+          `;
+        }).join("");
+
+        return cards;
+      }
+    }
+
+    class PsTutorialCard extends HTMLElement {}
+
+    class PsPagination extends LightElement {
+      render() {
+        return `
+          <div class="page-info">
+            Page <b>1</b> of <b>14</b> · 30 per page
+          </div>
+          <div class="page-controls">
+            <button class="page-btn ghost"><span class="arr">←</span></button>
+            <button class="page-btn current">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn ghost">…</button>
+            <button class="page-btn">14</button>
+            <button class="page-btn"><span class="arr">→</span></button>
+          </div>
+        `;
+      }
+    }
+
+    class PsFooter extends LightElement {
+      render() {
+        return `
+          <div class="foot-grid">
+            <div>
+              <div class="foot-mark">Prompt<em>/</em>Sharp</div>
+              <div class="mono" style="max-width: 36ch;">
+                Step-by-step tutorials for building apps with Microsoft technologies.
+              </div>
+            </div>
+            <div>
+              <h4>Tutorials</h4>
+              <ul><li>All tutorials</li><li>Featured</li><li>Editor's picks</li><li>Latest</li></ul>
+            </div>
+            <div>
+              <h4>Categories</h4>
+              <ul><li>.NET</li><li>Blazor</li><li>Azure</li><li>EF Core</li></ul>
+            </div>
+            <div>
+              <h4>Account</h4>
+              <ul><li>Sign in</li><li>About</li><li>Contact</li></ul>
+            </div>
+          </div>
+          <div class="foot-bottom">
+            <span>© 2026 · Prompt/Sharp</span>
+          </div>
+        `;
+      }
+    }
+
+    /* ---------- Registration ---------- */
+    customElements.define("sk-line",              SkLine);
+    customElements.define("sk-tile",              SkTile);
+
+    customElements.define("ps-nav",               PsNav);
+    customElements.define("ps-shell",             PsShell);
+    customElements.define("ps-catalog-header",    PsCatalogHeader);
+    customElements.define("ps-catalog-toolbar",   PsCatalogToolbar);
+    customElements.define("ps-catalog-body",      PsCatalogBody);
+    customElements.define("ps-filter-rail",       PsFilterRail);
+    customElements.define("ps-catalog-grid",      PsCatalogGrid);
+    customElements.define("ps-tutorial-card",     PsTutorialCard);
+    customElements.define("ps-pagination",        PsPagination);
+    customElements.define("ps-footer",            PsFooter);
+  </script>
+</body>
+</html>

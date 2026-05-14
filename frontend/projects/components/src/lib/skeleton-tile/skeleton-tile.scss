@@ -1,0 +1,7 @@
+@use '../skeleton/shimmer' as s;
+
+:host {
+  display: block;
+  width: 100%;
+  @include s.shimmer;
+}

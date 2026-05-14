@@ -1,0 +1,12 @@
+@use 'tokens' as t;
+
+:host {
+  display: block;
+  height: t.$border-width;
+  width: 100%;
+  background: t.$color-rule;
+}
+
+:host([data-variant='soft']) {
+  background: t.$color-rule-soft;
+}

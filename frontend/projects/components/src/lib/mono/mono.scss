@@ -1,0 +1,9 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-block;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono;
+  letter-spacing: t.$tracking-mono;
+  color: t.$color-ink-dim;
+}

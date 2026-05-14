@@ -1,0 +1,21 @@
+@use 'tokens' as t;
+
+@mixin shimmer {
+  background:
+    linear-gradient(
+      100deg,
+      #{t.$color-skel} 0%,
+      #{t.$color-skel} 28%,
+      #{t.$color-skel-hi} 50%,
+      #{t.$color-skel} 72%,
+      #{t.$color-skel} 100%
+    );
+  background-size: 220% 100%;
+  animation: lib-shimmer 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  border: t.$border-width solid t.$color-rule-soft;
+}
+
+@keyframes lib-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

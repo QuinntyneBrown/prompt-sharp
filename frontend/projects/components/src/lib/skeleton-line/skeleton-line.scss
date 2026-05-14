@@ -1,0 +1,14 @@
+@use '../skeleton/shimmer' as s;
+
+:host {
+  display: block;
+  height: 12px;
+  @include s.shimmer;
+}
+
+:host([data-size='sm']) { height: 8px; }
+:host([data-size='lg']) { height: 18px; }
+:host([data-size='xl']) { height: 28px; }
+
+:host([data-delay='1']) { animation-delay: -1.1s; }
+:host([data-delay='2']) { animation-delay: -2.0s; }

@@ -1,0 +1,23 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-block;
+}
+
+.eyebrow {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-sm;
+  font-weight: 500;
+  letter-spacing: t.$tracking-eyebrow;
+  text-transform: uppercase;
+  color: t.$color-muted;
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: t.$color-accent;
+  margin-right: t.$space-2 + 2px;
+  vertical-align: middle;
+}

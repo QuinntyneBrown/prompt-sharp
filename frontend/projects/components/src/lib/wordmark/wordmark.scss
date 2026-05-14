@@ -1,0 +1,35 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.mark {
+  font-family: t.$font-sans;
+  font-variation-settings: #{t.$fvs-condensed-heavy};
+  letter-spacing: t.$tracking-tight;
+  line-height: t.$line-height-tight;
+  color: t.$color-ink;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.slash {
+  color: t.$color-accent;
+  font-style: italic;
+  font-variation-settings: "wdth" 92, "wght" 500;
+}
+
+:host([data-size='sm']) .mark { font-size: 18px; }
+:host([data-size='md']) .mark { font-size: 24px; }
+:host([data-size='lg']) .mark { font-size: 40px; }
+:host([data-size='xl']) {
+  .mark {
+    font-size: 64px;
+    font-variation-settings: #{t.$fvs-condensed};
+    letter-spacing: -0.05em;
+  }
+  .slash {
+    font-variation-settings: "wdth" 90, "wght" 500;
+  }
+}

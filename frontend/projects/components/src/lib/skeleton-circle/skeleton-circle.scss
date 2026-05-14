@@ -1,0 +1,8 @@
+@use '../skeleton/shimmer' as s;
+
+:host {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  @include s.shimmer;
+}

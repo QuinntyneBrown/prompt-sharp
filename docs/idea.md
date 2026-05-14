@@ -1,0 +1,11 @@
+- step by step instructions for building apps using Microsoft Technologies, like a senior architect would, paired with a coding agent
+- engaging and dynamic
+- on brand with https://objectsharp.com/ which is the consulting company I work for and love it
+- responsive atomic design
+- looks great on xs, s, m, l and xl screens
+- system admin user can log in and manage the content via admin screens
+- featured tutorials — a curated set the admin highlights on the home screen
+- editor's pick — a single hand-picked tutorial promoted above the rest
+- backend .NET, Clean Architecture, Controllers, MediatR (free version), EF Core with Sql Server Database, OAuth2, RBAC Authorization
+- UX provides 11 star Ux Experience https://uxdesign.cc/applying-airbnbs-11-star-framework-to-the-candidate-experience-3f0b9c4e68a3 (internal design guideline — not surfaced to users)
+- web application

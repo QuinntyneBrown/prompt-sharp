@@ -1,0 +1,14 @@
+@use 'tokens' as t;
+
+:host {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: t.$border-width solid t.$color-rule;
+  font-family: t.$font-mono;
+  color: t.$color-ink-dim;
+  font-size: 18px;
+  line-height: t.$line-height-tight;
+}

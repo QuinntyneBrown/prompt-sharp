@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp — Sign in / Skeleton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* =========================================================
+       PromptSharp · Sign in (skeleton, simplified)
+       Same design system as home.html — dark navy + orange.
+       Single centered card with username + password form.
+       ========================================================= */
+
+    :root {
+      --bg:         #00000F;
+      --surface:    #002A54;
+      --surface-2:  #003E80AA;
+      --rule:       #003E80;
+      --rule-soft:  #001A36;
+
+      --ink:        #FBFFFF;
+      --ink-dim:    #C5CDE4;
+      --muted:      #6B7AAF;
+      --hush:       #3A4880;
+
+      --accent:     #FF9800;
+      --accent-2:   #8AA8FF;
+
+      --sans:       "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono:       "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+      --max-w:      1440px;
+      --gutter:     clamp(20px, 4vw, 64px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    html { background: var(--bg); }
+    body {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(1000px 700px at 80% 100%, rgba(255, 152, 0, 0.20), transparent 60%),
+        radial-gradient(800px 600px at -10% 0%, rgba(138, 168, 255, 0.10), transparent 70%),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(251, 255, 255, 0.014) 3px 4px);
+    }
+
+    /* ---------- Reusable type ---------- */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .eyebrow .dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: var(--accent); margin-right: 10px; vertical-align: middle;
+    }
+
+    /* ---------- Wordmark (shared with home.html) ---------- */
+    .brand {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 82, "wght" 700;
+      font-size: 24px;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      display: inline-flex; align-items: baseline; gap: 0;
+    }
+    .brand .slash {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 92, "wght" 500;
+    }
+
+    /* =========================================================
+       MINIMAL NAV — brand left, back link right
+       ========================================================= */
+    ps-nav-min {
+      display: block;
+      position: sticky; top: 0;
+      border-bottom: 1px solid var(--rule);
+      background: rgba(0, 0, 15, 0.82);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      backdrop-filter: blur(14px) saturate(160%);
+      z-index: 50;
+    }
+    ps-nav-min .inner {
+      display: grid;
+      grid-template-columns: auto auto;
+      justify-content: space-between;
+      align-items: center;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 24px calc(var(--gutter) + 12px) 22px calc(var(--gutter) + 12px);
+    }
+    .back-link {
+      font-family: var(--mono); font-size: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-dim); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .back-link:hover { color: var(--ink); border-bottom-color: var(--accent); }
+    .back-link .arr { color: var(--accent); }
+
+    /* =========================================================
+       STAGE — center the card vertically
+       ========================================================= */
+    ps-signin-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 48px var(--gutter) 72px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =========================================================
+       CARD — single centered, max-width 460px
+       ========================================================= */
+    ps-signin-card {
+      width: 100%;
+      max-width: 460px;
+      border: 1px solid var(--rule);
+      background:
+        linear-gradient(180deg, transparent, rgba(255, 152, 0, 0.06)),
+        var(--surface);
+      padding: 56px 48px 40px;
+      display: flex; flex-direction: column; gap: 28px;
+      position: relative;
+    }
+    ps-signin-card::before {
+      content: "SIGN IN";
+      position: absolute; top: -1px; left: -1px;
+      background: var(--accent); color: var(--bg);
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em;
+      padding: 5px 12px; font-weight: 600;
+    }
+
+    .card-head {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .card-head h2 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 80, "wght" 600;
+      font-size: clamp(32px, 4vw, 44px);
+      letter-spacing: -0.035em;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+    }
+    .card-head h2 em {
+      font-style: italic; color: var(--accent);
+      font-variation-settings: "wdth" 92, "wght" 500;
+    }
+    .card-head .sub {
+      color: var(--ink-dim); font-size: 14px;
+      max-width: 36ch; line-height: 1.5;
+      margin: 0;
+    }
+
+    /* =========================================================
+       FORM
+       ========================================================= */
+    form.signin-form {
+      display: flex; flex-direction: column; gap: 20px;
+      margin: 0;
+    }
+
+    /* ps-field IS the field — autonomous custom element, no wrapper. */
+    ps-field { display: flex; flex-direction: column; gap: 10px; }
+    ps-field label {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 10px;
+    }
+    /* small mono index chip rendered before the label text — editorial touch */
+    ps-field label::before {
+      content: attr(data-index);
+      font-family: var(--mono); font-size: 9px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      padding: 2px 6px;
+      border: 1px solid var(--rule);
+    }
+    ps-field .input-wrap { position: relative; }
+    ps-field input {
+      width: 100%;
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      padding: 15px 16px;
+      outline: none;
+      letter-spacing: -0.005em;
+      /* sharp edges — no border-radius */
+      border-radius: 0;
+      /* zero out browser appearance to nuke any UA chrome */
+      -webkit-appearance: none;
+      appearance: none;
+      transition:
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+    }
+    ps-field input.has-eye { padding-right: 52px; }
+    ps-field input::placeholder { color: var(--hush); }
+    ps-field input:hover { border-color: var(--accent-2); }
+    ps-field input:focus {
+      border-color: var(--accent);
+      background: rgba(255, 152, 0, 0.04);
+      /* inset accent strip on the left edge — fires only on focus */
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    ps-field input:focus::placeholder { color: var(--muted); }
+    ps-field input:-webkit-autofill,
+    ps-field input:-webkit-autofill:hover,
+    ps-field input:-webkit-autofill:focus {
+      /* override Chrome's yellow autofill bg */
+      -webkit-text-fill-color: var(--ink);
+      -webkit-box-shadow: 0 0 0 1000px var(--bg) inset, inset 3px 0 0 var(--accent);
+      caret-color: var(--ink);
+    }
+    .toggle-eye {
+      position: absolute; right: 10px; top: 50%;
+      transform: translateY(-50%);
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none;
+      color: var(--ink-dim); cursor: pointer; padding: 0;
+      transition: color .15s ease;
+    }
+    .toggle-eye:hover { color: var(--accent); }
+    .toggle-eye svg { width: 20px; height: 20px; display: block; }
+    .toggle-eye .eye-slash { display: none; }
+    .toggle-eye.revealed .eye-open { display: none; }
+    .toggle-eye.revealed .eye-slash { display: block; color: var(--accent); }
+
+    .options-row {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .check {
+      display: inline-flex; align-items: center; gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .check input { position: absolute; opacity: 0; pointer-events: none; }
+    .check .box {
+      width: 16px; height: 16px;
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .check .box::after {
+      content: ""; width: 4px; height: 8px;
+      border: solid var(--bg);
+      border-width: 0 2px 2px 0;
+      transform: translateY(-1px) rotate(45deg);
+      opacity: 0;
+      transition: opacity .15s ease;
+    }
+    .check input:checked + .box {
+      background: var(--accent); border-color: var(--accent);
+    }
+    .check input:checked + .box::after { opacity: 1; }
+    .check input:focus-visible + .box { outline: 1px solid var(--accent); outline-offset: 2px; }
+    .check .lbl {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+    .forgot-link {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); cursor: pointer;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
+      background: transparent; border-top: none; border-left: none; border-right: none;
+    }
+    .forgot-link:hover { filter: brightness(1.1); }
+
+    .submit-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%;
+      padding: 16px 22px;
+      background: var(--accent);
+      color: var(--bg);
+      border: 1px solid var(--accent);
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer;
+      line-height: 1;
+      margin-top: 4px;
+      transition: filter .2s ease, transform .1s ease;
+    }
+    .submit-btn:hover { filter: brightness(1.08); }
+    .submit-btn:active { transform: translateY(1px); }
+    .submit-btn .arr { font-size: 16px; }
+
+    .legal {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); letter-spacing: 0.08em;
+      line-height: 1.7;
+      padding-top: 16px; border-top: 1px solid var(--rule-soft);
+      margin: 0;
+    }
+    .legal a {
+      color: var(--ink-dim); text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color .2s ease, color .2s ease;
+      cursor: pointer;
+    }
+    .legal a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+    /* =========================================================
+       FOOT — minimal
+       ========================================================= */
+    ps-signin-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: var(--max-w);
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px var(--gutter) 32px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+      position: relative; z-index: 1;
+    }
+    ps-signin-foot a {
+      color: var(--ink-dim); text-decoration: none; cursor: pointer;
+    }
+    ps-signin-foot a:hover { color: var(--ink); }
+    ps-signin-foot .links { display: flex; gap: 24px; }
+
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 720px) {
+      ps-nav-min .inner {
+        padding: 20px calc(var(--gutter) + 8px) 18px calc(var(--gutter) + 8px);
+      }
+      ps-signin-stage { padding: 32px var(--gutter) 56px; }
+      ps-signin-card { padding: 44px 28px 32px; }
+      .options-row { gap: 16px; }
+      ps-signin-foot { flex-direction: column; gap: 10px; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-nav-min></ps-nav-min>
+  <ps-signin-stage></ps-signin-stage>
+  <ps-signin-foot></ps-signin-foot>
+
+  <script type="module">
+    /* =========================================================
+       Web Components — autonomous custom elements (MDN pattern).
+       Light DOM for sections so the global stylesheet applies.
+       ========================================================= */
+
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+        this.afterRender?.();
+      }
+      #rendered = false;
+      render() { return ""; }
+    }
+
+    /* ---------- Reusable text field with optional eye toggle ---------- */
+    const EYE_OPEN = `
+      <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>`;
+    const EYE_SLASH = `
+      <svg class="eye-slash" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+        <path d="M3 3l18 18"/>
+        <path d="M10.6 6.2A11 11 0 0 1 12 6c6.5 0 10 6 10 6a14.7 14.7 0 0 1-3.2 3.8"/>
+        <path d="M6.2 7.6A14.7 14.7 0 0 0 2 12s3.5 6 10 6c1.6 0 3-.3 4.3-.9"/>
+        <path d="M9.5 9.5a3 3 0 0 0 4.2 4.2"/>
+      </svg>`;
+
+    class PsField extends LightElement {
+      render() {
+        const name        = this.getAttribute("name") || "";
+        const label       = this.getAttribute("label") || "";
+        const type        = this.getAttribute("type") || "text";
+        const placeholder = this.getAttribute("placeholder") || "";
+        const autoComplete= this.getAttribute("autocomplete") || "";
+        const index       = this.getAttribute("index") || "";
+        const withEye     = this.hasAttribute("with-eye");
+        return `
+          <label for="${name}" data-index="${index}">${label}</label>
+          <div class="input-wrap">
+            <input
+              id="${name}"
+              name="${name}"
+              type="${type}"
+              placeholder="${placeholder}"
+              autocomplete="${autoComplete}"
+              class="${withEye ? "has-eye" : ""}"
+            />
+            ${withEye ? `
+              <button type="button" class="toggle-eye" data-eye aria-label="Show password">
+                ${EYE_OPEN}${EYE_SLASH}
+              </button>
+            ` : ""}
+          </div>
+        `;
+      }
+      afterRender() {
+        const eye   = this.querySelector("[data-eye]");
+        const input = this.querySelector("input");
+        if (!eye || !input) return;
+        eye.addEventListener("click", () => {
+          const hidden = input.type === "password";
+          input.type = hidden ? "text" : "password";
+          eye.classList.toggle("revealed", hidden);
+          eye.setAttribute("aria-label", hidden ? "Hide password" : "Show password");
+        });
+      }
+    }
+
+    /* ---------- Page composition ---------- */
+    class PsNavMin extends LightElement {
+      render() {
+        return `
+          <div class="inner">
+            <div class="brand">Prompt<span class="slash">/</span>Sharp</div>
+            <a class="back-link"><span class="arr">←</span> Back to tutorials</a>
+          </div>
+        `;
+      }
+    }
+
+    class PsSigninStage extends LightElement {
+      render() {
+        return `<ps-signin-card></ps-signin-card>`;
+      }
+    }
+
+    class PsSigninCard extends LightElement {
+      render() {
+        return `
+          <div class="card-head">
+            <span class="eyebrow"><span class="dot"></span>Welcome back</span>
+            <h2>Sign in to<br/>Prompt<em>/</em>Sharp.</h2>
+            <p class="sub">Pick up where you left off — your progress and bookmarks stay with you.</p>
+          </div>
+
+          <form class="signin-form" onsubmit="event.preventDefault()">
+            <ps-field
+              name="username"
+              label="Username"
+              index="01"
+              type="text"
+              placeholder="you@example.com"
+              autocomplete="username"
+            ></ps-field>
+
+            <ps-field
+              name="password"
+              label="Password"
+              index="02"
+              type="password"
+              placeholder="••••••••••"
+              autocomplete="current-password"
+              with-eye
+            ></ps-field>
+
+            <div class="options-row">
+              <label class="check">
+                <input type="checkbox" name="remember" />
+                <span class="box"></span>
+                <span class="lbl">Remember me</span>
+              </label>
+              <button type="button" class="forgot-link">Forgot password?</button>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              Sign in <span class="arr">→</span>
+            </button>
+          </form>
+
+          <p class="legal">
+            By continuing you agree to our <a>Terms</a> and <a>Privacy Policy</a>.
+          </p>
+        `;
+      }
+    }
+
+    class PsSigninFoot extends LightElement {
+      render() {
+        return `
+          <span>© 2026 · Prompt/Sharp</span>
+          <div class="links">
+            <a>Privacy</a>
+            <a>Terms</a>
+            <a>Status</a>
+          </div>
+        `;
+      }
+    }
+
+    /* ---------- Registration ---------- */
+    customElements.define("ps-field",        PsField);
+    customElements.define("ps-nav-min",      PsNavMin);
+    customElements.define("ps-signin-stage", PsSigninStage);
+    customElements.define("ps-signin-card",  PsSigninCard);
+    customElements.define("ps-signin-foot",  PsSigninFoot);
+  </script>
+</body>
+</html>

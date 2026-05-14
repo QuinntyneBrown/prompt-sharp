@@ -1,0 +1,37 @@
+// Typography tokens — Mona Sans (variable) + IBM Plex Mono.
+
+$font-sans: "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+// Variation settings — Mona Sans is a variable font.
+// Used inline with `font-variation-settings: #{$fvs-...};`
+$fvs-body:           "\"wdth\" 100, \"wght\" 400";
+$fvs-display:        "\"wdth\" 75, \"wght\" 600";
+$fvs-display-italic: "\"wdth\" 85, \"wght\" 500";
+$fvs-condensed:      "\"wdth\" 80, \"wght\" 600";
+$fvs-condensed-heavy:"\"wdth\" 82, \"wght\" 700";
+$fvs-card-title:     "\"wdth\" 85, \"wght\" 550";
+
+// Sizes
+$font-size-mono-xs:  10px;
+$font-size-mono-sm:  11px;
+$font-size-mono:     12px;
+$font-size-sm:       13px;
+$font-size-md:       14px;
+$font-size-base:     16px;
+$font-size-lg:       17px;
+$font-size-xl:       22px;
+$font-size-2xl:      28px;
+
+// Letter spacing
+$tracking-tight:   -0.035em;
+$tracking-snug:    -0.02em;
+$tracking-normal:  0;
+$tracking-mono:    0.04em;
+$tracking-label:   0.1em;
+$tracking-eyebrow: 0.18em;
+$tracking-caps:    0.2em;
+
+$line-height-tight: 1;
+$line-height-snug:  1.2;
+$line-height-base:  1.5;

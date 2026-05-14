@@ -1,0 +1,43 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2 + 2px;
+  padding: t.$space-3 t.$space-5 + 2px;
+  border: t.$border-width solid t.$color-rule;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono;
+  font-weight: 500;
+  letter-spacing: t.$tracking-label;
+  text-transform: uppercase;
+  color: t.$color-ink;
+  background: transparent;
+  cursor: pointer;
+  line-height: t.$line-height-tight;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+:host([data-variant='solid']) .btn {
+  background: t.$color-accent;
+  color: t.$color-bg;
+  border-color: t.$color-accent;
+  font-weight: 600;
+}
+
+:host([data-variant='ghost']) .btn {
+  color: t.$color-ink-dim;
+
+  &:hover:not(:disabled) {
+    color: t.$color-ink;
+    border-color: t.$color-ink-dim;
+  }
+}

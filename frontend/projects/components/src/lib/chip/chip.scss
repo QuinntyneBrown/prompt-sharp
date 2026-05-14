@@ -1,0 +1,23 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-1 + 2px;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  letter-spacing: 0.12em;
+  padding: t.$space-1 t.$space-2;
+  background: t.$color-bg;
+  color: t.$color-ink;
+  border: t.$border-width solid t.$color-rule;
+}
+
+:host([data-variant='accent']) .chip {
+  color: t.$color-accent;
+  border-color: t.$color-accent;
+}
