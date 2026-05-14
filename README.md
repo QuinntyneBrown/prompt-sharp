@@ -1,6 +1,6 @@
 # Prompt/Sharp
 
-Step-by-step tutorials for building production apps with Microsoft technologies — on-brand with [objectsharp.com](https://objectsharp.com/), with admin content management, OAuth2 + RBAC, and a deliberate focus on UX quality. See [`docs/idea.md`](docs/idea.md) for the product brief.
+Step-by-step tutorials for building production apps with Microsoft technologies, with admin content management, OAuth2 + RBAC, and a deliberate focus on UX quality. See [`docs/idea.md`](docs/idea.md) for the product brief.
 
 ## Repository layout
 
