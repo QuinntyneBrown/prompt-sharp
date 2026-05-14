@@ -286,6 +286,19 @@ public sealed record TutorialStepDraft(
     string? CodeLanguage = null,
     Guid? ImageMediaId = null);
 
+public sealed class TutorialEditorialService
+{
+    public void MakeEditorsPick(Tutorial target, IEnumerable<Tutorial> tutorials, DateTimeOffset now)
+    {
+        foreach (var tutorial in tutorials.Where(tutorial => tutorial.Id != target.Id && tutorial.IsEditorsPick))
+        {
+            tutorial.SetEditorsPick(false, now);
+        }
+
+        target.SetEditorsPick(true, now);
+    }
+}
+
 public sealed class TutorialStep
 {
     private TutorialStep()

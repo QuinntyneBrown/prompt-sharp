@@ -86,8 +86,10 @@ public sealed class ApiEndpointTests(PromptSharpApiFactory factory) : IClassFixt
         client.AuthenticateAs(subject, RoleNames.Admin, RoleNames.Editor, RoleNames.User);
 
         var category = await PostJson<CategoryDto>(client, "/api/v1/admin/categories", new CategoryUpsertDto("apps", "Apps", 1));
+        await GetOk(client, "/api/v1/admin/categories");
         category = await PutJson<CategoryDto>(client, $"/api/v1/admin/categories/{category.Id}", new CategoryUpsertDto("apps", "Applications", 1));
         var tag = await PostJson<TagDto>(client, "/api/v1/admin/tags", new TagUpsertDto("dotnet", ".NET"));
+        await GetOk(client, "/api/v1/admin/tags");
         tag = await PutJson<TagDto>(client, $"/api/v1/admin/tags/{tag.Id}", new TagUpsertDto("dotnet", ".NET"));
 
         var tutorial = await PostJson<TutorialDetailDto>(client, "/api/v1/admin/tutorials", new TutorialUpsertDto(

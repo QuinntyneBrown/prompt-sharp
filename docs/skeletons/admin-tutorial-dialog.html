@@ -275,107 +275,56 @@
        DIALOG — Edit tutorial
        ========================================================= */
     md-dialog.tutorial-dialog {
-      max-width: 560px; min-width: 360px;
+      max-width: 520px; min-width: 360px;
       width: calc(100vw - 48px);
-      --md-dialog-container-shape: 24px;
-      --md-dialog-container-color: var(--md-sys-color-surface-container-high);
+      --md-dialog-container-shape: 20px;
+      /* Desaturated near-black with a hint of cool — distinct from the
+         navy cards behind it without competing with the orange accent. */
+      --md-dialog-container-color: #161C2C;
       --md-dialog-headline-color: var(--md-sys-color-on-surface);
       --md-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
     }
     .dialog-headline {
-      display: flex; align-items: center; gap: 12px;
-    }
-    .dialog-headline .ico {
-      width: 40px; height: 40px;
-      display: inline-flex; align-items: center; justify-content: center;
-      background: var(--md-sys-color-primary-container);
-      color: var(--md-sys-color-on-primary-container);
-      border-radius: 50%;
-      font-size: 22px;
-    }
-    .dialog-headline .text { line-height: 1.2; }
-    .dialog-headline .text .h {
-      font-size: 22px; font-weight: 500; letter-spacing: 0;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 22px; font-weight: 500;
       color: var(--md-sys-color-on-surface);
     }
-    .dialog-headline .text .sub {
-      font-size: 13px; color: var(--md-sys-color-on-surface-variant);
-      margin-top: 2px;
-    }
+    .dialog-headline .title { flex: 1; min-width: 0; }
+    /* Close (X) shown only when the dialog goes full-screen on mobile. */
+    .dialog-headline .close-btn { display: none; flex: 0 0 auto; }
 
     .dialog-form {
-      display: flex; flex-direction: column; gap: 20px;
+      display: flex; flex-direction: column; gap: 18px;
     }
     .dialog-form .field-pair {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
     .dialog-form md-outlined-text-field,
     .dialog-form md-outlined-select { width: 100%; }
-    .helper-row {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: -8px;
-      font-size: 12px;
-      color: var(--md-sys-color-on-surface-variant);
-    }
-    .helper-row .preview {
-      font-family: ui-monospace, 'IBM Plex Mono', monospace;
-      color: var(--md-sys-color-on-surface-variant);
-      background: var(--md-sys-color-surface-container-low);
-      padding: 2px 8px; border-radius: 4px;
-    }
-    .helper-row .preview .stem { color: var(--md-sys-color-outline); }
-    .helper-row .preview .slug { color: var(--md-sys-color-primary); }
-    .helper-row .check {
-      display: inline-flex; align-items: center; gap: 4px;
-      color: #6CCFAE;
-    }
-    .helper-row .check .ico { font-size: 14px; }
 
-    .field-group {
-      display: flex; flex-direction: column; gap: 8px;
+    /* Slim toggle rows — title + switch, with optional tiny helper text below. */
+    .toggles {
+      display: flex; flex-direction: column;
+      border-top: 1px solid var(--md-sys-color-outline-variant);
     }
-    .field-group .group-label {
-      font-size: 13px; font-weight: 500;
-      color: var(--md-sys-color-on-surface);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .field-group .group-label .opt {
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      color: var(--md-sys-color-on-surface-variant);
-    }
-
     .toggle-row {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      background: var(--md-sys-color-surface-container);
-      border-radius: 12px;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
     }
+    .toggle-row:last-child { border-bottom: none; }
     .toggle-row .text { flex: 1; min-width: 0; }
     .toggle-row .text .t {
       font-size: 14px; font-weight: 500;
       color: var(--md-sys-color-on-surface);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .toggle-row .text .t .pin {
-      color: var(--md-sys-color-tertiary); font-size: 18px;
     }
     .toggle-row .text .s {
       font-size: 12px;
       color: var(--md-sys-color-on-surface-variant);
       margin-top: 2px;
-    }
-
-    /* Action area */
-    md-dialog .dialog-actions-left {
-      margin-right: auto;
-    }
-    .danger-link {
-      color: var(--md-sys-color-error);
-      --md-text-button-label-text-color: var(--md-sys-color-error);
     }
 
     /* Faintly tint the page behind so the scrim depth reads better.
@@ -394,6 +343,27 @@
       ps-admin-topbar .admin-tag { display: none; }
       main.admin-main { padding: 24px 20px 96px; }
       .dialog-form .field-pair { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================================
+       Mobile · full-screen dialog (M3 fullscreen dialog spec)
+       Below 600px the dialog covers the viewport edge-to-edge,
+       drops its rounded corners, and the close (X) icon appears
+       in the headline so users have a top-left exit affordance.
+       ========================================================= */
+    @media (max-width: 600px) {
+      md-dialog.tutorial-dialog {
+        max-width: 100vw;
+        min-width: 0;
+        width: 100vw;
+        max-height: 100vh;
+        height: 100vh;
+        height: 100dvh;          /* dynamic viewport — accounts for mobile chrome */
+        max-height: 100dvh;
+        margin: 0;
+        --md-dialog-container-shape: 0;
+      }
+      .dialog-headline .close-btn { display: inline-flex; }
     }
   </style>
 </head>
@@ -538,133 +508,83 @@
           <md-dialog class="tutorial-dialog" id="tutorialDialog">
 
             <div slot="headline" class="dialog-headline">
-              <span class="ico">edit</span>
-              <div class="text">
-                <div class="h">Edit tutorial</div>
-                <div class="sub">Update tutorial metadata. Step content is edited on the full editor page.</div>
-              </div>
+              <span class="title">Edit tutorial</span>
+              <md-icon-button class="close-btn" aria-label="Close" form="tutorialForm" value="cancel">
+                <md-icon>close</md-icon>
+              </md-icon-button>
             </div>
 
             <form id="tutorialForm" slot="content" method="dialog" class="dialog-form" novalidate>
 
-              <!-- Title -->
               <md-outlined-text-field
                 label="Title"
                 required
-                value="Wiring MediatR into a Clean Architecture API"
-                supporting-text="Shown in catalog cards and at the top of the tutorial page.">
+                value="Wiring MediatR into a Clean Architecture API">
               </md-outlined-text-field>
 
-              <!-- Slug -->
-              <div>
-                <md-outlined-text-field
-                  label="Slug"
-                  value="wiring-mediatr-into-clean-architecture-api"
-                  supporting-text="Used in the public URL. Auto-generated from title — editable, must be unique.">
-                  <md-icon slot="leading-icon">link</md-icon>
-                </md-outlined-text-field>
-                <div class="helper-row">
-                  <span class="preview">
-                    <span class="stem">/tutorials/</span><span class="slug">wiring-mediatr-into-clean-architecture-api</span>
-                  </span>
-                  <span class="check">
-                    <span class="ico">check_circle</span>
-                    Available
-                  </span>
-                </div>
-              </div>
+              <md-outlined-text-field
+                label="Slug"
+                value="wiring-mediatr-into-clean-architecture-api"
+                supporting-text="/tutorials/wiring-mediatr-into-clean-architecture-api · available">
+                <md-icon slot="leading-icon">link</md-icon>
+              </md-outlined-text-field>
 
-              <!-- Category + Difficulty -->
               <div class="field-pair">
                 <md-outlined-select label="Category" required>
-                  <md-select-option value="dotnet" selected>
-                    <div slot="headline">.NET</div>
-                  </md-select-option>
-                  <md-select-option value="blazor">
-                    <div slot="headline">Blazor</div>
-                  </md-select-option>
-                  <md-select-option value="azure">
-                    <div slot="headline">Azure</div>
-                  </md-select-option>
-                  <md-select-option value="ef-core">
-                    <div slot="headline">EF Core</div>
-                  </md-select-option>
-                  <md-select-option value="auth-rbac">
-                    <div slot="headline">Auth / RBAC</div>
-                  </md-select-option>
-                  <md-select-option value="architecture">
-                    <div slot="headline">Architecture</div>
-                  </md-select-option>
+                  <md-select-option value="dotnet" selected><div slot="headline">.NET</div></md-select-option>
+                  <md-select-option value="blazor"><div slot="headline">Blazor</div></md-select-option>
+                  <md-select-option value="azure"><div slot="headline">Azure</div></md-select-option>
+                  <md-select-option value="ef-core"><div slot="headline">EF Core</div></md-select-option>
+                  <md-select-option value="auth-rbac"><div slot="headline">Auth / RBAC</div></md-select-option>
+                  <md-select-option value="architecture"><div slot="headline">Architecture</div></md-select-option>
                 </md-outlined-select>
 
                 <md-outlined-select label="Difficulty" required>
-                  <md-select-option value="beginner">
-                    <div slot="headline">Beginner</div>
-                  </md-select-option>
-                  <md-select-option value="intermediate" selected>
-                    <div slot="headline">Intermediate</div>
-                  </md-select-option>
-                  <md-select-option value="advanced">
-                    <div slot="headline">Advanced</div>
-                  </md-select-option>
+                  <md-select-option value="beginner"><div slot="headline">Beginner</div></md-select-option>
+                  <md-select-option value="intermediate" selected><div slot="headline">Intermediate</div></md-select-option>
+                  <md-select-option value="advanced"><div slot="headline">Advanced</div></md-select-option>
                 </md-outlined-select>
               </div>
 
-              <!-- Summary -->
               <md-outlined-text-field
                 label="Summary"
                 type="textarea"
                 rows="3"
-                value="Vertical-slice handlers, validators and the pipeline behaviors I'd ship to production — without the ceremony or the surprises."
-                supporting-text="One short paragraph shown on the catalog card and search results.">
+                value="Vertical-slice handlers, validators and the pipeline behaviors I'd ship to production — without the ceremony or the surprises.">
               </md-outlined-text-field>
 
-              <!-- Tags -->
-              <div class="field-group">
-                <div class="group-label">
-                  Tags
-                  <span class="opt">Optional · up to 6</span>
-                </div>
-                <md-chip-set>
-                  <md-input-chip label="Clean Architecture" remove-only></md-input-chip>
-                  <md-input-chip label="MediatR" remove-only></md-input-chip>
-                  <md-input-chip label="CQRS" remove-only></md-input-chip>
-                  <md-input-chip label=".NET 9" remove-only></md-input-chip>
-                  <md-suggestion-chip label="+ Add tag">
-                    <md-icon slot="icon">add</md-icon>
-                  </md-suggestion-chip>
-                </md-chip-set>
-              </div>
+              <md-chip-set aria-label="Tags">
+                <md-input-chip label="Clean Architecture" remove-only></md-input-chip>
+                <md-input-chip label="MediatR" remove-only></md-input-chip>
+                <md-input-chip label="CQRS" remove-only></md-input-chip>
+                <md-input-chip label=".NET 9" remove-only></md-input-chip>
+                <md-suggestion-chip label="Add tag">
+                  <md-icon slot="icon">add</md-icon>
+                </md-suggestion-chip>
+              </md-chip-set>
 
-              <!-- Toggles -->
-              <div class="toggle-row">
-                <div class="text">
-                  <div class="t"><span class="ico pin">push_pin</span>Editor's pick</div>
-                  <div class="s">Promote above the rest on the home page. Only one tutorial can be editor's pick at a time.</div>
+              <div class="toggles">
+                <div class="toggle-row">
+                  <div class="text">
+                    <div class="t">Editor's pick</div>
+                    <div class="s">Promote at the top of the home page</div>
+                  </div>
+                  <md-switch></md-switch>
                 </div>
-                <md-switch></md-switch>
-              </div>
-
-              <div class="toggle-row">
-                <div class="text">
-                  <div class="t"><span class="ico" style="color: var(--md-sys-color-primary); font-size: 18px;">star</span>Featured</div>
-                  <div class="s">Include in the home page "Featured tutorials" grid.</div>
+                <div class="toggle-row">
+                  <div class="text">
+                    <div class="t">Featured</div>
+                    <div class="s">Include in the home page grid</div>
+                  </div>
+                  <md-switch selected></md-switch>
                 </div>
-                <md-switch selected></md-switch>
               </div>
 
             </form>
 
             <div slot="actions">
-              <md-text-button form="tutorialForm" class="dialog-actions-left danger-link" value="delete">
-                <md-icon slot="icon">delete_outline</md-icon>
-                Delete draft
-              </md-text-button>
               <md-text-button form="tutorialForm" value="cancel">Cancel</md-text-button>
-              <md-filled-button form="tutorialForm" value="save">
-                <md-icon slot="icon">save</md-icon>
-                Save changes
-              </md-filled-button>
+              <md-filled-button form="tutorialForm" value="save">Save changes</md-filled-button>
             </div>
           </md-dialog>
         `;

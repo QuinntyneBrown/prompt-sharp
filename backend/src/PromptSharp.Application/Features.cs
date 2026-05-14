@@ -569,12 +569,7 @@ internal sealed class AdminTutorialHandlers(
             ?? throw new NotFoundException($"Tutorial '{request.Id}' was not found.");
 
         var now = timeProvider.GetUtcNow();
-        foreach (var tutorial in tutorials.Where(tutorial => tutorial.IsEditorsPick && tutorial.Id != target.Id))
-        {
-            tutorial.SetEditorsPick(false, now);
-        }
-
-        target.SetEditorsPick(true, now);
+        new TutorialEditorialService().MakeEditorsPick(target, tutorials, now);
         return await SaveAndLoadDetail(target.Id, cancellationToken);
     }
 

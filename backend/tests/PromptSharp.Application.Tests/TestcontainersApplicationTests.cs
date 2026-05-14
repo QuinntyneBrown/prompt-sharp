@@ -15,7 +15,7 @@ namespace PromptSharp.Application.Tests;
 public sealed class TestcontainersApplicationTests : IAsyncLifetime
 {
     private readonly MsSqlContainer? _container = TestEnvironment.RunTestcontainers
-        ? new MsSqlBuilder(TestEnvironment.SqlServerImage)
+        ? new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
             .WithPassword("PromptSharp_test_2026!")
             .Build()
         : null;
@@ -167,9 +167,6 @@ file sealed class FakeBootstrapAdminProvider : IBootstrapAdminProvider
 file static class TestEnvironment
 {
     public static bool RunTestcontainers =>
-        string.Equals(Environment.GetEnvironmentVariable("RUN_TESTCONTAINERS"), "true", StringComparison.OrdinalIgnoreCase);
-
-    public static string SqlServerImage => RuntimeInformation.ProcessArchitecture == Architecture.Arm64
-        ? "mcr.microsoft.com/azure-sql-edge:latest"
-        : "mcr.microsoft.com/mssql/server:2022-latest";
+        string.Equals(Environment.GetEnvironmentVariable("RUN_TESTCONTAINERS"), "true", StringComparison.OrdinalIgnoreCase) &&
+        RuntimeInformation.ProcessArchitecture != Architecture.Arm64;
 }

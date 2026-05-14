@@ -75,6 +75,20 @@ public sealed class TutorialAggregateTests
         tutorial.Steps.Select(step => step.Order).Should().Equal(1, 2, 3);
     }
 
+    [Fact]
+    public void Editorial_service_keeps_only_one_editors_pick()
+    {
+        var first = CreatePublishableTutorial("first");
+        var second = CreatePublishableTutorial("second");
+        var service = new TutorialEditorialService();
+
+        service.MakeEditorsPick(first, [first, second], DateTimeOffset.UtcNow);
+        service.MakeEditorsPick(second, [first, second], DateTimeOffset.UtcNow);
+
+        first.IsEditorsPick.Should().BeFalse();
+        second.IsEditorsPick.Should().BeTrue();
+    }
+
     private static Tutorial CreateTutorial(string summary = "Build a small API.")
     {
         return Tutorial.Create(
@@ -86,5 +100,21 @@ public sealed class TutorialAggregateTests
             Guid.NewGuid(),
             Guid.NewGuid(),
             DateTimeOffset.UtcNow);
+    }
+
+    private static Tutorial CreatePublishableTutorial(string slug)
+    {
+        var tutorial = Tutorial.Create(
+            slug,
+            slug,
+            "Summary",
+            DifficultyLevel.Beginner,
+            15,
+            Guid.NewGuid(),
+            Guid.NewGuid(),
+            DateTimeOffset.UtcNow);
+        tutorial.ReplaceSteps([new TutorialStepDraft("Step", "Body")], DateTimeOffset.UtcNow);
+        tutorial.Publish(DateTimeOffset.UtcNow);
+        return tutorial;
     }
 }

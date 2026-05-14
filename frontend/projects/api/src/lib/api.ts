@@ -1,9 +1,5 @@
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'lib-api',
-  imports: [],
-  template: ` <p>api works!</p> `,
-  styles: ``,
-})
-export class Api {}
+export * from './models';
+export * from './api-configuration';
+export * from './catalog-api';
+export * from './me-api';
+export * from './admin-api';
