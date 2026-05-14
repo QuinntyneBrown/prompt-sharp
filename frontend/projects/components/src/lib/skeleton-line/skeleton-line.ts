@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-
-export type SkeletonLineSize = 'sm' | 'md' | 'lg' | 'xl';
-export type SkeletonDelay = 0 | 1 | 2;
+import { SkeletonDelay } from './skeleton-delay';
+import { SkeletonLineSize } from './skeleton-line-size';
 
 @Component({
   selector: 'lib-skeleton-line',

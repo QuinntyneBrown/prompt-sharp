@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-
-export type RuleVariant = 'default' | 'soft';
+import { RuleVariant } from './rule-variant';
 
 @Component({
   selector: 'lib-rule',

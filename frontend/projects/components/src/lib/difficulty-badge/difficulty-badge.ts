@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-
-export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
+import { DifficultyLevel } from './difficulty-level';
 
 @Component({
   selector: 'lib-difficulty-badge',

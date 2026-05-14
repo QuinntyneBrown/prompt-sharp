@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-
-export type WordmarkSize = 'sm' | 'md' | 'lg' | 'xl';
+import { WordmarkSize } from './wordmark-size';
 
 @Component({
   selector: 'lib-wordmark',

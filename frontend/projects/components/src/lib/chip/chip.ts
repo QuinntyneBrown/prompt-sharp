@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-
-export type ChipVariant = 'default' | 'accent';
+import { ChipVariant } from './chip-variant';
 
 @Component({
   selector: 'lib-chip',

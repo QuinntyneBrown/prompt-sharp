@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-
-export type ButtonVariant = 'default' | 'solid' | 'ghost';
-export type ButtonType = 'button' | 'submit' | 'reset';
+import { ButtonType } from './button-type';
+import { ButtonVariant } from './button-variant';
 
 @Component({
   selector: 'lib-button',
