@@ -143,30 +143,3 @@ public sealed class TestcontainersApplicationTests : IAsyncLifetime
         await dbContext.SaveChangesAsync();
     }
 }
-
-file sealed class FakeCurrentUser(string subject, IReadOnlyCollection<string> roles) : ICurrentUser
-{
-    public bool IsAuthenticated => true;
-
-    public string? Subject => subject;
-
-    public string? Email => "editor@promptsharp.local";
-
-    public string? DisplayName => "Editor";
-
-    public string? AvatarUrl => null;
-
-    public IReadOnlyCollection<string> Roles => roles;
-}
-
-file sealed class FakeBootstrapAdminProvider : IBootstrapAdminProvider
-{
-    public string? BootstrapAdminEmail => null;
-}
-
-file static class TestEnvironment
-{
-    public static bool RunTestcontainers =>
-        string.Equals(Environment.GetEnvironmentVariable("RUN_TESTCONTAINERS"), "true", StringComparison.OrdinalIgnoreCase) &&
-        RuntimeInformation.ProcessArchitecture != Architecture.Arm64;
-}
