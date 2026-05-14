@@ -47,5 +47,5 @@ export const contactMessage = {
 
 export const mediaAsset = {
   fileName: 'promptsharp-diagram.svg',
-  path: path.resolve(__dirname, 'files', 'promptsharp-diagram.svg'),
+  path: path.resolve(process.cwd(), 'fixtures', 'files', 'promptsharp-diagram.svg'),
 };
