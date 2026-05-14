@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp · Tutorial List (admin) / Skeleton</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+    rel="stylesheet"
+  />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "@material/web/": "https://esm.run/@material/web/"
+    }
+  }
+  </script>
+  <script type="module">
+    import '@material/web/all.js';
+    import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+
+  <style>
+    /* =========================================================
+       Material 3 sys color tokens — same brand palette as
+       admin-dashboard. Authenticated admin screens share these.
+       ========================================================= */
+    :root {
+      --md-sys-color-primary:                #FF9800;
+      --md-sys-color-on-primary:             #00000F;
+      --md-sys-color-primary-container:      #4A2F00;
+      --md-sys-color-on-primary-container:   #FFDAA8;
+
+      --md-sys-color-secondary:              #8AA8FF;
+      --md-sys-color-on-secondary:           #00000F;
+      --md-sys-color-secondary-container:    #2A3970;
+      --md-sys-color-on-secondary-container: #D8E2FF;
+
+      --md-sys-color-tertiary:               #FFC85C;
+      --md-sys-color-on-tertiary:            #00000F;
+      --md-sys-color-tertiary-container:     #4D3800;
+      --md-sys-color-on-tertiary-container:  #FFE0A3;
+
+      --md-sys-color-error:                  #FFB4AB;
+      --md-sys-color-on-error:               #690005;
+      --md-sys-color-error-container:        #93000A;
+      --md-sys-color-on-error-container:     #FFDAD6;
+
+      --md-sys-color-surface:                #00000F;
+      --md-sys-color-on-surface:             #FBFFFF;
+      --md-sys-color-on-surface-variant:     #C5CDE4;
+      --md-sys-color-surface-dim:            #00000A;
+      --md-sys-color-surface-bright:         #1A2438;
+
+      --md-sys-color-surface-container-lowest:  #00000A;
+      --md-sys-color-surface-container-low:     #0A1428;
+      --md-sys-color-surface-container:         #0F1A30;
+      --md-sys-color-surface-container-high:    #002A54;
+      --md-sys-color-surface-container-highest: #003E80;
+
+      --md-sys-color-outline:                #6B7AAF;
+      --md-sys-color-outline-variant:        #3A4880;
+
+      --md-sys-color-inverse-surface:        #FBFFFF;
+      --md-sys-color-inverse-on-surface:     #00000F;
+      --md-sys-color-inverse-primary:        #FF9800;
+
+      --md-sys-color-scrim:                  #000000;
+      --md-sys-color-shadow:                 #000000;
+
+      --md-ref-typeface-brand: 'Roboto Flex', system-ui, sans-serif;
+      --md-ref-typeface-plain: 'Roboto Flex', system-ui, sans-serif;
+
+      --topbar-h: 64px;
+      --rail-w:   240px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100vh; }
+    body {
+      font-family: 'Roboto Flex', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .ico, .nav-item .ico, .kpi-card .ico {
+      font-family: 'Material Symbols Outlined';
+      font-weight: 400; font-style: normal;
+      line-height: 1; display: inline-block;
+      letter-spacing: normal; text-transform: none; white-space: nowrap;
+      -webkit-font-feature-settings: 'liga';
+      font-feature-settings: 'liga';
+    }
+
+    /* =========================================================
+       SHELL · TOPBAR · NAV  (shared with admin-dashboard)
+       ========================================================= */
+    ps-admin-shell { display: block; min-height: 100vh; }
+
+    ps-admin-topbar {
+      display: flex; align-items: center; gap: 16px;
+      height: var(--topbar-h);
+      padding: 0 12px;
+      background: var(--md-sys-color-surface-container);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      position: sticky; top: 0; z-index: 50;
+    }
+    ps-admin-topbar .brand-row {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding-left: 4px;
+    }
+    ps-admin-topbar .brand {
+      font-family: 'Mona Sans', system-ui, sans-serif;
+      font-variation-settings: 'wdth' 82, 'wght' 700;
+      font-size: 22px; letter-spacing: -0.035em; line-height: 1;
+      color: var(--md-sys-color-on-surface);
+      display: inline-flex; align-items: baseline; gap: 0;
+    }
+    ps-admin-topbar .brand .slash {
+      color: var(--md-sys-color-primary); font-style: italic;
+      font-variation-settings: 'wdth' 92, 'wght' 500;
+    }
+    ps-admin-topbar .admin-tag {
+      font-family: 'Roboto Flex', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--md-sys-color-on-primary);
+      background: var(--md-sys-color-primary);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    ps-admin-topbar .spacer { flex: 1; }
+    ps-admin-topbar .actions { display: inline-flex; align-items: center; gap: 4px; }
+    ps-admin-topbar .avatar {
+      width: 36px; height: 36px; margin-left: 8px;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: var(--rail-w) 1fr;
+      min-height: calc(100vh - var(--topbar-h));
+    }
+
+    ps-admin-nav-rail {
+      display: block;
+      background: var(--md-sys-color-surface-container-low);
+      border-right: 1px solid var(--md-sys-color-outline-variant);
+      padding: 16px 12px;
+      position: sticky;
+      top: var(--topbar-h);
+      height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    ps-admin-nav-rail .group { display: flex; flex-direction: column; gap: 2px; }
+    ps-admin-nav-rail .nav-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 16px 16px 8px;
+    }
+    ps-admin-nav-rail .nav-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px;
+      border-radius: 999px;
+      color: var(--md-sys-color-on-surface-variant);
+      text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      letter-spacing: 0.005em;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease;
+      position: relative;
+      min-width: 0;
+    }
+    ps-admin-nav-rail .nav-item .ico { flex: 0 0 auto; font-size: 22px; }
+    ps-admin-nav-rail .nav-item .label {
+      flex: 1 1 auto; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    ps-admin-nav-rail .nav-item .badge { flex: 0 0 auto; }
+    ps-admin-nav-rail .nav-item:hover {
+      background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+      color: var(--md-sys-color-on-surface);
+    }
+    ps-admin-nav-rail .nav-item.active {
+      background: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+      font-weight: 600;
+    }
+    ps-admin-nav-rail .nav-item.active .ico { font-variation-settings: 'FILL' 1; }
+    ps-admin-nav-rail .badge {
+      margin-left: auto;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      font-size: 11px; font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 999px;
+      line-height: 1.5;
+    }
+
+    main.admin-main {
+      padding: 32px 40px 96px;
+      max-width: 1480px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    /* =========================================================
+       PAGE HEADER
+       ========================================================= */
+    .page-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 24px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .breadcrumb {
+      font-size: 13px; color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 8px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb a {
+      color: var(--md-sys-color-on-surface-variant); text-decoration: none;
+      cursor: pointer;
+    }
+    .breadcrumb a:hover { color: var(--md-sys-color-on-surface); }
+    .breadcrumb .sep { color: var(--md-sys-color-outline); }
+    .breadcrumb .current { color: var(--md-sys-color-on-surface); font-weight: 500; }
+    .page-header h1 {
+      font-family: 'Roboto Flex', sans-serif;
+      font-weight: 400; font-size: 36px;
+      letter-spacing: 0; line-height: 1.1;
+      margin: 0 0 8px;
+      color: var(--md-sys-color-on-surface);
+    }
+    .page-header .summary {
+      font-size: 14px; color: var(--md-sys-color-on-surface-variant);
+      display: inline-flex; align-items: center; gap: 16px;
+    }
+    .page-header .summary b { color: var(--md-sys-color-on-surface); font-weight: 600; }
+    .page-header .summary .sep { color: var(--md-sys-color-outline); }
+    .page-header .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* =========================================================
+       TOOLBAR — search + sort
+       ========================================================= */
+    .toolbar {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .toolbar .search-field {
+      flex: 1 1 360px;
+      min-width: 240px;
+    }
+    .toolbar .search-field md-outlined-text-field {
+      width: 100%;
+      --md-outlined-text-field-container-shape: 28px;
+    }
+    .toolbar .sort {
+      flex: 0 0 auto;
+    }
+
+    /* Status chip filters */
+    .chip-row {
+      margin-bottom: 24px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      align-items: center;
+    }
+    .chip-row .label {
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-right: 8px;
+    }
+
+    /* =========================================================
+       DATA TABLE
+       ========================================================= */
+    .table-card {
+      background: var(--md-sys-color-surface-container);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .table-wrap { overflow-x: auto; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+    .data-table thead th {
+      text-align: left;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 14px 16px;
+      background: var(--md-sys-color-surface-container-low);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .data-table thead th.sortable { cursor: pointer; }
+    .data-table thead th .sort-icon {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 4px;
+      font-size: 16px;
+      opacity: 0.6;
+    }
+    .data-table thead th.sorted { color: var(--md-sys-color-primary); }
+    .data-table thead th.sorted .sort-icon { opacity: 1; }
+    .data-table thead th.check-col,
+    .data-table tbody td.check-cell {
+      padding-left: 20px; padding-right: 8px;
+      width: 1px; vertical-align: middle;
+    }
+    .data-table tbody td {
+      padding: 14px 16px; font-size: 14px;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-on-surface);
+      vertical-align: middle;
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr { transition: background .15s ease; }
+    .data-table tbody tr:hover { background: var(--md-sys-color-surface-container-high); }
+    .data-table tbody tr.selected { background: var(--md-sys-color-secondary-container); }
+    .data-table tbody tr.selected:hover {
+      background: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, var(--md-sys-color-on-surface));
+    }
+
+    .title-cell {
+      font-weight: 500;
+      min-width: 280px;
+      max-width: 420px;
+    }
+    .title-cell .title-link {
+      color: var(--md-sys-color-on-surface);
+      text-decoration: none; cursor: pointer;
+      display: block;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .title-cell .title-link:hover {
+      color: var(--md-sys-color-primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .title-cell .meta {
+      font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-top: 2px;
+      display: flex; gap: 12px; align-items: center;
+    }
+    .title-cell .meta .pin {
+      color: var(--md-sys-color-tertiary);
+      font-size: 16px;
+      vertical-align: middle;
+    }
+    .cat {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 3px 8px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 4px;
+    }
+    .author { display: inline-flex; align-items: center; gap: 10px; }
+    .author .av {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+      font-size: 11px; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .status {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+      padding: 4px 10px; border-radius: 999px;
+      white-space: nowrap;
+    }
+    .status.published {
+      background: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+    }
+    .status.draft {
+      background: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+    }
+    .status.archived {
+      background: var(--md-sys-color-surface-container-highest);
+      color: var(--md-sys-color-on-surface-variant);
+    }
+    .status .ico { font-size: 12px; }
+
+    .views { color: var(--md-sys-color-on-surface-variant); }
+    .updated-cell { color: var(--md-sys-color-on-surface-variant); white-space: nowrap; }
+
+    .row-actions { width: 1px; padding-right: 8px; text-align: right; }
+
+    /* =========================================================
+       FOOTER PAGINATION
+       ========================================================= */
+    .table-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px;
+      border-top: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface-container-low);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .page-count {
+      font-size: 13px; color: var(--md-sys-color-on-surface-variant);
+    }
+    .page-count b { color: var(--md-sys-color-on-surface); font-weight: 600; }
+    .page-controls { display: inline-flex; align-items: center; gap: 16px; }
+    .rows-per {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--md-sys-color-on-surface-variant);
+    }
+    .rows-per md-outlined-button {
+      --md-outlined-button-container-shape: 4px;
+    }
+    .page-arrows { display: inline-flex; align-items: center; gap: 4px; }
+
+    /* =========================================================
+       FAB
+       ========================================================= */
+    .fab-cluster {
+      position: fixed; bottom: 32px; right: 32px;
+      display: flex; flex-direction: column; gap: 12px; align-items: flex-end;
+      z-index: 40;
+    }
+
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 1200px) {
+      .title-cell { max-width: 280px; }
+    }
+    @media (max-width: 880px) {
+      :root { --rail-w: 72px; }
+      ps-admin-nav-rail { padding: 12px 8px; }
+      ps-admin-nav-rail .nav-label { display: none; }
+      ps-admin-nav-rail .nav-item {
+        flex-direction: column; gap: 4px; padding: 12px 4px;
+        font-size: 10px; text-align: center;
+      }
+      ps-admin-nav-rail .badge { display: none; }
+      ps-admin-nav-rail md-divider { margin: 12px 4px !important; }
+      ps-admin-topbar .admin-tag { display: none; }
+      main.admin-main { padding: 24px 20px 96px; }
+    }
+    @media (max-width: 600px) {
+      .page-header { flex-direction: column; align-items: flex-start; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .toolbar .sort { width: 100%; }
+      .table-foot { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-admin-shell></ps-admin-shell>
+
+  <script type="module">
+    /* =========================================================
+       Web Components — same MDN autonomous-element pattern.
+       MD3 components composed inside the section templates.
+       ========================================================= */
+
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+        this.afterRender?.();
+      }
+      #rendered = false;
+      render() { return ''; }
+    }
+
+    class PsAdminShell extends LightElement {
+      render() {
+        return `
+          <ps-admin-topbar></ps-admin-topbar>
+          <div class="admin-layout">
+            <ps-admin-nav-rail></ps-admin-nav-rail>
+            <main class="admin-main">
+              <ps-admin-tutorial-list></ps-admin-tutorial-list>
+            </main>
+          </div>
+          <div class="fab-cluster">
+            <md-fab variant="primary" label="New tutorial">
+              <md-icon slot="icon">add</md-icon>
+            </md-fab>
+          </div>
+        `;
+      }
+    }
+
+    class PsAdminTopbar extends LightElement {
+      render() {
+        return `
+          <md-icon-button aria-label="Toggle menu">
+            <md-icon>menu</md-icon>
+          </md-icon-button>
+          <div class="brand-row">
+            <span class="brand">Prompt<span class="slash">/</span>Sharp</span>
+            <span class="admin-tag">Admin</span>
+          </div>
+          <div class="spacer"></div>
+          <div class="actions">
+            <md-icon-button aria-label="Notifications">
+              <md-icon>notifications</md-icon>
+            </md-icon-button>
+            <md-icon-button aria-label="Help">
+              <md-icon>help</md-icon>
+            </md-icon-button>
+            <div class="avatar" title="Quinntyne Brown">QB</div>
+          </div>
+        `;
+      }
+    }
+
+    class PsAdminNavRail extends LightElement {
+      render() {
+        const items = [
+          { ico: 'dashboard',  label: 'Dashboard' },
+          { ico: 'menu_book',  label: 'Tutorials',  badge: '12', active: true },
+          { ico: 'category',   label: 'Categories' },
+          { ico: 'sell',       label: 'Tags' },
+          { ico: 'image',      label: 'Media' },
+          { ico: 'group',      label: 'Users' },
+        ];
+        const itemsHtml = items.map(i => `
+          <a class="nav-item ${i.active ? 'active' : ''}">
+            <span class="ico">${i.ico}</span>
+            <span class="label">${i.label}</span>
+            ${i.badge ? `<span class="badge">${i.badge}</span>` : ''}
+          </a>
+        `).join('');
+        return `
+          <div class="group">
+            <div class="nav-label">Manage</div>
+            ${itemsHtml}
+          </div>
+          <md-divider style="margin: 20px 8px;"></md-divider>
+          <div class="group">
+            <div class="nav-label">Account</div>
+            <a class="nav-item">
+              <span class="ico">settings</span>
+              <span class="label">Settings</span>
+            </a>
+            <a class="nav-item">
+              <span class="ico">logout</span>
+              <span class="label">Sign out</span>
+            </a>
+          </div>
+        `;
+      }
+    }
+
+    class PsAdminTutorialList extends LightElement {
+      render() {
+        const rows = [
+          { title: 'Wiring MediatR into a Clean Architecture API', steps: 22, cat: '.NET',    av: 'AC', name: 'Alex Chen',     status: 'published', updated: '2 min ago',   views: '4.2K',  pinned: true },
+          { title: 'RBAC, properly — claims and policy design',    steps: 14, cat: 'AZURE',   av: 'JR', name: 'Jamie Ruiz',    status: 'draft',     updated: '34 min ago',  views: '—' },
+          { title: 'Atomic design for Blazor components',          steps: 9,  cat: 'BLAZOR',  av: 'QB', name: 'Quinntyne B.',  status: 'draft',     updated: '1 hr ago',    views: '—' },
+          { title: 'EF Core 9 migrations under load',              steps: 18, cat: 'EF CORE', av: 'AC', name: 'Alex Chen',     status: 'published', updated: '3 hr ago',    views: '2.8K' },
+          { title: 'OAuth2 confidential clients, in one sitting',  steps: 12, cat: 'AUTH',    av: 'SL', name: 'Sam Lee',       status: 'published', updated: 'Yesterday',   views: '3.1K' },
+          { title: 'A MediatR pipeline I would ship to production',steps: 10, cat: '.NET',    av: 'AC', name: 'Alex Chen',     status: 'published', updated: '2 days ago',  views: '5.6K' },
+          { title: 'Aspire 9 dashboards for local development',    steps: 16, cat: 'ASPIRE',  av: 'PT', name: 'Pat Thakur',    status: 'published', updated: '3 days ago',  views: '1.9K' },
+          { title: 'Building the admin shell — CMS without a CMS', steps: 28, cat: 'BLAZOR',  av: 'JR', name: 'Jamie Ruiz',    status: 'draft',     updated: '4 days ago',  views: '—' },
+          { title: 'Responsive admin tables from xs to xl',        steps: 7,  cat: 'CSS',     av: 'QB', name: 'Quinntyne B.',  status: 'published', updated: '1 week ago',  views: '894' },
+          { title: 'Old Identity Server tutorial',                 steps: 19, cat: 'AUTH',    av: 'SL', name: 'Sam Lee',       status: 'archived',  updated: '2 weeks ago', views: '12.4K' },
+        ];
+
+        const rowsHtml = rows.map(r => `
+          <tr>
+            <td class="check-cell"><md-checkbox touch-target="wrapper" aria-label="Select row"></md-checkbox></td>
+            <td class="title-cell">
+              <a class="title-link">${r.title}</a>
+              <div class="meta">
+                ${r.pinned ? `<span class="ico pin" title="Editor's pick">push_pin</span>` : ''}
+                <span>${r.steps} steps</span>
+              </div>
+            </td>
+            <td><span class="cat">${r.cat}</span></td>
+            <td><span class="author"><span class="av">${r.av}</span>${r.name}</span></td>
+            <td>
+              <span class="status ${r.status}">
+                <span class="ico">${r.status === 'published' ? 'check_circle' : r.status === 'draft' ? 'edit' : 'archive'}</span>
+                ${r.status.toUpperCase()}
+              </span>
+            </td>
+            <td class="updated-cell">${r.updated}</td>
+            <td class="views">${r.views}</td>
+            <td class="row-actions">
+              <md-icon-button aria-label="Row actions"><md-icon>more_vert</md-icon></md-icon-button>
+            </td>
+          </tr>
+        `).join('');
+
+        return `
+          <header class="page-header">
+            <div>
+              <div class="breadcrumb">
+                <a>Admin</a>
+                <span class="sep">/</span>
+                <span class="current">Tutorials</span>
+              </div>
+              <h1>Tutorials</h1>
+              <div class="summary">
+                <span><b>412</b> total</span>
+                <span class="sep">·</span>
+                <span><b>23</b> drafts</span>
+                <span class="sep">·</span>
+                <span><b>5</b> awaiting review</span>
+              </div>
+            </div>
+            <div class="actions">
+              <md-outlined-button>
+                <md-icon slot="icon">file_download</md-icon>
+                Export
+              </md-outlined-button>
+              <md-filled-button>
+                <md-icon slot="icon">add</md-icon>
+                New tutorial
+              </md-filled-button>
+            </div>
+          </header>
+
+          <div class="toolbar">
+            <div class="search-field">
+              <md-outlined-text-field
+                type="search"
+                label="Search tutorials, authors, tags…">
+                <md-icon slot="leading-icon">search</md-icon>
+              </md-outlined-text-field>
+            </div>
+            <div class="sort">
+              <md-outlined-button trailing-icon>
+                Sort: Most recent
+                <md-icon slot="icon">arrow_drop_down</md-icon>
+              </md-outlined-button>
+            </div>
+          </div>
+
+          <div class="chip-row">
+            <span class="label">Status</span>
+            <md-chip-set>
+              <md-filter-chip label="All" selected></md-filter-chip>
+              <md-filter-chip label="Published"></md-filter-chip>
+              <md-filter-chip label="Draft"></md-filter-chip>
+              <md-filter-chip label="Awaiting review"></md-filter-chip>
+              <md-filter-chip label="Archived"></md-filter-chip>
+            </md-chip-set>
+          </div>
+
+          <section class="table-card">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th class="check-col">
+                      <md-checkbox touch-target="wrapper" aria-label="Select all"></md-checkbox>
+                    </th>
+                    <th class="sortable sorted">
+                      Title <span class="ico sort-icon">arrow_downward</span>
+                    </th>
+                    <th class="sortable">Category</th>
+                    <th class="sortable">Author</th>
+                    <th class="sortable">Status</th>
+                    <th class="sortable">Updated</th>
+                    <th class="sortable">Views · 30d</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+              </table>
+            </div>
+
+            <div class="table-foot">
+              <div class="page-count">
+                Showing <b>1–10</b> of <b>412</b>
+              </div>
+              <div class="page-controls">
+                <div class="rows-per">
+                  <span>Rows</span>
+                  <md-outlined-button trailing-icon>
+                    25
+                    <md-icon slot="icon">arrow_drop_down</md-icon>
+                  </md-outlined-button>
+                </div>
+                <div class="page-arrows">
+                  <md-icon-button aria-label="First page" disabled><md-icon>first_page</md-icon></md-icon-button>
+                  <md-icon-button aria-label="Previous page" disabled><md-icon>chevron_left</md-icon></md-icon-button>
+                  <md-icon-button aria-label="Next page"><md-icon>chevron_right</md-icon></md-icon-button>
+                  <md-icon-button aria-label="Last page"><md-icon>last_page</md-icon></md-icon-button>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+    }
+
+    customElements.define('ps-admin-shell',         PsAdminShell);
+    customElements.define('ps-admin-topbar',        PsAdminTopbar);
+    customElements.define('ps-admin-nav-rail',      PsAdminNavRail);
+    customElements.define('ps-admin-tutorial-list', PsAdminTutorialList);
+  </script>
+</body>
+</html>

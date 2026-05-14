@@ -1,0 +1,71 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_SA_PASSWORD: "PromptSharp_dev_2026!"
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P PromptSharp_dev_2026! -C -Q 'SELECT 1' || /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P PromptSharp_dev_2026! -Q 'SELECT 1' || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      RUN_TESTCONTAINERS: "true"
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PromptSharpDb: "Server=localhost,1433;Database=PromptSharp;User Id=sa;Password=PromptSharp_dev_2026!;TrustServerCertificate=True;Encrypt=False"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Restore
+        working-directory: backend
+        run: dotnet restore PromptSharp.sln
+
+      - name: Build
+        working-directory: backend
+        run: dotnet build PromptSharp.sln --no-restore --warnaserror
+
+      - name: Test
+        working-directory: backend
+        run: dotnet test PromptSharp.sln --no-build --logger trx
+
+      - name: Export OpenAPI
+        working-directory: backend
+        shell: bash
+        run: |
+          dotnet run --project src/PromptSharp.Api/PromptSharp.Api.csproj --no-build --urls http://localhost:5055 &
+          for i in {1..60}; do
+            if curl --fail --silent http://localhost:5055/health/ready > /dev/null; then
+              break
+            fi
+            sleep 2
+          done
+          mkdir -p artifacts/openapi
+          curl --fail http://localhost:5055/openapi/v1.json -o artifacts/openapi/v1.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: promptsharp-openapi
+          path: backend/artifacts/openapi/v1.json

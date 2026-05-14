@@ -1,2 +1,9 @@
 **/bin/
 **/obj/
+**/node_modules/
+**/.angular/
+**/coverage/
+**/dist/
+e2e/.auth/
+e2e/playwright-report/
+e2e/test-results/

@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp · Edit Tutorial dialog / Skeleton</title>
+
+  <!--
+    The "tutorial metadata" dialog. Same component renders for both
+      · Create flow → headline "New tutorial",   primary action "Create draft → open editor"
+      · Edit flow   → headline "Edit tutorial",  primary action "Save changes"
+    This skeleton shows the Edit variant with pre-filled data, overlaid
+    on the admin tutorial list page. Submitting POST/PUT in production
+    then navigates to /admin/tutorials/{id}/edit (full step editor).
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+    rel="stylesheet"
+  />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "@material/web/": "https://esm.run/@material/web/"
+    }
+  }
+  </script>
+  <script type="module">
+    import '@material/web/all.js';
+    import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+
+  <style>
+    :root {
+      --md-sys-color-primary:                #FF9800;
+      --md-sys-color-on-primary:             #00000F;
+      --md-sys-color-primary-container:      #4A2F00;
+      --md-sys-color-on-primary-container:   #FFDAA8;
+
+      --md-sys-color-secondary:              #8AA8FF;
+      --md-sys-color-on-secondary:           #00000F;
+      --md-sys-color-secondary-container:    #2A3970;
+      --md-sys-color-on-secondary-container: #D8E2FF;
+
+      --md-sys-color-tertiary:               #FFC85C;
+      --md-sys-color-on-tertiary:            #00000F;
+      --md-sys-color-tertiary-container:     #4D3800;
+      --md-sys-color-on-tertiary-container:  #FFE0A3;
+
+      --md-sys-color-error:                  #FFB4AB;
+      --md-sys-color-on-error:               #690005;
+      --md-sys-color-error-container:        #93000A;
+      --md-sys-color-on-error-container:     #FFDAD6;
+
+      --md-sys-color-surface:                #00000F;
+      --md-sys-color-on-surface:             #FBFFFF;
+      --md-sys-color-on-surface-variant:     #C5CDE4;
+      --md-sys-color-surface-dim:            #00000A;
+      --md-sys-color-surface-bright:         #1A2438;
+
+      --md-sys-color-surface-container-lowest:  #00000A;
+      --md-sys-color-surface-container-low:     #0A1428;
+      --md-sys-color-surface-container:         #0F1A30;
+      --md-sys-color-surface-container-high:    #002A54;
+      --md-sys-color-surface-container-highest: #003E80;
+
+      --md-sys-color-outline:                #6B7AAF;
+      --md-sys-color-outline-variant:        #3A4880;
+
+      --md-sys-color-inverse-surface:        #FBFFFF;
+      --md-sys-color-inverse-on-surface:     #00000F;
+      --md-sys-color-inverse-primary:        #FF9800;
+
+      --md-sys-color-scrim:                  #000000;
+      --md-sys-color-shadow:                 #000000;
+
+      --md-ref-typeface-brand: 'Roboto Flex', system-ui, sans-serif;
+      --md-ref-typeface-plain: 'Roboto Flex', system-ui, sans-serif;
+
+      --topbar-h: 64px;
+      --rail-w:   240px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100vh; }
+    body {
+      font-family: 'Roboto Flex', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .ico {
+      font-family: 'Material Symbols Outlined';
+      font-weight: 400; font-style: normal;
+      line-height: 1; display: inline-block;
+      letter-spacing: normal; text-transform: none; white-space: nowrap;
+      -webkit-font-feature-settings: 'liga';
+      font-feature-settings: 'liga';
+    }
+
+    /* =========================================================
+       SHELL · TOPBAR · NAV  (shared with admin-tutorial-list)
+       ========================================================= */
+    ps-admin-shell { display: block; min-height: 100vh; }
+
+    ps-admin-topbar {
+      display: flex; align-items: center; gap: 16px;
+      height: var(--topbar-h);
+      padding: 0 12px;
+      background: var(--md-sys-color-surface-container);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      position: sticky; top: 0; z-index: 5;
+    }
+    ps-admin-topbar .brand-row { display: inline-flex; align-items: center; gap: 12px; padding-left: 4px; }
+    ps-admin-topbar .brand {
+      font-family: 'Mona Sans', system-ui, sans-serif;
+      font-variation-settings: 'wdth' 82, 'wght' 700;
+      font-size: 22px; letter-spacing: -0.035em; line-height: 1;
+      color: var(--md-sys-color-on-surface);
+      display: inline-flex; align-items: baseline; gap: 0;
+    }
+    ps-admin-topbar .brand .slash {
+      color: var(--md-sys-color-primary); font-style: italic;
+      font-variation-settings: 'wdth' 92, 'wght' 500;
+    }
+    ps-admin-topbar .admin-tag {
+      font-family: 'Roboto Flex', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--md-sys-color-on-primary);
+      background: var(--md-sys-color-primary);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    ps-admin-topbar .spacer { flex: 1; }
+    ps-admin-topbar .actions { display: inline-flex; align-items: center; gap: 4px; }
+    ps-admin-topbar .avatar {
+      width: 36px; height: 36px; margin-left: 8px;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: var(--rail-w) 1fr;
+      min-height: calc(100vh - var(--topbar-h));
+    }
+    ps-admin-nav-rail {
+      display: block;
+      background: var(--md-sys-color-surface-container-low);
+      border-right: 1px solid var(--md-sys-color-outline-variant);
+      padding: 16px 12px;
+      position: sticky;
+      top: var(--topbar-h);
+      height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    ps-admin-nav-rail .group { display: flex; flex-direction: column; gap: 2px; }
+    ps-admin-nav-rail .nav-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 16px 16px 8px;
+    }
+    ps-admin-nav-rail .nav-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px;
+      border-radius: 999px;
+      color: var(--md-sys-color-on-surface-variant);
+      text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+      min-width: 0;
+    }
+    ps-admin-nav-rail .nav-item .ico { flex: 0 0 auto; font-size: 22px; }
+    ps-admin-nav-rail .nav-item .label {
+      flex: 1 1 auto; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    ps-admin-nav-rail .nav-item .badge { flex: 0 0 auto; }
+    ps-admin-nav-rail .nav-item.active {
+      background: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+      font-weight: 600;
+    }
+    ps-admin-nav-rail .nav-item.active .ico { font-variation-settings: 'FILL' 1; }
+    ps-admin-nav-rail .badge {
+      margin-left: auto;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      font-size: 11px; font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 999px;
+      line-height: 1.5;
+    }
+
+    main.admin-main {
+      padding: 32px 40px 96px;
+      max-width: 1480px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    /* ---- Mini list page (just enough context behind the dialog) ---- */
+    .page-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 24px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .breadcrumb {
+      font-size: 13px; color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 8px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb .sep { color: var(--md-sys-color-outline); }
+    .breadcrumb .current { color: var(--md-sys-color-on-surface); font-weight: 500; }
+    .page-header h1 {
+      font-family: 'Roboto Flex', sans-serif;
+      font-weight: 400; font-size: 36px;
+      letter-spacing: 0; line-height: 1.1;
+      margin: 0 0 8px;
+      color: var(--md-sys-color-on-surface);
+    }
+    .page-header .summary { font-size: 14px; color: var(--md-sys-color-on-surface-variant); }
+    .page-header .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .table-card {
+      background: var(--md-sys-color-surface-container);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead th {
+      text-align: left; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 14px 20px;
+      background: var(--md-sys-color-surface-container-low);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    }
+    .data-table tbody td {
+      padding: 14px 20px; font-size: 14px;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-on-surface);
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr.highlight {
+      background: color-mix(in srgb, var(--md-sys-color-primary) 6%, transparent);
+      outline: 1px solid color-mix(in srgb, var(--md-sys-color-primary) 50%, transparent);
+      outline-offset: -1px;
+    }
+    .status {
+      display: inline-flex; align-items: center;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .status.published { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+    .status.draft     { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+    .cat {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 3px 8px; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 4px;
+    }
+
+    /* =========================================================
+       DIALOG — Edit tutorial
+       ========================================================= */
+    md-dialog.tutorial-dialog {
+      max-width: 560px; min-width: 360px;
+      width: calc(100vw - 48px);
+      --md-dialog-container-shape: 24px;
+      --md-dialog-container-color: var(--md-sys-color-surface-container-high);
+      --md-dialog-headline-color: var(--md-sys-color-on-surface);
+      --md-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
+    }
+    .dialog-headline {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .dialog-headline .ico {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      border-radius: 50%;
+      font-size: 22px;
+    }
+    .dialog-headline .text { line-height: 1.2; }
+    .dialog-headline .text .h {
+      font-size: 22px; font-weight: 500; letter-spacing: 0;
+      color: var(--md-sys-color-on-surface);
+    }
+    .dialog-headline .text .sub {
+      font-size: 13px; color: var(--md-sys-color-on-surface-variant);
+      margin-top: 2px;
+    }
+
+    .dialog-form {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .dialog-form .field-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .dialog-form md-outlined-text-field,
+    .dialog-form md-outlined-select { width: 100%; }
+    .helper-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: -8px;
+      font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+    .helper-row .preview {
+      font-family: ui-monospace, 'IBM Plex Mono', monospace;
+      color: var(--md-sys-color-on-surface-variant);
+      background: var(--md-sys-color-surface-container-low);
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .helper-row .preview .stem { color: var(--md-sys-color-outline); }
+    .helper-row .preview .slug { color: var(--md-sys-color-primary); }
+    .helper-row .check {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: #6CCFAE;
+    }
+    .helper-row .check .ico { font-size: 14px; }
+
+    .field-group {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .field-group .group-label {
+      font-size: 13px; font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .field-group .group-label .opt {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--md-sys-color-surface-container);
+      border-radius: 12px;
+    }
+    .toggle-row .text { flex: 1; min-width: 0; }
+    .toggle-row .text .t {
+      font-size: 14px; font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toggle-row .text .t .pin {
+      color: var(--md-sys-color-tertiary); font-size: 18px;
+    }
+    .toggle-row .text .s {
+      font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-top: 2px;
+    }
+
+    /* Action area */
+    md-dialog .dialog-actions-left {
+      margin-right: auto;
+    }
+    .danger-link {
+      color: var(--md-sys-color-error);
+      --md-text-button-label-text-color: var(--md-sys-color-error);
+    }
+
+    /* Faintly tint the page behind so the scrim depth reads better.
+       (M3 dialog provides its own scrim; this just amps the focus.) */
+    main.admin-main { filter: saturate(0.95); }
+
+    @media (max-width: 880px) {
+      :root { --rail-w: 72px; }
+      ps-admin-nav-rail { padding: 12px 8px; }
+      ps-admin-nav-rail .nav-label { display: none; }
+      ps-admin-nav-rail .nav-item {
+        flex-direction: column; gap: 4px; padding: 12px 4px;
+        font-size: 10px; text-align: center;
+      }
+      ps-admin-nav-rail .badge { display: none; }
+      ps-admin-topbar .admin-tag { display: none; }
+      main.admin-main { padding: 24px 20px 96px; }
+      .dialog-form .field-pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-admin-shell></ps-admin-shell>
+
+  <script type="module">
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+        this.afterRender?.();
+      }
+      #rendered = false;
+      render() { return ''; }
+    }
+
+    /* ---------- Shell ---------- */
+    class PsAdminShell extends LightElement {
+      render() {
+        return `
+          <ps-admin-topbar></ps-admin-topbar>
+          <div class="admin-layout">
+            <ps-admin-nav-rail></ps-admin-nav-rail>
+            <main class="admin-main">
+              <ps-admin-tutorial-list-mini></ps-admin-tutorial-list-mini>
+            </main>
+          </div>
+          <ps-tutorial-dialog></ps-tutorial-dialog>
+        `;
+      }
+    }
+
+    /* ---------- Topbar ---------- */
+    class PsAdminTopbar extends LightElement {
+      render() {
+        return `
+          <md-icon-button aria-label="Toggle menu">
+            <md-icon>menu</md-icon>
+          </md-icon-button>
+          <div class="brand-row">
+            <span class="brand">Prompt<span class="slash">/</span>Sharp</span>
+            <span class="admin-tag">Admin</span>
+          </div>
+          <div class="spacer"></div>
+          <div class="actions">
+            <md-icon-button aria-label="Notifications"><md-icon>notifications</md-icon></md-icon-button>
+            <md-icon-button aria-label="Help"><md-icon>help</md-icon></md-icon-button>
+            <div class="avatar" title="Quinntyne Brown">QB</div>
+          </div>
+        `;
+      }
+    }
+
+    /* ---------- Nav rail (Tutorials active) ---------- */
+    class PsAdminNavRail extends LightElement {
+      render() {
+        const items = [
+          { ico: 'dashboard', label: 'Dashboard' },
+          { ico: 'menu_book', label: 'Tutorials',  badge: '12', active: true },
+          { ico: 'category',  label: 'Categories' },
+          { ico: 'sell',      label: 'Tags' },
+          { ico: 'image',     label: 'Media' },
+          { ico: 'group',     label: 'Users' },
+        ];
+        const itemsHtml = items.map(i => `
+          <a class="nav-item ${i.active ? 'active' : ''}">
+            <span class="ico">${i.ico}</span>
+            <span class="label">${i.label}</span>
+            ${i.badge ? `<span class="badge">${i.badge}</span>` : ''}
+          </a>
+        `).join('');
+        return `
+          <div class="group">
+            <div class="nav-label">Manage</div>
+            ${itemsHtml}
+          </div>
+          <md-divider style="margin: 20px 8px;"></md-divider>
+          <div class="group">
+            <div class="nav-label">Account</div>
+            <a class="nav-item"><span class="ico">settings</span><span class="label">Settings</span></a>
+            <a class="nav-item"><span class="ico">logout</span><span class="label">Sign out</span></a>
+          </div>
+        `;
+      }
+    }
+
+    /* ---------- Tiny tutorial list behind the dialog ---------- */
+    class PsAdminTutorialListMini extends LightElement {
+      render() {
+        const rows = [
+          { title: 'Wiring MediatR into a Clean Architecture API', cat: '.NET',    status: 'published', updated: '2 min ago',  highlight: true },
+          { title: 'RBAC, properly — claims and policy design',    cat: 'AZURE',   status: 'draft',     updated: '34 min ago' },
+          { title: 'Atomic design for Blazor components',          cat: 'BLAZOR',  status: 'draft',     updated: '1 hr ago' },
+          { title: 'EF Core 9 migrations under load',              cat: 'EF CORE', status: 'published', updated: '3 hr ago' },
+        ];
+        const rowsHtml = rows.map(r => `
+          <tr class="${r.highlight ? 'highlight' : ''}">
+            <td>${r.title}</td>
+            <td><span class="cat">${r.cat}</span></td>
+            <td><span class="status ${r.status}">${r.status.toUpperCase()}</span></td>
+            <td>${r.updated}</td>
+            <td style="width:1px;"><md-icon-button><md-icon>more_vert</md-icon></md-icon-button></td>
+          </tr>
+        `).join('');
+        return `
+          <header class="page-header">
+            <div>
+              <div class="breadcrumb">
+                <span>Admin</span><span class="sep">/</span><span class="current">Tutorials</span>
+              </div>
+              <h1>Tutorials</h1>
+              <div class="summary"><b>412</b> total · <b>23</b> drafts</div>
+            </div>
+            <div class="actions">
+              <md-outlined-button>
+                <md-icon slot="icon">file_download</md-icon>
+                Export
+              </md-outlined-button>
+              <md-filled-button>
+                <md-icon slot="icon">add</md-icon>
+                New tutorial
+              </md-filled-button>
+            </div>
+          </header>
+          <section class="table-card">
+            <table class="data-table">
+              <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Updated</th><th></th></tr></thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </section>
+        `;
+      }
+    }
+
+    /* ---------- The dialog itself ---------- */
+    class PsTutorialDialog extends LightElement {
+      render() {
+        return `
+          <md-dialog class="tutorial-dialog" id="tutorialDialog">
+
+            <div slot="headline" class="dialog-headline">
+              <span class="ico">edit</span>
+              <div class="text">
+                <div class="h">Edit tutorial</div>
+                <div class="sub">Update tutorial metadata. Step content is edited on the full editor page.</div>
+              </div>
+            </div>
+
+            <form id="tutorialForm" slot="content" method="dialog" class="dialog-form" novalidate>
+
+              <!-- Title -->
+              <md-outlined-text-field
+                label="Title"
+                required
+                value="Wiring MediatR into a Clean Architecture API"
+                supporting-text="Shown in catalog cards and at the top of the tutorial page.">
+              </md-outlined-text-field>
+
+              <!-- Slug -->
+              <div>
+                <md-outlined-text-field
+                  label="Slug"
+                  value="wiring-mediatr-into-clean-architecture-api"
+                  supporting-text="Used in the public URL. Auto-generated from title — editable, must be unique.">
+                  <md-icon slot="leading-icon">link</md-icon>
+                </md-outlined-text-field>
+                <div class="helper-row">
+                  <span class="preview">
+                    <span class="stem">/tutorials/</span><span class="slug">wiring-mediatr-into-clean-architecture-api</span>
+                  </span>
+                  <span class="check">
+                    <span class="ico">check_circle</span>
+                    Available
+                  </span>
+                </div>
+              </div>
+
+              <!-- Category + Difficulty -->
+              <div class="field-pair">
+                <md-outlined-select label="Category" required>
+                  <md-select-option value="dotnet" selected>
+                    <div slot="headline">.NET</div>
+                  </md-select-option>
+                  <md-select-option value="blazor">
+                    <div slot="headline">Blazor</div>
+                  </md-select-option>
+                  <md-select-option value="azure">
+                    <div slot="headline">Azure</div>
+                  </md-select-option>
+                  <md-select-option value="ef-core">
+                    <div slot="headline">EF Core</div>
+                  </md-select-option>
+                  <md-select-option value="auth-rbac">
+                    <div slot="headline">Auth / RBAC</div>
+                  </md-select-option>
+                  <md-select-option value="architecture">
+                    <div slot="headline">Architecture</div>
+                  </md-select-option>
+                </md-outlined-select>
+
+                <md-outlined-select label="Difficulty" required>
+                  <md-select-option value="beginner">
+                    <div slot="headline">Beginner</div>
+                  </md-select-option>
+                  <md-select-option value="intermediate" selected>
+                    <div slot="headline">Intermediate</div>
+                  </md-select-option>
+                  <md-select-option value="advanced">
+                    <div slot="headline">Advanced</div>
+                  </md-select-option>
+                </md-outlined-select>
+              </div>
+
+              <!-- Summary -->
+              <md-outlined-text-field
+                label="Summary"
+                type="textarea"
+                rows="3"
+                value="Vertical-slice handlers, validators and the pipeline behaviors I'd ship to production — without the ceremony or the surprises."
+                supporting-text="One short paragraph shown on the catalog card and search results.">
+              </md-outlined-text-field>
+
+              <!-- Tags -->
+              <div class="field-group">
+                <div class="group-label">
+                  Tags
+                  <span class="opt">Optional · up to 6</span>
+                </div>
+                <md-chip-set>
+                  <md-input-chip label="Clean Architecture" remove-only></md-input-chip>
+                  <md-input-chip label="MediatR" remove-only></md-input-chip>
+                  <md-input-chip label="CQRS" remove-only></md-input-chip>
+                  <md-input-chip label=".NET 9" remove-only></md-input-chip>
+                  <md-suggestion-chip label="+ Add tag">
+                    <md-icon slot="icon">add</md-icon>
+                  </md-suggestion-chip>
+                </md-chip-set>
+              </div>
+
+              <!-- Toggles -->
+              <div class="toggle-row">
+                <div class="text">
+                  <div class="t"><span class="ico pin">push_pin</span>Editor's pick</div>
+                  <div class="s">Promote above the rest on the home page. Only one tutorial can be editor's pick at a time.</div>
+                </div>
+                <md-switch></md-switch>
+              </div>
+
+              <div class="toggle-row">
+                <div class="text">
+                  <div class="t"><span class="ico" style="color: var(--md-sys-color-primary); font-size: 18px;">star</span>Featured</div>
+                  <div class="s">Include in the home page "Featured tutorials" grid.</div>
+                </div>
+                <md-switch selected></md-switch>
+              </div>
+
+            </form>
+
+            <div slot="actions">
+              <md-text-button form="tutorialForm" class="dialog-actions-left danger-link" value="delete">
+                <md-icon slot="icon">delete_outline</md-icon>
+                Delete draft
+              </md-text-button>
+              <md-text-button form="tutorialForm" value="cancel">Cancel</md-text-button>
+              <md-filled-button form="tutorialForm" value="save">
+                <md-icon slot="icon">save</md-icon>
+                Save changes
+              </md-filled-button>
+            </div>
+          </md-dialog>
+        `;
+      }
+      async afterRender() {
+        /* M3 dialogs need explicit .show() to open with proper backdrop.
+           Wait one tick so the custom element is upgraded before calling. */
+        await customElements.whenDefined('md-dialog');
+        requestAnimationFrame(() => {
+          const dialog = this.querySelector('#tutorialDialog');
+          if (dialog && !dialog.open) dialog.show();
+        });
+      }
+    }
+
+    customElements.define('ps-admin-shell',             PsAdminShell);
+    customElements.define('ps-admin-topbar',            PsAdminTopbar);
+    customElements.define('ps-admin-nav-rail',          PsAdminNavRail);
+    customElements.define('ps-admin-tutorial-list-mini',PsAdminTutorialListMini);
+    customElements.define('ps-tutorial-dialog',         PsTutorialDialog);
+  </script>
+</body>
+</html>
