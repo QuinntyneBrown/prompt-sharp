@@ -1,1 +1,8 @@
-export type ChipVariant = 'default' | 'accent';
+export type ChipVariant =
+  | 'default'
+  | 'accent'
+  | 'filter'
+  | 'assist'
+  | 'input'
+  | 'status'
+  | 'danger';

@@ -40,11 +40,6 @@
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": ["projects/tokens"]
-            }
-          },
           "configurations": {
             "production": {
               "tsConfig": "projects/domain/tsconfig.lib.prod.json"
@@ -71,11 +66,6 @@
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": ["projects/tokens"]
-            }
-          },
           "configurations": {
             "production": {
               "tsConfig": "projects/components/tsconfig.lib.prod.json"

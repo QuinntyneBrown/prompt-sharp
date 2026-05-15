@@ -4,6 +4,11 @@
   display: inline-flex;
 }
 
+:host([data-full-width]) {
+  display: flex;
+  width: 100%;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -24,6 +29,23 @@
     cursor: not-allowed;
     opacity: 0.5;
   }
+
+  .icon-start:empty,
+  .icon-end:empty {
+    display: none;
+  }
+}
+
+:host([data-full-width]) .btn { flex: 1; justify-content: center; }
+
+:host([data-size='sm']) .btn {
+  padding: t.$space-2 t.$space-4;
+  font-size: t.$font-size-mono-sm;
+}
+
+:host([data-size='lg']) .btn {
+  padding: t.$space-4 t.$space-6;
+  font-size: t.$font-size-mono;
 }
 
 :host([data-variant='solid']) .btn {
@@ -35,9 +57,39 @@
 
 :host([data-variant='ghost']) .btn {
   color: t.$color-ink-dim;
+  border-color: transparent;
 
   &:hover:not(:disabled) {
     color: t.$color-ink;
     border-color: t.$color-ink-dim;
   }
+}
+
+:host([data-variant='text']) .btn {
+  border-color: transparent;
+  padding-left: t.$space-2;
+  padding-right: t.$space-2;
+  color: t.$color-ink;
+
+  &:hover:not(:disabled) { color: t.$color-accent; }
+}
+
+:host([data-variant='danger']) .btn {
+  color: t.$color-bg;
+  background: #FFB4AB;
+  border-color: #FFB4AB;
+  font-weight: 600;
+}
+
+.spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.7s linear infinite;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
 }

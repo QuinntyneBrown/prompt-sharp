@@ -1,1 +1,15 @@
-<span class="chip"><ng-content></ng-content></span>
+<span class="chip">
+  <span class="leading"><ng-content select="[chip-leading]"></ng-content></span>
+  <span class="label"><ng-content></ng-content></span>
+  @if (removable()) {
+    <button
+      type="button"
+      class="remove"
+      aria-label="Remove"
+      [disabled]="disabled()"
+      (click)="onRemove($event)"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  }
+</span>

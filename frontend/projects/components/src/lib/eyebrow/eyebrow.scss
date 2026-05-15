@@ -11,6 +11,8 @@
   letter-spacing: t.$tracking-eyebrow;
   text-transform: uppercase;
   color: t.$color-muted;
+
+  .leading:empty { display: none; }
 }
 
 .dot {
@@ -21,3 +23,8 @@
   margin-right: t.$space-2 + 2px;
   vertical-align: middle;
 }
+
+:host([data-tone='accent']) .eyebrow { color: t.$color-accent; }
+:host([data-tone='muted']) .eyebrow { color: t.$color-hush; }
+:host([data-tone='danger']) .eyebrow { color: #FFB4AB; }
+:host([data-tone='danger']) .dot { background: #FFB4AB; }

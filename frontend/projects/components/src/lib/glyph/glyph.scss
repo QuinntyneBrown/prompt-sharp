@@ -1,14 +1,42 @@
 @use 'tokens' as t;
 
 :host {
-  width: 44px;
-  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: t.$border-width solid t.$color-rule;
   font-family: t.$font-mono;
   color: t.$color-ink-dim;
-  font-size: 18px;
   line-height: t.$line-height-tight;
+}
+
+:host([data-size='sm']) { font-size: 14px; }
+:host([data-size='md']) { font-size: 18px; }
+:host([data-size='lg']) { font-size: 24px; }
+:host([data-size='xl']) { font-size: 32px; }
+
+:host([data-framed]) {
+  border: t.$border-width solid t.$color-rule;
+  width: 44px;
+  height: 44px;
+}
+
+:host([data-tone='accent']) { color: t.$color-accent; }
+:host([data-tone='muted']) { color: t.$color-hush; }
+:host([data-tone='danger']) { color: #FFB4AB; }
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
