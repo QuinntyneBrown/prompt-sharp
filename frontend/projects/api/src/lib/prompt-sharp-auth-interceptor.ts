@@ -1,9 +1,12 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import { PROMPT_SHARP_ACCESS_TOKEN } from './prompt-sharp-access-token.token';
 import { PromptSharpAccessTokenProvider } from './prompt-sharp-access-token-provider';
 import { PROMPT_SHARP_API_BASE_URL } from './prompt-sharp-api-base-url.token';
 import { PROMPT_SHARP_SKIP_AUTH } from './prompt-sharp-skip-auth.token';
+
+let unauthorizedRedirectInProgress = false;
 
 export const promptSharpAuthInterceptor: HttpInterceptorFn = (request, next) => {
   const baseUrl = inject(PROMPT_SHARP_API_BASE_URL);
@@ -26,6 +29,14 @@ export const promptSharpAuthInterceptor: HttpInterceptorFn = (request, next) => 
         Authorization: `Bearer ${accessToken}`,
       },
     }),
+  ).pipe(
+    catchError((error: unknown) => {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        redirectToExpiredSession();
+      }
+
+      return throwError(() => error);
+    }),
   );
 };
 
@@ -41,4 +52,23 @@ function isPromptSharpApiRequest(url: string, baseUrl: string): boolean {
   }
 
   return url.startsWith('/api/') || url.startsWith('api/');
+}
+
+function redirectToExpiredSession(): void {
+  if (unauthorizedRedirectInProgress) {
+    return;
+  }
+
+  unauthorizedRedirectInProgress = true;
+
+  if (typeof localStorage !== 'undefined') {
+    localStorage.removeItem('prompt-sharp.access-token');
+  }
+
+  if (typeof location === 'undefined' || location.pathname === '/sign-in') {
+    return;
+  }
+
+  const returnUrl = `${location.pathname}${location.search}${location.hash}` || '/';
+  location.assign(`/sign-in?returnUrl=${encodeURIComponent(returnUrl)}&reason=expired`);
 }

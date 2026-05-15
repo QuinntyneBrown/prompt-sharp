@@ -1,1 +1,150 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&display=swap');
+
+:root {
+  --ps-bg: #00000f;
+  --ps-surface: #002a54;
+  --ps-surface-2: #003e80aa;
+  --ps-rule: #003e80;
+  --ps-rule-soft: #001a36;
+  --ps-ink: #fbffff;
+  --ps-ink-dim: #c5cde4;
+  --ps-muted: #6b7aaf;
+  --ps-hush: #3a4880;
+  --ps-accent: #ff9800;
+  --ps-accent-2: #8aa8ff;
+  --ps-danger: #ffb4ab;
+  --ps-font-sans: 'Mona Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ps-font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --ps-max-width: 1440px;
+  --ps-gutter: clamp(20px, 4vw, 64px);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  background: var(--ps-bg);
+}
+
+body {
+  overflow-x: hidden;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(255, 152, 0, 0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(138, 168, 255, 0.1), transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(251, 255, 255, 0.014) 3px 4px),
+    var(--ps-bg);
+  color: var(--ps-ink);
+  font-family: var(--ps-font-sans);
+  font-variation-settings: 'wdth' 100, 'wght' 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--ps-accent);
+  text-underline-offset: 0.18em;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 6vw, 5rem);
+  font-variation-settings: 'wdth' 75, 'wght' 650;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+h2,
+h3 {
+  font-variation-settings: 'wdth' 85, 'wght' 580;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--ps-rule);
+  background: rgba(0, 42, 84, 0.55);
+}
+
+th,
+td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--ps-rule-soft);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--ps-muted);
+  font-family: var(--ps-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+tbody tr:hover {
+  background: rgba(255, 152, 0, 0.08);
+}
+
+.state {
+  border: 1px solid var(--ps-rule);
+  background: rgba(0, 42, 84, 0.5);
+  padding: 1rem;
+}
+
+.state--error,
+[role='alert'] {
+  color: var(--ps-danger);
+}
+
+[role='status'] {
+  color: var(--ps-accent-2);
+  font-family: var(--ps-font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  h1 {
+    font-size: clamp(2rem, 12vw, 3.5rem);
+  }
+
+  th,
+  td {
+    padding: 0.7rem 0.75rem;
+  }
+}

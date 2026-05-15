@@ -1,22 +1,79 @@
 <div class="admin-dashboard-page">
-  <h1>Admin dashboard</h1>
-  <button type="button" (click)="createTutorial()">New tutorial</button>
-  <section data-testid="admin-stats">
-    <article data-testid="stat-card">
-      <h2>Tutorials</h2>
-      <p>{{ tutorials().length }}</p>
-    </article>
-    <article data-testid="stat-card">
-      <h2>Published</h2>
-      <p>{{ tutorials().length }}</p>
-    </article>
-  </section>
-  <section data-testid="recent-activity">
-    <h2>Recent activity</h2>
-    <ul data-testid="recent-edits">
-      @for (tutorial of tutorials(); track tutorial.id) {
-        <li>{{ tutorial.title }}</li>
+  <header class="dashboard-header">
+    <div>
+      <h1>Admin dashboard</h1>
+      @if (dashboard(); as summary) {
+        <p>Updated {{ summary.generatedAt }}</p>
       }
-    </ul>
-  </section>
+    </div>
+    <lib-button type="button" variant="solid" (click)="createTutorial()">New tutorial</lib-button>
+  </header>
+
+  @if (error()) {
+    <p role="alert">{{ error() }}</p>
+  }
+
+  @if (dashboard(); as summary) {
+    <section class="dashboard-stats" data-testid="admin-stats">
+      <article data-testid="stat-card">
+        <h2>Tutorials</h2>
+        <p>{{ summary.totalTutorials }}</p>
+      </article>
+      <article data-testid="stat-card">
+        <h2>Published</h2>
+        <p>{{ summary.publishedTutorials }}</p>
+      </article>
+      <article data-testid="stat-card">
+        <h2>Drafts</h2>
+        <p>{{ summary.draftTutorials }}</p>
+      </article>
+      <article data-testid="stat-card">
+        <h2>Media</h2>
+        <p>{{ summary.mediaAssetCount }}</p>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article data-testid="recent-activity">
+        <h2>Recent activity</h2>
+        <ul>
+          @for (activity of summary.recentActivity; track activity.changedAt + activity.action + activity.targetName) {
+            <li>
+              <strong>{{ activity.actor }}</strong>
+              <span>{{ activity.action }}</span>
+              <em>{{ activity.targetName }}</em>
+            </li>
+          }
+        </ul>
+      </article>
+
+      <article>
+        <h2>Quick actions</h2>
+        <nav aria-label="Admin quick actions">
+          <a href="/admin/tutorials/new">New tutorial</a>
+          <a href="/admin/media">Upload media</a>
+          <a href="/admin/users">Manage users</a>
+          <a href="/admin/audit-log">Audit log</a>
+        </nav>
+      </article>
+    </section>
+
+    <section>
+      <h2>Recent edits</h2>
+      <ul data-testid="recent-edits" class="recent-edits">
+        @for (tutorial of summary.recentTutorials; track tutorial.id) {
+          <li>
+            <span>{{ tutorial.title }}</span>
+            <small>{{ tutorial.categoryName }} · {{ tutorial.authorName }}</small>
+            <strong>{{ tutorial.isPublished ? 'Published' : 'Draft' }}</strong>
+          </li>
+        }
+      </ul>
+    </section>
+  } @else if (!error()) {
+    <section class="dashboard-stats" data-testid="admin-stats" aria-label="Loading dashboard summary">
+      <article data-testid="stat-card"><h2>Tutorials</h2><p>...</p></article>
+      <article data-testid="stat-card"><h2>Published</h2><p>...</p></article>
+    </section>
+  }
 </div>

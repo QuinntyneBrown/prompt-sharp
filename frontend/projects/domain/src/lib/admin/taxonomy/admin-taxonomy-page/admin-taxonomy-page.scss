@@ -3,5 +3,23 @@
 }
 
 .admin-taxonomy-page {
-  display: block;
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-taxonomy-page__toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-taxonomy-page__section-title {
+  font-weight: 700;
+  margin: 0;
+}
+
+.admin-taxonomy-page__dialog-form {
+  display: grid;
+  gap: 1rem;
 }

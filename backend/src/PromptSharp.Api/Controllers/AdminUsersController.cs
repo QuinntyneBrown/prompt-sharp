@@ -19,6 +19,18 @@ public sealed class AdminUsersController(ISender sender) : ControllerBase
         return sender.Send(new ListUsersQuery(), cancellationToken);
     }
 
+    [HttpGet("invitations")]
+    public Task<IReadOnlyList<UserInvitationDto>> GetInvitations(CancellationToken cancellationToken)
+    {
+        return sender.Send(new ListUserInvitationsQuery(), cancellationToken);
+    }
+
+    [HttpPost("invitations")]
+    public Task<UserInvitationDto> Invite(UserInvitationInputDto input, CancellationToken cancellationToken)
+    {
+        return sender.Send(new InviteUserCommand(input), cancellationToken);
+    }
+
     [HttpPut("{id:guid}/roles")]
     public Task<UserDto> UpdateRoles(Guid id, UserRolesUpsertDto input, CancellationToken cancellationToken)
     {

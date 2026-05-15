@@ -64,6 +64,15 @@
           [active]="activeRoute() === 'audit'"
         ></lib-nav-item>
       </li>
+      <li>
+        <lib-nav-item
+          icon="notifications"
+          label="Notifications"
+          href="/admin/notifications"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'notifications'"
+        ></lib-nav-item>
+      </li>
     </ul>
   </nav>
 </aside>

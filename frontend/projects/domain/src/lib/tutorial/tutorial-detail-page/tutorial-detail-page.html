@@ -5,7 +5,7 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   @if (tutorial(); as t) {
@@ -17,8 +17,8 @@
           <a [href]="'/tags/' + tag.slug">{{ tag.name }}</a>
         }
       </p>
-      <button type="button" (click)="startTutorial()">Start tutorial</button>
-      <button type="button" (click)="bookmark()">Bookmark</button>
+      <lib-button type="button" variant="solid" (click)="startTutorial()">Start tutorial</lib-button>
+      <lib-button type="button" (click)="bookmark()">Bookmark</lib-button>
     </header>
     <div data-testid="tutorial-progress">
       {{ completedStepIds().length }} / {{ t.steps.length }} complete
@@ -34,10 +34,10 @@
         <p>{{ step.bodyMarkdown }}</p>
         @if (step.codeSnippet) {
           <pre data-testid="code-block"><code>{{ step.codeSnippet }}</code></pre>
-          <button type="button" (click)="copyCurrentCode()">Copy code</button>
+          <lib-button type="button" size="sm" (click)="copyCurrentCode()">Copy code</lib-button>
         }
-        <button type="button" (click)="completeCurrentStep()">Mark step complete</button>
-        <button type="button" (click)="nextStep()">Next step</button>
+        <lib-button type="button" (click)="completeCurrentStep()">Mark step complete</lib-button>
+        <lib-button type="button" variant="solid" (click)="nextStep()">Next step</lib-button>
       </article>
     }
     @if (status(); as message) {

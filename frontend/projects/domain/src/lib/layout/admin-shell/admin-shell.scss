@@ -3,5 +3,30 @@
 }
 
 .admin-shell {
-  display: block;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  background: rgba(0, 0, 15, 0.72);
+}
+
+.admin-shell__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-shell__content {
+  width: 100%;
+  max-width: 1180px;
+  padding: clamp(24px, 4vw, 48px);
+}
+
+@media (max-width: 840px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell__content {
+    padding: 24px 18px 40px;
+  }
 }

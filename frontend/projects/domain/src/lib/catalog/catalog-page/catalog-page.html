@@ -5,41 +5,31 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   <div class="catalog-page__controls">
-    <label>
-      Search tutorials
-      <input #searchBox type="text" [value]="searchQuery()" (keydown.enter)="search(searchBox.value)" />
-    </label>
-    <label>
-      Category
-      <select #categorySelect (change)="setCategory(categorySelect.value)">
-        <option value="">All categories</option>
-        @for (category of categories(); track category.id) {
-          <option [value]="category.slug">{{ category.name }}</option>
-        }
-      </select>
-    </label>
-    <label>
-      Difficulty
-      <select #difficultySelect (change)="setDifficulty(difficultySelect.value)">
-        <option value="">Any difficulty</option>
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
-    </label>
-    <label>
-      Sort
-      <select>
-        <option>Newest</option>
-        <option>Title</option>
-      </select>
-    </label>
-    <button type="button" (click)="setListView()">List view</button>
-    <button type="button" (click)="resetFilters(searchBox)">Reset filters</button>
+    <lib-text-field
+      label="Search tutorials"
+      [value]="searchQuery()"
+      (valueChange)="setSearchQuery($event)"
+      (keydown.enter)="search(searchQuery())"
+    ></lib-text-field>
+    <lib-select-field
+      label="Category"
+      [value]="categoryFilter() ?? ''"
+      [options]="categoryOptions()"
+      (valueChange)="setCategory($event)"
+    ></lib-select-field>
+    <lib-select-field
+      label="Difficulty"
+      [value]="difficultyFilter() ?? ''"
+      [options]="difficultyOptions"
+      (valueChange)="setDifficulty($event)"
+    ></lib-select-field>
+    <lib-select-field label="Sort" value="newest" [options]="sortOptions"></lib-select-field>
+    <lib-button type="button" (click)="setListView()">List view</lib-button>
+    <lib-button type="button" variant="ghost" (click)="resetFilters()">Reset filters</lib-button>
   </div>
   @if (tutorials(); as page) {
     <p class="catalog-page__count">{{ page.totalCount }} tutorials</p>

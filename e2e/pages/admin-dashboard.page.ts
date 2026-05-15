@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Locator, type Page, type Response } from '@playwright/test';
 import { BasePage } from './base.page';
 import { routes } from './routes';
 
@@ -21,6 +21,18 @@ export class AdminDashboardPage extends BasePage {
 
   async createTutorial(): Promise<void> {
     await this.button(/new tutorial|create tutorial/i).click();
+  }
+
+  async gotoAndWaitForSummary(): Promise<Response> {
+    const response = this.page.waitForResponse(
+      (candidate) =>
+        candidate.url().includes('/api/v1/admin/dashboard') && candidate.request().method() === 'GET',
+    );
+
+    await this.goto();
+    const dashboardResponse = await response;
+    expect(dashboardResponse.status()).toBe(200);
+    return dashboardResponse;
   }
 
   async openTutorials(): Promise<void> {

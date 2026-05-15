@@ -1,3 +1,48 @@
 <div class="admin-audit-log-page">
   <h1>Audit log</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading...</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
+    </div>
+  }
+  <lib-text-field
+    label="Actor"
+    placeholder="Actor or user"
+    [value]="actorFilter()"
+    (valueChange)="filterByActor($event)"
+  />
+  <lib-select-field
+    label="Action"
+    [value]="actionFilter()"
+    [options]="actionOptions"
+    (valueChange)="filterByAction($event)"
+  ></lib-select-field>
+  <table aria-label="Audit log">
+    <thead>
+      <tr><th>Actor</th><th>Action</th><th>Target</th><th>Changed</th><th>Details</th></tr>
+    </thead>
+    <tbody>
+      @for (entry of entries(); track entry.id) {
+        <tr>
+          <td>{{ entry.actor }}</td>
+          <td>{{ entry.action }}</td>
+          <td>{{ entry.targetName }}</td>
+          <td>{{ entry.changedAt }}</td>
+          <td><lib-button type="button" size="sm" (click)="openDetails(entry)">Details</lib-button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  @if (selectedEntry(); as entry) {
+    <div role="dialog" aria-label="Audit details">
+      <h2>{{ entry.action }}</h2>
+      <p>{{ entry.actor }} changed {{ entry.targetName }}.</p>
+      <p>Before: {{ entry.before }}</p>
+      <p>After: {{ entry.after }}</p>
+      <lib-button type="button" (click)="closeDetails()">Close</lib-button>
+    </div>
+  }
 </div>

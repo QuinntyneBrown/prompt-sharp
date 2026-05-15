@@ -1,9 +1,11 @@
 <div class="search-page">
   <h1 class="search-page__title">Search results</h1>
-  <label>
-    Search
-    <input #searchBox type="text" [value]="query()" (keydown.enter)="search(searchBox.value)" />
-  </label>
+  <lib-text-field
+    label="Search"
+    [value]="query()"
+    (valueChange)="query.set($event)"
+    (keydown.enter)="search(query())"
+  ></lib-text-field>
   @if (query()) {
     <p>Results for "{{ query() }}"</p>
   }
@@ -12,7 +14,7 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   @if (results(); as page) {

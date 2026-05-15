@@ -5,7 +5,7 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   @if (user(); as u) {
@@ -15,5 +15,10 @@
     <p>{{ bookmarks().length }} bookmarks</p>
   }
   <a href="/me/progress">Progress and bookmarks</a>
-  <button type="button" (click)="signOut()">Sign out</button>
+  <lib-button type="button" variant="ghost" (click)="signOut()">Sign out</lib-button>
+  <ps-sign-out-dialog
+    [open]="signOutDialogOpen()"
+    (cancelled)="cancelSignOut()"
+    (confirmed)="confirmSignOut()"
+  ></ps-sign-out-dialog>
 </div>

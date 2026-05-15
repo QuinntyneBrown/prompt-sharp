@@ -7,12 +7,14 @@ import {
   PromptSharpTagsApi,
   TutorialListItem,
 } from 'api';
+import { Button, SelectField, SelectFieldOption } from 'components';
 
 @Component({
   selector: 'ps-category-page',
   templateUrl: './category-page.html',
   styleUrl: './category-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button, SelectField],
 })
 export class CategoryPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -25,6 +27,16 @@ export class CategoryPage implements OnInit {
   protected readonly tutorials = signal<PagedResult<TutorialListItem> | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly sortOptions: SelectFieldOption[] = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'title', label: 'Title' },
+  ];
+  protected readonly difficultyOptions: SelectFieldOption[] = [
+    { value: '', label: 'Any difficulty' },
+    { value: 'beginner', label: 'Beginner' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
+  ];
 
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug');

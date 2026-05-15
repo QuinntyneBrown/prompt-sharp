@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import {
   Category,
   DifficultyLevel,
@@ -7,12 +7,14 @@ import {
   PromptSharpTutorialsApi,
   TutorialListItem,
 } from 'api';
+import { Button, SelectField, SelectFieldOption, TextField } from 'components';
 
 @Component({
   selector: 'ps-catalog-page',
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button, SelectField, TextField],
 })
 export class CatalogPage implements OnInit {
   private readonly tutorialsApi = inject(PromptSharpTutorialsApi);
@@ -26,6 +28,20 @@ export class CatalogPage implements OnInit {
   protected readonly viewMode = signal<'grid' | 'list'>('grid');
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly categoryOptions = computed<SelectFieldOption[]>(() => [
+    { value: '', label: 'All categories' },
+    ...this.categories().map((category) => ({ value: category.slug, label: category.name })),
+  ]);
+  protected readonly difficultyOptions: SelectFieldOption[] = [
+    { value: '', label: 'Any difficulty' },
+    { value: 'beginner', label: 'Beginner' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
+  ];
+  protected readonly sortOptions: SelectFieldOption[] = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'title', label: 'Title' },
+  ];
 
   ngOnInit(): void {
     this.load();
@@ -58,6 +74,10 @@ export class CatalogPage implements OnInit {
     this.load();
   }
 
+  protected setSearchQuery(query: string): void {
+    this.searchQuery.set(query);
+  }
+
   protected setCategory(slug: string): void {
     this.categoryFilter.set(slug || null);
     this.load();
@@ -72,8 +92,7 @@ export class CatalogPage implements OnInit {
     this.viewMode.set('list');
   }
 
-  protected resetFilters(searchInput: HTMLInputElement): void {
-    searchInput.value = '';
+  protected resetFilters(): void {
     this.searchQuery.set('');
     this.categoryFilter.set(null);
     this.difficultyFilter.set(null);

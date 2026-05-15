@@ -10,6 +10,7 @@ import { Button, DialogShell, TextField } from 'components';
 })
 export class UserInviteDialog {
   readonly open = input<boolean>(false);
+  readonly error = input<string | null>(null);
   readonly cancelled = output<void>();
   readonly submitted = output<{ email: string; roles: string[] }>();
 

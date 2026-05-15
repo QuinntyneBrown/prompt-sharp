@@ -1,23 +1,35 @@
 <div class="sign-in-page">
   <h1>Sign in</h1>
-  <button type="button" (click)="startProvider('Microsoft')">Continue with Microsoft</button>
-  <button type="button" (click)="startProvider('Google')">Continue with Google</button>
+  <lib-button type="button" variant="solid" (click)="startProvider('Microsoft')">Continue with Microsoft</lib-button>
+  <lib-button type="button" (click)="startProvider('Google')">Continue with Google</lib-button>
   <form>
-    <label>
-      Email
-      <input #emailInput name="email" type="email" />
-    </label>
-    <label>
-      Password
-      <input #passwordInput name="password" type="password" />
-    </label>
-    <label>
-      <input name="remember" type="checkbox" />
-      Remember me
-    </label>
-    <button type="button" (click)="submitCredentials(emailInput.value, passwordInput.value)">Sign in</button>
+    <lib-text-field
+      label="Email"
+      name="email"
+      type="email"
+      [value]="email()"
+      (valueChange)="email.set($event)"
+    ></lib-text-field>
+    <lib-text-field
+      label="Password"
+      name="password"
+      type="password"
+      [value]="password()"
+      (valueChange)="password.set($event)"
+    ></lib-text-field>
+    <lib-checkbox
+      label="Remember me"
+      name="remember"
+      [checked]="rememberMe()"
+      (checkedChange)="rememberMe.set($event)"
+    ></lib-checkbox>
+    <lib-button type="button" variant="solid" (click)="submitCredentials()">Sign in</lib-button>
   </form>
   @if (error(); as message) {
     <p role="alert">{{ message }}</p>
   }
+  <ps-session-expired-dialog
+    [open]="sessionExpiredOpen()"
+    (reauthenticate)="acknowledgeSessionExpired()"
+  ></ps-session-expired-dialog>
 </div>

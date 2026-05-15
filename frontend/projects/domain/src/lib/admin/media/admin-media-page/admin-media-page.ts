@@ -1,20 +1,36 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Media, PromptSharpAdminMediaApi } from 'api';
+import { Button, TextField } from 'components';
+import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
+import { MediaUploadDialog } from '../../../dialogs/media-upload-dialog/media-upload-dialog';
 
 @Component({
   selector: 'ps-admin-media-page',
   templateUrl: './admin-media-page.html',
   styleUrl: './admin-media-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button, ConfirmDeleteDialog, MediaUploadDialog, TextField],
 })
 export class AdminMediaPage implements OnInit {
   private readonly mediaApi = inject(PromptSharpAdminMediaApi);
 
   protected readonly media = signal<readonly Media[]>([]);
+  protected readonly searchQuery = signal<string>('');
   protected readonly pendingDelete = signal<Media | null>(null);
+  protected readonly uploadDialogOpen = signal<boolean>(false);
   protected readonly status = signal<string | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly filteredMedia = computed(() => {
+    const query = this.searchQuery().trim().toLocaleLowerCase();
+    if (!query) {
+      return this.media();
+    }
+
+    return this.media().filter((item) =>
+      item.fileName.toLocaleLowerCase().includes(query) ||
+      item.url.toLocaleLowerCase().includes(query));
+  });
 
   ngOnInit(): void {
     this.load();
@@ -35,19 +51,18 @@ export class AdminMediaPage implements OnInit {
     });
   }
 
-  protected upload(files: FileList | null): void {
-    const file = files?.[0];
-    if (!file) {
-      return;
-    }
+  protected openUploadDialog(): void {
+    this.uploadDialogOpen.set(true);
+  }
 
-    this.mediaApi.upload(file, file.name).subscribe({
-      next: (media) => {
-        this.media.update((items) => [media, ...items]);
-        this.status.set('Uploaded');
-      },
-      error: (e: Error) => this.error.set(e.message),
-    });
+  protected cancelUpload(): void {
+    this.uploadDialogOpen.set(false);
+  }
+
+  protected addUploadedMedia(media: Media): void {
+    this.media.update((items) => [media, ...items]);
+    this.uploadDialogOpen.set(false);
+    this.status.set('Uploaded');
   }
 
   protected copyUrl(media: Media): void {
@@ -57,6 +72,10 @@ export class AdminMediaPage implements OnInit {
 
   protected requestDelete(media: Media): void {
     this.pendingDelete.set(media);
+  }
+
+  protected cancelDelete(): void {
+    this.pendingDelete.set(null);
   }
 
   protected confirmDelete(): void {

@@ -4,6 +4,9 @@
   (closed)="cancelled.emit()"
 >
   <lib-text-field label="Email" type="email" (valueChange)="onEmail($event)"></lib-text-field>
+  @if (error(); as message) {
+    <p role="alert">{{ message }}</p>
+  }
   <div dialog-actions>
     <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
     <lib-button variant="solid" (click)="submit()">Send invite</lib-button>

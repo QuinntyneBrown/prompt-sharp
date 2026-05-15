@@ -1,19 +1,26 @@
 <div class="contact-card">
   <h1>Contact</h1>
-  <form (submit)="submit(nameInput.value, emailInput.value, messageInput.value); $event.preventDefault()">
-    <label>
-      Name
-      <input #nameInput name="name" type="text" />
-    </label>
-    <label>
-      Email
-      <input #emailInput name="email" type="email" />
-    </label>
-    <label>
-      Message
-      <textarea #messageInput name="message"></textarea>
-    </label>
-    <button type="submit" [disabled]="submitting()">Send message</button>
+  <form (submit)="submit(); $event.preventDefault()">
+    <lib-text-field
+      label="Name"
+      name="name"
+      [value]="name()"
+      (valueChange)="name.set($event)"
+    ></lib-text-field>
+    <lib-text-field
+      label="Email"
+      name="email"
+      type="email"
+      [value]="email()"
+      (valueChange)="email.set($event)"
+    ></lib-text-field>
+    <lib-text-area
+      label="Message"
+      name="message"
+      [value]="message()"
+      (valueChange)="message.set($event)"
+    ></lib-text-area>
+    <lib-button type="submit" variant="solid" [disabled]="submitting()">Send message</lib-button>
   </form>
   @if (status(); as message) {
     <p role="status">{{ message }}</p>

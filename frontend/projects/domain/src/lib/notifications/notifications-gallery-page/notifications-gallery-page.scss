@@ -3,5 +3,17 @@
 }
 
 .notifications-gallery-page {
-  display: block;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.notifications-gallery-page section,
+.notifications-gallery-page__actions,
+.notifications-gallery-page__samples {
+  display: grid;
+  gap: 1rem;
+}
+
+.notifications-gallery-page__actions {
+  grid-template-columns: repeat(auto-fit, minmax(10rem, max-content));
 }

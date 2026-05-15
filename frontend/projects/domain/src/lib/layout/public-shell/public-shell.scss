@@ -3,5 +3,14 @@
 }
 
 .public-shell {
-  display: block;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.public-shell__main {
+  width: min(100%, var(--ps-max-width, 1440px));
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 72px) var(--ps-gutter, 32px);
+  flex: 1;
 }

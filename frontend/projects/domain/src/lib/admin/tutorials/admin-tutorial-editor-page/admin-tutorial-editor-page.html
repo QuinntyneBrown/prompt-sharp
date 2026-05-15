@@ -13,7 +13,7 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   @if (tutorial(); as t) {
@@ -24,83 +24,94 @@
   }
   @if (!isStepRoute()) {
     <div class="admin-tutorial-editor-page__actions">
-      <button type="button" (click)="saveDraft()">Save draft</button>
-      <button type="button" (click)="preview()">Preview</button>
-      <button type="button" (click)="publish()">Publish</button>
+      <lib-button type="button" (click)="saveDraft()">Save draft</lib-button>
+      <lib-button type="button" (click)="preview()">Preview</lib-button>
+      <lib-button type="button" variant="solid" (click)="requestPublish()">Publish</lib-button>
     </div>
+    <ps-publish-dialog
+      [open]="publishDialogOpen()"
+      (cancelled)="cancelPublish()"
+      (submitted)="confirmPublish()"
+    ></ps-publish-dialog>
     <form>
-      <label>
-        Title
-        <input type="text" />
-      </label>
-      <label>
-        Slug
-        <input type="text" />
-      </label>
-      <label>
-        Summary
-        <textarea></textarea>
-      </label>
-      <label>
-        Category
-        <select>
-          @for (category of categories(); track category.id) {
-            <option>{{ category.name }}</option>
-          }
-        </select>
-      </label>
-      <label>
-        Difficulty
-        <select>
-          <option>Beginner</option>
-          <option>Intermediate</option>
-          <option>Advanced</option>
-        </select>
-      </label>
-      <label>
-        Estimated minutes
-        <input type="text" />
-      </label>
+      <lib-text-field label="Title" [value]="title()" [required]="true" (valueChange)="setTitle($event)"></lib-text-field>
+      <lib-text-field label="Slug" [value]="slug()" [required]="true" (valueChange)="setSlug($event)"></lib-text-field>
+      <lib-text-area label="Summary" [value]="summary()" (valueChange)="setSummary($event)"></lib-text-area>
+      <lib-select-field
+        label="Category"
+        [value]="categoryId()"
+        [options]="categoryOptions()"
+        [required]="true"
+        (valueChange)="setCategory($event)"
+      ></lib-select-field>
+      <lib-select-field
+        label="Difficulty"
+        [value]="difficultyLevel()"
+        [options]="difficultyOptions"
+        [required]="true"
+        (valueChange)="setDifficulty($event)"
+      ></lib-select-field>
+      <lib-text-field
+        label="Estimated minutes"
+        [value]="estimatedMinutes()"
+        type="number"
+        [required]="true"
+        (valueChange)="setEstimatedMinutes($event)"
+      ></lib-text-field>
     </form>
-    <button type="button" (click)="addStep()">Add step</button>
+    <lib-button type="button" (click)="addStep()">Add step</lib-button>
     <ul data-testid="tutorial-steps-editor">
-      @for (step of stepRows(); track step) {
-        <li>{{ step }}</li>
+      @for (step of stepRows(); track $index) {
+        <li>{{ step.title }}</li>
       }
     </ul>
   }
   @if (isStepRoute()) {
     <section>
     <p class="admin-tutorial-editor-page__section-title">Step editor</p>
-    <label>
-      Step title
-      <input type="text" />
-    </label>
-    <label>
-      Body markdown
-      <textarea></textarea>
-    </label>
-    <label>
-      Code snippet
-      <textarea></textarea>
-    </label>
-    <label>
-      Code language
-      <select>
-        <option>Bash</option>
-        <option>CSharp</option>
-      </select>
-    </label>
+    <lib-text-field
+      label="Step title"
+      [value]="stepTitle()"
+      [required]="true"
+      (valueChange)="setStepTitle($event)"
+    ></lib-text-field>
+    <lib-text-area
+      label="Body markdown"
+      [value]="stepBodyMarkdown()"
+      (valueChange)="setStepBodyMarkdown($event)"
+    ></lib-text-area>
+    <lib-text-area
+      label="Code snippet"
+      [value]="stepCodeSnippet()"
+      (valueChange)="setStepCodeSnippet($event)"
+    ></lib-text-area>
+    <lib-select-field
+      label="Code language"
+      [value]="stepCodeLanguage()"
+      [options]="codeLanguageOptions"
+      (valueChange)="setStepCodeLanguage($event)"
+    ></lib-select-field>
     <label>
       Image media
-      <input type="file" />
+      <input type="file" (change)="markDirty()" />
     </label>
-    <button type="button" (click)="moveUp()">Move up</button>
-    <button type="button" (click)="saveStep()">Save step</button>
-    <div data-testid="step-preview">Preview</div>
+    <lib-button type="button" (click)="moveUp()">Move up</lib-button>
+    <lib-button type="button" variant="solid" (click)="saveStep()">Save step</lib-button>
+    <div data-testid="step-preview">
+      <h2>{{ stepTitle() || 'Preview' }}</h2>
+      <p>{{ stepBodyMarkdown() }}</p>
+      @if (stepCodeSnippet()) {
+        <pre><code>{{ stepCodeSnippet() }}</code></pre>
+      }
+    </div>
     </section>
   }
   @if (status(); as message) {
     <p role="status">{{ message }}</p>
   }
+  <ps-unsaved-changes-dialog
+    [open]="unsavedDialogOpen()"
+    (cancelled)="keepEditing()"
+    (discarded)="discardChanges()"
+  ></ps-unsaved-changes-dialog>
 </div>

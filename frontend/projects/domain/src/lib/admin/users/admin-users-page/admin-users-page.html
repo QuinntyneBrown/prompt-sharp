@@ -5,15 +5,53 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <table>
-    <thead><tr><th>Email</th><th>Roles</th></tr></thead>
+  <lib-button type="button" variant="solid" (click)="openInviteDialog()">Invite user</lib-button>
+  <ps-user-invite-dialog
+    [open]="inviteDialogOpen()"
+    [error]="inviteError()"
+    (cancelled)="closeInviteDialog()"
+    (submitted)="inviteUser($event)"
+  />
+  <lib-text-field
+    label="Search users"
+    placeholder="Search users"
+    [value]="userSearch()"
+    (valueChange)="searchUsers($event)"
+  />
+  <table aria-label="Users">
+    <thead><tr><th>Name</th><th>Email</th><th>Roles</th><th>Actions</th></tr></thead>
     <tbody>
-      @for (u of users(); track u.id) {
-        <tr><td>{{ u.email }}</td><td>{{ u.roles.join(', ') }}</td></tr>
+      @for (u of filteredUsers(); track u.id) {
+        <tr>
+          <td>{{ u.displayName }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            @for (role of roles; track role) {
+              <lib-checkbox
+                [label]="role"
+                [checked]="hasRole(u, role)"
+                (checkedChange)="setRole(u, role, $event)"
+              />
+            }
+          </td>
+          <td><lib-button type="button" size="sm" (click)="saveRoles(u)">Save roles</lib-button></td>
+        </tr>
       }
     </tbody>
   </table>
+  <section data-testid="pending-invitations" aria-label="Pending invitations">
+    <h2>Pending invitations</h2>
+    @for (invitation of invitations(); track invitation.id) {
+      <article>
+        <h3>{{ invitation.email }}</h3>
+        <p>{{ invitation.roles.join(', ') }}</p>
+      </article>
+    }
+  </section>
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
+  }
 </div>

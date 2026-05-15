@@ -31,6 +31,10 @@ public interface IPromptSharpDbContext
 
     DbSet<ContactSubmission> ContactSubmissions { get; }
 
+    DbSet<AuditEvent> AuditEvents { get; }
+
+    DbSet<UserInvitation> UserInvitations { get; }
+
     DatabaseFacade Database { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

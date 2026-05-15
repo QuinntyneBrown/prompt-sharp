@@ -1,9 +1,21 @@
 <lib-dialog-shell
   [open]="open()"
   headline="Upload media"
+  supportingText="Add an image or diagram to the media library."
   (closed)="cancelled.emit()"
 >
-  <lib-drop-zone (filesSelected)="onFiles($event)"></lib-drop-zone>
+  <lib-drop-zone
+    label="Upload file"
+    description="SVG, PNG, or JPEG files are stored by the backend."
+    [disabled]="uploading()"
+    (filesSelected)="onFiles($event)"
+  ></lib-drop-zone>
+  @if (uploading()) {
+    <p role="status">Uploading…</p>
+  }
+  @if (error(); as message) {
+    <p role="alert">{{ message }}</p>
+  }
   <div dialog-actions>
     <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
   </div>

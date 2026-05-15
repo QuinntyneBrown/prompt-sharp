@@ -33,6 +33,14 @@ export class SignInPage extends BasePage {
     await this.checkbox(/remember/i).check();
   }
 
+  async expectSessionExpiredDialog(): Promise<void> {
+    await expect(this.page.getByRole('dialog', { name: /session expired/i })).toBeVisible();
+  }
+
+  async acknowledgeSessionExpired(): Promise<void> {
+    await this.page.getByRole('dialog', { name: /session expired/i }).getByRole('button', { name: /sign in/i }).click();
+  }
+
   async expectAuthOptions(): Promise<void> {
     await expect(this.providerButton('Microsoft')).toBeVisible();
     await expect(this.providerButton('Google')).toBeVisible();

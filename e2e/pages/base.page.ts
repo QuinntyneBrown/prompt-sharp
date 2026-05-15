@@ -14,7 +14,7 @@ export abstract class BasePage {
   }
 
   heading(): Locator {
-    return this.page.getByRole('heading', { name: this.headingName });
+    return this.page.getByRole('heading', { name: this.headingName, level: 1 });
   }
 
   async expectLoaded(): Promise<void> {

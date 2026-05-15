@@ -10,6 +10,7 @@ import { ContactPage } from '../pages/contact.page';
 import { HomePage } from '../pages/home.page';
 import { MediaLibraryPage } from '../pages/media-library.page';
 import { NotFoundPage } from '../pages/not-found.page';
+import { NotificationsPage } from '../pages/notifications.page';
 import { OAuthCallbackPage } from '../pages/oauth-callback.page';
 import { ProfilePage } from '../pages/profile.page';
 import { ProgressBookmarksPage } from '../pages/progress-bookmarks.page';
@@ -34,6 +35,7 @@ type PromptSharpFixtures = {
   homePage: HomePage;
   mediaLibraryPage: MediaLibraryPage;
   notFoundPage: NotFoundPage;
+  notificationsPage: NotificationsPage;
   oauthCallbackPage: OAuthCallbackPage;
   profilePage: ProfilePage;
   progressBookmarksPage: ProgressBookmarksPage;
@@ -59,6 +61,7 @@ export const test = base.extend<PromptSharpFixtures>({
   homePage: async ({ page }, use) => use(new HomePage(page)),
   mediaLibraryPage: async ({ page }, use) => use(new MediaLibraryPage(page)),
   notFoundPage: async ({ page }, use) => use(new NotFoundPage(page)),
+  notificationsPage: async ({ page }, use) => use(new NotificationsPage(page)),
   oauthCallbackPage: async ({ page }, use) => use(new OAuthCallbackPage(page)),
   profilePage: async ({ page }, use) => use(new ProfilePage(page)),
   progressBookmarksPage: async ({ page }, use) => use(new ProgressBookmarksPage(page)),

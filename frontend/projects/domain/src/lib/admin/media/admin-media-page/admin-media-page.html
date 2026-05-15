@@ -5,32 +5,36 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <label>
-    File
-    <input #fileInput type="file" />
-  </label>
-  <button type="button" (click)="upload(fileInput.files)">Upload</button>
-  <label>
-    Search media
-    <input type="text" />
-  </label>
+  <lib-button type="button" variant="solid" (click)="openUploadDialog()">Upload media</lib-button>
+  <ps-media-upload-dialog
+    [open]="uploadDialogOpen()"
+    (cancelled)="cancelUpload()"
+    (uploaded)="addUploadedMedia($event)"
+  ></ps-media-upload-dialog>
+  <lib-text-field
+    label="Search media"
+    [value]="searchQuery()"
+    (valueChange)="searchQuery.set($event)"
+  ></lib-text-field>
   @if (pendingDelete(); as media) {
-    <div role="dialog" aria-label="Confirm delete">
-      <p>Delete {{ media.fileName }}?</p>
-      <button type="button" (click)="confirmDelete()">Confirm</button>
-    </div>
+    <ps-confirm-delete-dialog
+      [open]="true"
+      [itemName]="media.fileName"
+      (cancelled)="cancelDelete()"
+      (confirmed)="confirmDelete()"
+    ></ps-confirm-delete-dialog>
   }
   <section data-testid="media-library" class="admin-media-page__grid">
-    @for (m of media(); track m.id) {
+    @for (m of filteredMedia(); track m.id; let first = $first) {
       <article data-testid="media-item">
         <h2>{{ m.fileName }}</h2>
         <p>{{ m.url }}</p>
-        <button type="button" (click)="copyUrl(m)">Copy URL</button>
-        @if (!pendingDelete()) {
-          <button type="button" (click)="requestDelete(m)">Delete</button>
+        <lib-button type="button" size="sm" (click)="copyUrl(m)">Copy URL</lib-button>
+        @if (first && !pendingDelete()) {
+          <lib-button type="button" size="sm" variant="danger" (click)="requestDelete(m)">Delete</lib-button>
         }
       </article>
     }

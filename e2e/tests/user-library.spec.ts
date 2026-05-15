@@ -32,7 +32,13 @@ test.describe('authenticated learner workspace', () => {
   test('profile sign-out returns the learner to the sign-in screen', async ({ profilePage, page }) => {
     await profilePage.goto();
     await profilePage.expectLoaded();
-    await profilePage.signOut();
+    await profilePage.openSignOutDialog();
+    await profilePage.expectSignOutDialog();
+    await profilePage.cancelSignOut();
+    await expect(page).toHaveURL(/\/me\/profile$/);
+
+    await profilePage.openSignOutDialog();
+    await profilePage.confirmSignOut();
     await expect(page).toHaveURL(/\/sign-in$/);
   });
 });

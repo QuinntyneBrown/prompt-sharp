@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { PagedResult, PromptSharpAdminTutorialsApi, TutorialListItem } from 'api';
+import { Button, SelectField, SelectFieldOption, TextField } from 'components';
+import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
+import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
 
 @Component({
   selector: 'ps-admin-tutorial-list-page',
   templateUrl: './admin-tutorial-list-page.html',
   styleUrl: './admin-tutorial-list-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button, ConfirmDeleteDialog, PublishDialog, SelectField, TextField],
 })
 export class AdminTutorialListPage implements OnInit {
   private readonly tutorialsApi = inject(PromptSharpAdminTutorialsApi);
@@ -14,8 +18,16 @@ export class AdminTutorialListPage implements OnInit {
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
   protected readonly status = signal<string | null>(null);
+  protected readonly searchQuery = signal<string>('');
+  protected readonly statusFilter = signal<string>('All');
   protected readonly pendingDelete = signal<TutorialListItem | null>(null);
+  protected readonly pendingPublish = signal<TutorialListItem | null>(null);
   protected readonly activeActionsId = signal<string | null>(null);
+  protected readonly statusOptions: SelectFieldOption[] = [
+    { value: 'All', label: 'All' },
+    { value: 'Draft', label: 'Draft' },
+    { value: 'Published', label: 'Published' },
+  ];
 
   ngOnInit(): void {
     this.load();
@@ -37,6 +49,7 @@ export class AdminTutorialListPage implements OnInit {
   }
 
   protected search(query: string): void {
+    this.searchQuery.set(query);
     this.loading.set(true);
     this.tutorialsApi.list({ page: 1, pageSize: 50, search: query.trim() || null }).subscribe({
       next: (page) => {
@@ -50,8 +63,40 @@ export class AdminTutorialListPage implements OnInit {
     });
   }
 
-  protected publish(tutorial: TutorialListItem): void {
-    this.tutorialsApi.publish(tutorial.id).subscribe({ next: () => this.status.set('Published') });
+  protected requestPublish(tutorial: TutorialListItem): void {
+    this.pendingPublish.set(tutorial);
+    this.activeActionsId.set(null);
+  }
+
+  protected confirmPublish(): void {
+    const tutorial = this.pendingPublish();
+    if (tutorial === null) {
+      return;
+    }
+
+    this.tutorialsApi.publish(tutorial.id).subscribe({
+      next: (updated) => {
+        this.pendingPublish.set(null);
+        this.tutorials.update((page) =>
+          page === null
+            ? page
+            : {
+                ...page,
+                items: page.items.map((item) =>
+                  item.id === tutorial.id ? { ...item, isPublished: updated.isPublished } : item,
+                ),
+              },
+        );
+        this.status.set('Published');
+      },
+      error: (e: Error) => {
+        this.error.set(e.message);
+      },
+    });
+  }
+
+  protected cancelPublish(): void {
+    this.pendingPublish.set(null);
   }
 
   protected openActions(tutorial: TutorialListItem): void {
@@ -68,10 +113,36 @@ export class AdminTutorialListPage implements OnInit {
 
   protected requestDelete(tutorial: TutorialListItem): void {
     this.pendingDelete.set(tutorial);
+    this.activeActionsId.set(null);
   }
 
   protected confirmDelete(): void {
+    const tutorial = this.pendingDelete();
+    if (tutorial === null) {
+      return;
+    }
+
+    this.tutorialsApi.delete(tutorial.id).subscribe({
+      next: () => {
+        this.pendingDelete.set(null);
+        this.tutorials.update((page) =>
+          page === null
+            ? page
+            : {
+                ...page,
+                items: page.items.filter((item) => item.id !== tutorial.id),
+                totalCount: Math.max(0, page.totalCount - 1),
+              },
+        );
+        this.status.set('Deleted');
+      },
+      error: (e: Error) => {
+        this.error.set(e.message);
+      },
+    });
+  }
+
+  protected cancelDelete(): void {
     this.pendingDelete.set(null);
-    this.status.set('Delete confirmed');
   }
 }

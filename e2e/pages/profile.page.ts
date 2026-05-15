@@ -16,7 +16,19 @@ export class ProfilePage extends BasePage {
     await this.link(/progress|bookmarks/i).click();
   }
 
-  async signOut(): Promise<void> {
-    await this.button(/sign out/i).click();
+  async openSignOutDialog(): Promise<void> {
+    await this.button(/^sign out$/i).first().click();
+  }
+
+  async expectSignOutDialog(): Promise<void> {
+    await expect(this.page.getByRole('dialog', { name: /sign out/i })).toBeVisible();
+  }
+
+  async cancelSignOut(): Promise<void> {
+    await this.page.getByRole('dialog', { name: /sign out/i }).getByRole('button', { name: /stay signed in/i }).click();
+  }
+
+  async confirmSignOut(): Promise<void> {
+    await this.page.getByRole('dialog', { name: /sign out/i }).getByRole('button', { name: /^sign out$/i }).click();
   }
 }

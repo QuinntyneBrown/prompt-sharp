@@ -24,5 +24,6 @@ export const routes = {
   mediaLibrary: '/admin/media',
   userRoles: '/admin/users',
   auditLog: '/admin/audit-log',
+  notifications: '/admin/notifications',
   notFound: '/definitely-not-a-real-prompt-sharp-route',
 } as const;

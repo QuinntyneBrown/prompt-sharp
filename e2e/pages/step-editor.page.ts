@@ -24,7 +24,14 @@ export class StepEditorPage extends BasePage {
   }
 
   async save(): Promise<void> {
+    const saveResponse = this.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'PUT' &&
+        response.url().includes('/api/v1/admin/tutorials/') &&
+        response.url().endsWith('/steps'),
+    );
     await this.button(/save step|save/i).click();
+    expect((await saveResponse).ok()).toBe(true);
   }
 
   async moveUp(): Promise<void> {

@@ -12,8 +12,13 @@ export class MediaLibraryPage extends BasePage {
   }
 
   async upload(filePath: string): Promise<void> {
-    await this.page.getByLabel(/upload media|upload file|file/i).setInputFiles(filePath);
-    await this.button(/upload/i).click();
+    await this.button(/upload media/i).click();
+    await expect(this.page.getByRole('dialog', { name: /upload media/i })).toBeVisible();
+    const uploadResponse = this.page.waitForResponse(
+      (response) => response.request().method() === 'POST' && response.url().includes('/api/v1/admin/media'),
+    );
+    await this.page.getByLabel(/upload file/i).setInputFiles(filePath);
+    expect((await uploadResponse).ok()).toBe(true);
   }
 
   async searchFor(query: string): Promise<void> {
@@ -26,7 +31,13 @@ export class MediaLibraryPage extends BasePage {
 
   async delete(fileName: string | RegExp): Promise<void> {
     await this.mediaItems().filter({ hasText: fileName }).first().getByRole('button', { name: /delete/i }).click();
-    await this.button(/confirm|delete/i).click();
+    await expect(this.page.getByRole('dialog', { name: /delete/i })).toBeVisible();
+    const deleteResponse = this.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'DELETE' && response.url().includes('/api/v1/admin/media/'),
+    );
+    await this.page.getByRole('dialog', { name: /delete/i }).getByRole('button', { name: /^delete$/i }).click();
+    expect((await deleteResponse).status()).toBe(204);
   }
 
   async expectLibraryReady(): Promise<void> {

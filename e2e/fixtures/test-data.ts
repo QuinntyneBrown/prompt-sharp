@@ -37,6 +37,10 @@ export const users = {
     displayName: 'Ada Admin',
     email: 'ada.admin@example.com',
   },
+  invited: {
+    displayName: 'Casey Invited',
+    email: 'casey.invited@example.com',
+  },
 };
 
 export const contactMessage = {

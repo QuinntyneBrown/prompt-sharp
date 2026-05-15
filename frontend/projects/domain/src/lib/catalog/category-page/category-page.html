@@ -8,26 +8,12 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   <div class="category-page__controls">
-    <label>
-      Sort
-      <select>
-        <option>Newest</option>
-        <option>Title</option>
-      </select>
-    </label>
-    <label>
-      Difficulty
-      <select>
-        <option>Any difficulty</option>
-        <option>Beginner</option>
-        <option>Intermediate</option>
-        <option>Advanced</option>
-      </select>
-    </label>
+    <lib-select-field label="Sort" value="newest" [options]="sortOptions"></lib-select-field>
+    <lib-select-field label="Difficulty" value="" [options]="difficultyOptions"></lib-select-field>
   </div>
   @if (tutorials(); as page) {
     <p class="category-page__count">{{ page.totalCount }} tutorials</p>

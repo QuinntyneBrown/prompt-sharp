@@ -2,6 +2,8 @@ import { provideHttpClientTesting, HttpTestingController } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import {
   PromptSharpAdminMediaApi,
+  PromptSharpAdminAuditLogApi,
+  PromptSharpAdminDashboardApi,
   PromptSharpAdminUsersApi,
   PromptSharpTutorialsApi,
   providePromptSharpApi,
@@ -74,6 +76,61 @@ describe('PromptSharp API services', () => {
       createdAt: '2026-05-14T00:00:00Z',
       lastSeenAt: '2026-05-14T00:00:00Z',
       roles: ['Admin', 'Editor'],
+    });
+  });
+
+  it('creates admin user invitations against the backend contract', () => {
+    const api = TestBed.inject(PromptSharpAdminUsersApi);
+
+    api.invite({ email: 'casey.invited@example.com', roles: ['User'] }).subscribe();
+
+    const request = http.expectOne('https://backend.test/api/v1/admin/users/invitations');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({ email: 'casey.invited@example.com', roles: ['User'] });
+    request.flush({
+      id: 'invitation-id',
+      email: 'casey.invited@example.com',
+      roles: ['User'],
+      invitedBy: 'ada.admin@example.com',
+      createdAt: '2026-05-14T00:00:00Z',
+      acceptedAt: null,
+    });
+  });
+
+  it('lists admin audit events with filters', () => {
+    const api = TestBed.inject(PromptSharpAdminAuditLogApi);
+
+    api.list({ actor: 'ada.admin@example.com', action: 'Publish tutorial' }).subscribe();
+
+    const request = http.expectOne((candidate) => {
+      return (
+        candidate.method === 'GET' &&
+        candidate.url === 'https://backend.test/api/v1/admin/audit-log' &&
+        candidate.params.get('actor') === 'ada.admin@example.com' &&
+        candidate.params.get('action') === 'Publish tutorial'
+      );
+    });
+
+    request.flush([]);
+  });
+
+  it('loads the admin dashboard summary from the dedicated endpoint', () => {
+    const api = TestBed.inject(PromptSharpAdminDashboardApi);
+
+    api.get().subscribe();
+
+    const request = http.expectOne('https://backend.test/api/v1/admin/dashboard');
+    expect(request.request.method).toBe('GET');
+    request.flush({
+      generatedAt: '2026-05-14T00:00:00Z',
+      totalTutorials: 3,
+      publishedTutorials: 2,
+      draftTutorials: 1,
+      authorCount: 2,
+      mediaAssetCount: 1,
+      pendingInvitationCount: 1,
+      recentActivity: [],
+      recentTutorials: [],
     });
   });
 

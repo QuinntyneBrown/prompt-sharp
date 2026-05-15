@@ -1,7 +1,23 @@
 :host {
   display: block;
+  border-top: 1px solid var(--ps-rule, #003e80);
+  background: rgba(0, 0, 15, 0.76);
 }
 
 .public-footer {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(100%, var(--ps-max-width, 1440px));
+  margin: 0 auto;
+  padding: 28px var(--ps-gutter, 32px);
+  color: var(--ps-muted, #6b7aaf);
+}
+
+@media (max-width: 560px) {
+  .public-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

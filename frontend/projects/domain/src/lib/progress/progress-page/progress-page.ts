@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Bookmark, PromptSharpMeApi } from 'api';
+import { Button } from 'components';
 
 @Component({
   selector: 'ps-progress-page',
   templateUrl: './progress-page.html',
   styleUrl: './progress-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Button],
 })
 export class ProgressPage implements OnInit {
   private readonly meApi = inject(PromptSharpMeApi);

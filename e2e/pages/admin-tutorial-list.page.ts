@@ -31,6 +31,23 @@ export class AdminTutorialListPage extends BasePage {
   async publishTutorial(title: string | RegExp): Promise<void> {
     await this.openRowActions(title);
     await this.button(/publish/i).click();
+    await this.expectPublishDialog();
+    const publishResponse = this.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        response.url().includes('/api/v1/admin/tutorials/') &&
+        response.url().includes('/publish'),
+    );
+    await this.page.getByRole('dialog', { name: /publish/i }).getByRole('button', { name: /^publish$/i }).click();
+    expect((await publishResponse).ok()).toBe(true);
+  }
+
+  async cancelPublishTutorial(title: string | RegExp): Promise<void> {
+    await this.openRowActions(title);
+    await this.button(/publish/i).click();
+    await this.expectPublishDialog();
+    await this.page.getByRole('dialog', { name: /publish/i }).getByRole('button', { name: /cancel/i }).click();
+    await expect(this.page.getByRole('dialog', { name: /publish/i })).toBeHidden();
   }
 
   async featureTutorial(title: string | RegExp): Promise<void> {
@@ -46,12 +63,22 @@ export class AdminTutorialListPage extends BasePage {
   async deleteTutorial(title: string | RegExp): Promise<void> {
     await this.openRowActions(title);
     await this.button(/delete/i).click();
-    await this.button(/confirm|delete/i).click();
+    const deleteResponse = this.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'DELETE' &&
+        response.url().includes('/api/v1/admin/tutorials/'),
+    );
+    await this.page.getByRole('dialog', { name: /delete/i }).getByRole('button', { name: /^delete$/i }).click();
+    expect((await deleteResponse).status()).toBe(204);
   }
 
   async expectTableReady(): Promise<void> {
     await expect(this.tutorialTable()).toBeVisible();
     await expect(this.tutorialRows().first()).toBeVisible();
+  }
+
+  async expectPublishDialog(): Promise<void> {
+    await expect(this.page.getByRole('dialog', { name: /publish/i })).toBeVisible();
   }
 
   private async openRowActions(title: string | RegExp): Promise<void> {

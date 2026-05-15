@@ -32,6 +32,10 @@ public sealed class PromptSharpDbContext(DbContextOptions<PromptSharpDbContext> 
 
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
 
+    public DbSet<AuditEvent> AuditEvents => Set<AuditEvent>();
+
+    public DbSet<UserInvitation> UserInvitations => Set<UserInvitation>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ConfigureTutorial(modelBuilder);
@@ -46,6 +50,8 @@ public sealed class PromptSharpDbContext(DbContextOptions<PromptSharpDbContext> 
         ConfigureBookmark(modelBuilder);
         ConfigureTutorialProgress(modelBuilder);
         ConfigureContactSubmission(modelBuilder);
+        ConfigureAuditEvent(modelBuilder);
+        ConfigureUserInvitation(modelBuilder);
     }
 
     private static void ConfigureTutorial(ModelBuilder modelBuilder)
@@ -239,5 +245,41 @@ public sealed class PromptSharpDbContext(DbContextOptions<PromptSharpDbContext> 
         builder.Property(submission => submission.Email).HasMaxLength(320).IsRequired();
         builder.Property(submission => submission.Message).HasMaxLength(4000).IsRequired();
         builder.HasIndex(submission => submission.CreatedAt);
+    }
+
+    private static void ConfigureAuditEvent(ModelBuilder modelBuilder)
+    {
+        var builder = modelBuilder.Entity<AuditEvent>();
+        builder.ToTable("AuditEvents");
+        builder.HasKey(auditEvent => auditEvent.Id);
+        builder.Property(auditEvent => auditEvent.Actor).HasMaxLength(320).IsRequired();
+        builder.Property(auditEvent => auditEvent.Action).HasMaxLength(120).IsRequired();
+        builder.Property(auditEvent => auditEvent.TargetType).HasMaxLength(120).IsRequired();
+        builder.Property(auditEvent => auditEvent.TargetId).HasMaxLength(120).IsRequired();
+        builder.Property(auditEvent => auditEvent.TargetName).HasMaxLength(300).IsRequired();
+        builder.Property(auditEvent => auditEvent.Before).HasMaxLength(4000).IsRequired();
+        builder.Property(auditEvent => auditEvent.After).HasMaxLength(4000).IsRequired();
+        builder.HasIndex(auditEvent => auditEvent.ChangedAt);
+        builder.HasIndex(auditEvent => auditEvent.Actor);
+        builder.HasIndex(auditEvent => auditEvent.Action);
+    }
+
+    private static void ConfigureUserInvitation(ModelBuilder modelBuilder)
+    {
+        var builder = modelBuilder.Entity<UserInvitation>();
+        builder.ToTable("UserInvitations");
+        builder.HasKey(invitation => invitation.Id);
+        builder.HasIndex(invitation => invitation.Email).IsUnique();
+        builder.Property(invitation => invitation.Email).HasMaxLength(320).IsRequired();
+        builder.Property(invitation => invitation.InvitedBy).HasMaxLength(320).IsRequired();
+        builder.Property(invitation => invitation.Roles)
+            .HasConversion(
+                value => JsonSerializer.Serialize(value, (JsonSerializerOptions?)null),
+                value => JsonSerializer.Deserialize<List<string>>(value, (JsonSerializerOptions?)null) ?? new List<string>())
+            .Metadata.SetValueComparer(new ValueComparer<IReadOnlyList<string>>(
+                (left, right) => left != null && right != null && left.SequenceEqual(right),
+                value => value.Aggregate(0, (hash, item) => HashCode.Combine(hash, item.GetHashCode())),
+                value => value.ToList()));
+        builder.HasIndex(invitation => invitation.CreatedAt);
     }
 }

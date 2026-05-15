@@ -5,7 +5,7 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
   <section data-testid="in-progress-tutorials" aria-label="In-progress tutorials">
@@ -23,7 +23,7 @@
       <article data-testid="tutorial-card">
         <h3>{{ bookmark.tutorial.title }}</h3>
         <a [href]="'/tutorials/' + bookmark.tutorial.slug">Open tutorial</a>
-        <button type="button" (click)="removeBookmark(bookmark.tutorial.id)">Remove bookmark</button>
+        <lib-button type="button" variant="danger" (click)="removeBookmark(bookmark.tutorial.id)">Remove bookmark</lib-button>
       </article>
     }
   </section>

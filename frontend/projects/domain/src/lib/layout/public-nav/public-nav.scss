@@ -1,7 +1,58 @@
 :host {
   display: block;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--ps-rule, #003e80);
+  background: rgba(0, 0, 15, 0.86);
+  backdrop-filter: blur(14px) saturate(160%);
 }
 
 .public-nav {
-  display: block;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 32px);
+  width: min(100%, var(--ps-max-width, 1440px));
+  margin: 0 auto;
+  padding: 20px var(--ps-gutter, 32px);
+}
+
+.public-nav__brand {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.public-nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.public-nav__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 7rem;
+  font-family: var(--ps-font-mono, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .public-nav {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+
+  .public-nav__links {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
 }

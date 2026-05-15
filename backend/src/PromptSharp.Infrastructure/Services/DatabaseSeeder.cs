@@ -64,6 +64,7 @@ public sealed class DatabaseSeeder(
     {
         var now = timeProvider.GetUtcNow();
         var author = await EnsureUser("seed:admin", "ada.admin@example.com", "Ada Admin", now, cancellationToken);
+        await EnsureUser("seed:editor", "erin.editor@example.com", "Erin Editor", now, cancellationToken);
         var learner = await EnsureUser("seed:learner", "alex.learner@example.com", "Alex Learner", now, cancellationToken);
 
         var dotnet = await EnsureCategory("dotnet", ".NET", 1, cancellationToken);
@@ -173,6 +174,17 @@ public sealed class DatabaseSeeder(
             new TutorialEditorialService().MakeEditorsPick(cleanArchitectureTutorial, [cleanArchitectureTutorial, blazorTutorial, azureTutorial], now);
         }
 
+        await EnsureAuditEvent(
+            author.Email,
+            "Publish tutorial",
+            "Tutorial",
+            cleanArchitectureTutorial.Id.ToString(),
+            cleanArchitectureTutorial.Title,
+            "Draft",
+            "Published",
+            now,
+            cancellationToken);
+
         if (!await dbContext.Bookmarks.AnyAsync(bookmark =>
                 bookmark.UserId == learner.Id && bookmark.TutorialId == cleanArchitectureTutorial.Id,
                 cancellationToken))
@@ -194,6 +206,31 @@ public sealed class DatabaseSeeder(
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task EnsureAuditEvent(
+        string actor,
+        string action,
+        string targetType,
+        string targetId,
+        string targetName,
+        string before,
+        string after,
+        DateTimeOffset changedAt,
+        CancellationToken cancellationToken)
+    {
+        var exists = await dbContext.AuditEvents.AnyAsync(entity =>
+            entity.Actor == actor &&
+            entity.Action == action &&
+            entity.TargetId == targetId,
+            cancellationToken);
+
+        if (exists)
+        {
+            return;
+        }
+
+        dbContext.AuditEvents.Add(AuditEvent.Create(actor, action, targetType, targetId, targetName, before, after, changedAt));
     }
 
     private async Task<User> EnsureUser(
@@ -290,7 +327,14 @@ public sealed class DatabaseSeeder(
         DateTimeOffset uploadedAt,
         CancellationToken cancellationToken)
     {
-        var media = await dbContext.Media.SingleOrDefaultAsync(entity => entity.FileName == fileName, cancellationToken);
+        var media = await dbContext.Media
+            .Where(entity => entity.FileName == fileName && entity.Url == url)
+            .OrderBy(entity => entity.UploadedAt)
+            .FirstOrDefaultAsync(cancellationToken);
+        media ??= await dbContext.Media
+            .Where(entity => entity.FileName == fileName)
+            .OrderBy(entity => entity.UploadedAt)
+            .FirstOrDefaultAsync(cancellationToken);
         if (media is not null)
         {
             return media;

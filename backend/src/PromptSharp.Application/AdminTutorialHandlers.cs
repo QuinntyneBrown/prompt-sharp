@@ -21,7 +21,9 @@ internal sealed class AdminTutorialHandlers(
 {
     public async Task<PagedResult<TutorialListItemDto>> Handle(ListAdminTutorialsQuery request, CancellationToken cancellationToken)
     {
-        var query = dbContext.Tutorials.AsNoTracking().AsQueryable();
+        var query = dbContext.Tutorials
+            .AsNoTracking()
+            .Where(tutorial => !tutorial.IsDeleted);
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
             query = query.Where(tutorial =>
@@ -75,6 +77,7 @@ internal sealed class AdminTutorialHandlers(
 
         tutorial.SetTags(request.Input.TagIds);
         dbContext.Tutorials.Add(tutorial);
+        AddAudit("Create tutorial", "Tutorial", tutorial.Id, tutorial.Title, "None", "Draft", now);
         return await SaveAndLoadDetail(tutorial.Id, cancellationToken);
     }
 
@@ -94,6 +97,7 @@ internal sealed class AdminTutorialHandlers(
             request.Input.CategoryId,
             timeProvider.GetUtcNow());
         tutorial.SetTags(request.Input.TagIds);
+        AddAudit("Update tutorial", "Tutorial", tutorial.Id, tutorial.Title, "Tutorial details", "Tutorial details updated", timeProvider.GetUtcNow());
         return await SaveAndLoadDetail(tutorial.Id, cancellationToken);
     }
 
@@ -101,19 +105,26 @@ internal sealed class AdminTutorialHandlers(
     {
         var tutorial = await LoadForWrite(request.Id, cancellationToken);
         tutorial.SoftDelete(timeProvider.GetUtcNow());
+        AddAudit("Delete tutorial", "Tutorial", tutorial.Id, tutorial.Title, "Active", "Deleted", timeProvider.GetUtcNow());
     }
 
     public async Task<TutorialDetailDto> Handle(PublishTutorialCommand request, CancellationToken cancellationToken)
     {
         var tutorial = await LoadForWrite(request.Id, cancellationToken);
-        tutorial.Publish(timeProvider.GetUtcNow());
+        var before = tutorial.IsPublished ? "Published" : "Draft";
+        var now = timeProvider.GetUtcNow();
+        tutorial.Publish(now);
+        AddAudit("Publish tutorial", "Tutorial", tutorial.Id, tutorial.Title, before, "Published", now);
         return await SaveAndLoadDetail(tutorial.Id, cancellationToken);
     }
 
     public async Task<TutorialDetailDto> Handle(FeatureTutorialCommand request, CancellationToken cancellationToken)
     {
         var tutorial = await LoadForWrite(request.Id, cancellationToken);
-        tutorial.SetFeatured(request.IsFeatured, timeProvider.GetUtcNow());
+        var before = tutorial.IsFeatured ? "Featured" : "Not featured";
+        var now = timeProvider.GetUtcNow();
+        tutorial.SetFeatured(request.IsFeatured, now);
+        AddAudit("Feature tutorial", "Tutorial", tutorial.Id, tutorial.Title, before, request.IsFeatured ? "Featured" : "Not featured", now);
         return await SaveAndLoadDetail(tutorial.Id, cancellationToken);
     }
 
@@ -124,13 +135,16 @@ internal sealed class AdminTutorialHandlers(
             ?? throw new NotFoundException($"Tutorial '{request.Id}' was not found.");
 
         var now = timeProvider.GetUtcNow();
+        var before = tutorials.SingleOrDefault(tutorial => tutorial.IsEditorsPick)?.Title ?? "None";
         new TutorialEditorialService().MakeEditorsPick(target, tutorials, now);
+        AddAudit("Set editor's pick", "Tutorial", target.Id, target.Title, before, target.Title, now);
         return await SaveAndLoadDetail(target.Id, cancellationToken);
     }
 
     public async Task<TutorialDetailDto> Handle(ReplaceTutorialStepsCommand request, CancellationToken cancellationToken)
     {
         var tutorial = await LoadForWrite(request.Id, cancellationToken);
+        var existingStepIds = tutorial.Steps.Select(step => step.Id).ToHashSet();
         tutorial.ReplaceSteps(
             request.Steps.Select(step => new TutorialStepDraft(
                 step.Title,
@@ -140,6 +154,12 @@ internal sealed class AdminTutorialHandlers(
                 step.ImageMediaId)),
             timeProvider.GetUtcNow());
 
+        foreach (var step in tutorial.Steps.Where(step => !existingStepIds.Contains(step.Id)))
+        {
+            dbContext.TutorialSteps.Add(step);
+        }
+
+        AddAudit("Update tutorial steps", "Tutorial", tutorial.Id, tutorial.Title, "Steps", $"{request.Steps.Count} steps", timeProvider.GetUtcNow());
         return await SaveAndLoadDetail(tutorial.Id, cancellationToken);
     }
 
@@ -180,6 +200,26 @@ internal sealed class AdminTutorialHandlers(
     {
         await dbContext.SaveChangesAsync(cancellationToken);
         return await LoadDetail(id, cancellationToken);
+    }
+
+    private void AddAudit(
+        string action,
+        string targetType,
+        Guid targetId,
+        string targetName,
+        string before,
+        string after,
+        DateTimeOffset changedAt)
+    {
+        dbContext.AuditEvents.Add(AuditEvent.Create(
+            currentUser.Email ?? currentUser.DisplayName ?? currentUser.Subject ?? "system",
+            action,
+            targetType,
+            targetId.ToString(),
+            targetName,
+            before,
+            after,
+            changedAt));
     }
 
     private async Task EnsureSlugIsUnique(string slug, Guid? existingTutorialId, CancellationToken cancellationToken)

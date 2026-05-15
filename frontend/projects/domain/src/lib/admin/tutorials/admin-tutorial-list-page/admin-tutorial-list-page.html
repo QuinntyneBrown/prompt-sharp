@@ -5,26 +5,36 @@
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
-      <button type="button" (click)="load()">Retry</button>
+      <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <label>
-    Search tutorials
-    <input #searchInput type="text" (keydown.enter)="search(searchInput.value)" />
-  </label>
-  <label>
-    Status
-    <select>
-      <option>All</option>
-      <option>Draft</option>
-      <option>Published</option>
-    </select>
-  </label>
+  <lib-text-field
+    label="Search tutorials"
+    [value]="searchQuery()"
+    (valueChange)="searchQuery.set($event)"
+    (keydown.enter)="search(searchQuery())"
+  ></lib-text-field>
+  <lib-select-field
+    label="Status"
+    [value]="statusFilter()"
+    [options]="statusOptions"
+    (valueChange)="statusFilter.set($event)"
+  ></lib-select-field>
   @if (pendingDelete(); as tutorial) {
-    <div role="dialog" aria-label="Confirm delete">
-      <p>Delete {{ tutorial.title }}?</p>
-      <button type="button" (click)="confirmDelete()">Confirm delete</button>
-    </div>
+    <ps-confirm-delete-dialog
+      [open]="true"
+      [itemName]="tutorial.title"
+      (cancelled)="cancelDelete()"
+      (confirmed)="confirmDelete()"
+    ></ps-confirm-delete-dialog>
+  }
+  @if (pendingPublish(); as tutorial) {
+    <ps-publish-dialog
+      [open]="true"
+      [supportingText]="'Publish ' + tutorial.title + ' for all readers.'"
+      (cancelled)="cancelPublish()"
+      (submitted)="confirmPublish()"
+    ></ps-publish-dialog>
   }
   @if (tutorials(); as page) {
     <table aria-label="Tutorials">
@@ -35,12 +45,12 @@
             <td>{{ t.title }}</td>
             <td>{{ t.isPublished ? 'Published' : 'Draft' }}</td>
             <td>
-              <button type="button" (click)="openActions(t)">Actions</button>
+              <lib-button type="button" size="sm" (click)="openActions(t)">Actions</lib-button>
               @if (activeActionsId() === t.id) {
-                <button type="button" (click)="publish(t)">Publish</button>
-                <button type="button" (click)="feature(t)">Feature</button>
-                <button type="button" (click)="editorsPick(t)">Editor's pick</button>
-                <button type="button" (click)="requestDelete(t)">Delete</button>
+                <lib-button type="button" size="sm" (click)="requestPublish(t)">Publish</lib-button>
+                <lib-button type="button" size="sm" (click)="feature(t)">Feature</lib-button>
+                <lib-button type="button" size="sm" (click)="editorsPick(t)">Editor's pick</lib-button>
+                <lib-button type="button" size="sm" variant="danger" (click)="requestDelete(t)">Delete</lib-button>
               }
             </td>
           </tr>

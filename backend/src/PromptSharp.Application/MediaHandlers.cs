@@ -30,6 +30,7 @@ internal sealed class MediaHandlers(
         var stored = await mediaStore.SaveAsync(request.FileName, request.ContentType, request.Content, cancellationToken);
         var media = Media.Create(stored.Url, stored.FileName, stored.ContentType, stored.SizeBytes, user.Id, timeProvider.GetUtcNow());
         dbContext.Media.Add(media);
+        AddAudit("Upload media", "Media", media.Id, media.FileName, "None", media.Url, media.UploadedAt);
         return TutorialMapper.ToMediaDto(media);
     }
 
@@ -40,6 +41,7 @@ internal sealed class MediaHandlers(
 
         await mediaStore.DeleteAsync(media.Url, cancellationToken);
         dbContext.Media.Remove(media);
+        AddAudit("Delete media", "Media", media.Id, media.FileName, media.Url, "Deleted", timeProvider.GetUtcNow());
     }
 
     private async Task<User> RequireCurrentUser(CancellationToken cancellationToken)
@@ -51,5 +53,25 @@ internal sealed class MediaHandlers(
 
         return await dbContext.Users.SingleOrDefaultAsync(user => user.Sub == currentUser.Subject, cancellationToken)
             ?? throw new NotFoundException("Current user has not been provisioned.");
+    }
+
+    private void AddAudit(
+        string action,
+        string targetType,
+        Guid targetId,
+        string targetName,
+        string before,
+        string after,
+        DateTimeOffset changedAt)
+    {
+        dbContext.AuditEvents.Add(AuditEvent.Create(
+            currentUser.Email ?? currentUser.DisplayName ?? currentUser.Subject ?? "system",
+            action,
+            targetType,
+            targetId.ToString(),
+            targetName,
+            before,
+            after,
+            changedAt));
     }
 }

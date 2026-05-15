@@ -25,6 +25,7 @@ import {
   SignInPage,
   TutorialDetailPage,
 } from 'domain';
+import { confirmTutorialEditorNavigation, requireAdmin, requireUser } from './auth-guards';
 
 export const routes: Routes = [
   {
@@ -41,9 +42,9 @@ export const routes: Routes = [
       { path: 'tutorials/:slug', component: TutorialDetailPage },
       { path: 'about', component: AboutPage },
       { path: 'contact', component: ContactCard },
-      { path: 'me/profile', component: ProfilePage },
+      { path: 'me/profile', component: ProfilePage, canActivate: [requireUser] },
       { path: 'profile', redirectTo: 'me/profile', pathMatch: 'full' },
-      { path: 'me/progress', component: ProgressPage },
+      { path: 'me/progress', component: ProgressPage, canActivate: [requireUser] },
       { path: 'progress', redirectTo: 'me/progress', pathMatch: 'full' },
       { path: 'sign-in', component: SignInPage },
       { path: 'signin', redirectTo: 'sign-in', pathMatch: 'full' },
@@ -58,18 +59,32 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminShell,
+    canActivate: [requireAdmin],
     children: [
       { path: '', component: AdminDashboardPage },
       { path: 'tutorials', component: AdminTutorialListPage },
-      { path: 'tutorials/new', component: AdminTutorialEditorPage },
-      { path: 'tutorials/:id/edit', component: AdminTutorialEditorPage },
-      { path: 'tutorials/:id/steps/:stepId', component: AdminTutorialEditorPage },
+      {
+        path: 'tutorials/new',
+        component: AdminTutorialEditorPage,
+        canDeactivate: [confirmTutorialEditorNavigation],
+      },
+      {
+        path: 'tutorials/:id/edit',
+        component: AdminTutorialEditorPage,
+        canDeactivate: [confirmTutorialEditorNavigation],
+      },
+      {
+        path: 'tutorials/:id/steps/:stepId',
+        component: AdminTutorialEditorPage,
+        canDeactivate: [confirmTutorialEditorNavigation],
+      },
       { path: 'tutorials/:id', redirectTo: 'tutorials/:id/edit' },
       { path: 'taxonomy', component: AdminTaxonomyPage },
       { path: 'media', component: AdminMediaPage },
       { path: 'users', component: AdminUsersPage },
       { path: 'audit-log', component: AdminAuditLogPage },
       { path: 'audit', redirectTo: 'audit-log', pathMatch: 'full' },
+      { path: 'notifications', component: NotificationsGalleryPage },
     ],
   },
   { path: '**', component: ErrorPage },

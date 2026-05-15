@@ -3,5 +3,50 @@
 }
 
 .admin-nav-rail {
-  display: block;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 24px 16px;
+  border-right: 1px solid var(--ps-rule, #003e80);
+  background: rgba(0, 0, 15, 0.9);
+}
+
+.admin-nav-rail__brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+nav ul {
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+@media (max-width: 840px) {
+  .admin-nav-rail {
+    position: static;
+    height: auto;
+    gap: 16px;
+    padding: 16px 18px;
+    border-right: 0;
+    border-bottom: 1px solid var(--ps-rule, #003e80);
+  }
+
+  nav ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  nav li {
+    min-width: 0;
+  }
 }

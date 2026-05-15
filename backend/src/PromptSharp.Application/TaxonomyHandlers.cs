@@ -5,7 +5,10 @@ using PromptSharp.Domain;
 
 namespace PromptSharp.Application.Features;
 
-internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
+internal sealed class TaxonomyHandlers(
+    IPromptSharpDbContext dbContext,
+    ICurrentUser currentUser,
+    TimeProvider timeProvider) :
     IRequestHandler<ListAdminCategoriesQuery, IReadOnlyList<CategoryDto>>,
     IRequestHandler<CreateCategoryCommand, CategoryDto>,
     IRequestHandler<UpdateCategoryCommand, CategoryDto>,
@@ -34,6 +37,7 @@ internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
         await EnsureCategorySlugIsUnique(request.Input.Slug, null, cancellationToken);
         var category = Category.Create(request.Input.Slug, request.Input.Name, request.Input.Order);
         dbContext.Categories.Add(category);
+        AddAudit("Create category", "Category", category.Id, category.Name, "None", category.Slug);
         return new CategoryDto(category.Id, category.Slug, category.Name, category.Order, 0);
     }
 
@@ -43,8 +47,10 @@ internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
         var category = await dbContext.Categories.SingleOrDefaultAsync(entity => entity.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException($"Category '{request.Id}' was not found.");
 
+        var before = $"{category.Name} ({category.Slug})";
         category.Update(request.Input.Slug, request.Input.Name, request.Input.Order);
         var count = await dbContext.Tutorials.CountAsync(tutorial => tutorial.CategoryId == category.Id, cancellationToken);
+        AddAudit("Update category", "Category", category.Id, category.Name, before, $"{category.Name} ({category.Slug})");
         return new CategoryDto(category.Id, category.Slug, category.Name, category.Order, count);
     }
 
@@ -60,6 +66,7 @@ internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
         }
 
         dbContext.Categories.Remove(category);
+        AddAudit("Delete category", "Category", category.Id, category.Name, category.Slug, "Deleted");
     }
 
     public async Task<IReadOnlyList<TagDto>> Handle(ListAdminTagsQuery request, CancellationToken cancellationToken)
@@ -76,6 +83,7 @@ internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
         await EnsureTagSlugIsUnique(request.Input.Slug, null, cancellationToken);
         var tag = Tag.Create(request.Input.Slug, request.Input.Name);
         dbContext.Tags.Add(tag);
+        AddAudit("Create tag", "Tag", tag.Id, tag.Name, "None", tag.Slug);
         return new TagDto(tag.Id, tag.Slug, tag.Name);
     }
 
@@ -85,7 +93,9 @@ internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
         var tag = await dbContext.Tags.SingleOrDefaultAsync(entity => entity.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException($"Tag '{request.Id}' was not found.");
 
+        var before = $"{tag.Name} ({tag.Slug})";
         tag.Update(request.Input.Slug, request.Input.Name);
+        AddAudit("Update tag", "Tag", tag.Id, tag.Name, before, $"{tag.Name} ({tag.Slug})");
         return new TagDto(tag.Id, tag.Slug, tag.Name);
     }
 
@@ -95,6 +105,20 @@ internal sealed class TaxonomyHandlers(IPromptSharpDbContext dbContext) :
             ?? throw new NotFoundException($"Tag '{request.Id}' was not found.");
 
         dbContext.Tags.Remove(tag);
+        AddAudit("Delete tag", "Tag", tag.Id, tag.Name, tag.Slug, "Deleted");
+    }
+
+    private void AddAudit(string action, string targetType, Guid targetId, string targetName, string before, string after)
+    {
+        dbContext.AuditEvents.Add(AuditEvent.Create(
+            currentUser.Email ?? currentUser.DisplayName ?? currentUser.Subject ?? "system",
+            action,
+            targetType,
+            targetId.ToString(),
+            targetName,
+            before,
+            after,
+            timeProvider.GetUtcNow()));
     }
 
     private async Task EnsureCategorySlugIsUnique(string slug, Guid? existingCategoryId, CancellationToken cancellationToken)
