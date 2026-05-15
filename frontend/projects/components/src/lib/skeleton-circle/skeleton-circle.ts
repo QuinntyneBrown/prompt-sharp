@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { SkeletonCircleSize } from './skeleton-circle-size';
 
 @Component({
   selector: 'lib-skeleton-circle',
@@ -6,9 +7,9 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
   styleUrl: './skeleton-circle.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[style.width.px]': 'size()',
+    '[attr.data-size]': 'size()',
   },
 })
 export class SkeletonCircle {
-  readonly size = input<number>(40);
+  readonly size = input<SkeletonCircleSize>('md');
 }
