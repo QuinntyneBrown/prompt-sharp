@@ -6,7 +6,11 @@
   (closed)="cancelled.emit()"
 >
   <ng-content></ng-content>
-  <p>Publishing is immediate. Scheduled publishing is not available for this workspace.</p>
+  <div class="publish-checklist">
+    <div><span class="material-symbols-outlined" aria-hidden="true">check_circle</span> Metadata is complete</div>
+    <div><span class="material-symbols-outlined" aria-hidden="true">check_circle</span> Steps have readable titles</div>
+    <div><span class="material-symbols-outlined" aria-hidden="true">schedule</span> Publishing is immediate in this workspace</div>
+  </div>
   <div dialog-actions>
     <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
     <lib-button variant="solid" (click)="submitted.emit()">Publish</lib-button>

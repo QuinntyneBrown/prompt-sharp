@@ -1,24 +1,42 @@
-<div class="notifications-gallery-page">
-  <h1>Notifications</h1>
-  <section aria-label="Banner variants">
-    <h2>Banner variants</h2>
-    @for (variant of variants; track variant.tone) {
-      <ps-notification-banner [tone]="variant.tone" [message]="variant.message"></ps-notification-banner>
-    }
-  </section>
+<div class="admin-page notifications-gallery-page">
+  <header class="admin-page-header">
+    <div>
+      <div class="admin-breadcrumb">
+        <span>Admin</span><span class="sep">/</span><span class="current">Notifications</span>
+      </div>
+      <h1>Notifications</h1>
+      <div class="admin-summary">
+        <span>Banner and snackbar contract</span>
+      </div>
+    </div>
+  </header>
 
-  <section aria-label="Snackbar variants">
-    <h2>Snackbar variants</h2>
-    <div class="notifications-gallery-page__actions">
+  <section class="admin-surface admin-surface--padded" aria-label="Banner variants">
+    <h2>Banner variants</h2>
+    <div class="notification-stack">
       @for (variant of variants; track variant.tone) {
-        <lib-button type="button" (click)="showNotification(variant.tone, variant.message)">
-          Show {{ variant.label }}
-        </lib-button>
+        <ps-notification-banner [tone]="variant.tone" [message]="variant.message"></ps-notification-banner>
       }
     </div>
-    <div class="notifications-gallery-page__samples">
+  </section>
+
+  <section class="admin-surface admin-surface--padded" aria-label="Snackbar variants">
+    <header class="notification-section-head">
+      <h2>Snackbar variants</h2>
+      <div class="admin-actions">
+        @for (variant of variants; track variant.tone) {
+          <md-outlined-button type="button" (click)="showNotification(variant.tone, variant.message)">
+            Show {{ variant.label }}
+          </md-outlined-button>
+        }
+      </div>
+    </header>
+    <div class="snackbar-sheet">
       @for (variant of variants; track variant.tone) {
-        <lib-snackbar [tone]="variant.tone" [message]="variant.message" [open]="true"></lib-snackbar>
+        <article class="snack-card">
+          <span class="admin-pill">{{ variant.label }}</span>
+          <lib-snackbar [tone]="variant.tone" [message]="variant.message" [open]="true"></lib-snackbar>
+        </article>
       }
     </div>
   </section>

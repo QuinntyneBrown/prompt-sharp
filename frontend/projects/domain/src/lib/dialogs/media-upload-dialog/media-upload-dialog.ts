@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { Media, PromptSharpAdminMediaApi } from 'api';
-import { Button, DialogShell, DropZone, Meter } from 'components';
+import { Button, DialogShell, DropZone, Meter, TextField } from 'components';
 
 @Component({
   selector: 'ps-media-upload-dialog',
   templateUrl: './media-upload-dialog.html',
   styleUrl: './media-upload-dialog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, DialogShell, DropZone, Meter],
+  imports: [Button, DialogShell, DropZone, Meter, TextField],
 })
 export class MediaUploadDialog {
   readonly open = input<boolean>(false);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Media, PromptSharpAdminMediaApi } from 'api';
 import { Button, Checkbox, SearchField, SpinnerDot } from 'components';
 import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
@@ -11,6 +11,7 @@ import { MediaSelectionBar } from '../media-selection-bar/media-selection-bar';
   styleUrl: './admin-media-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, Checkbox, ConfirmDeleteDialog, MediaSelectionBar, MediaUploadDialog, SearchField, SpinnerDot],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminMediaPage implements OnInit {
   private readonly mediaApi = inject(PromptSharpAdminMediaApi);
@@ -25,6 +26,10 @@ export class AdminMediaPage implements OnInit {
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
   protected readonly selectedCount = computed(() => this.selectedMediaIds().length);
+  protected readonly selectedMedia = computed(() => {
+    const selectedIds = new Set(this.selectedMediaIds());
+    return this.media().filter((item) => selectedIds.has(item.id));
+  });
   protected readonly filteredMedia = computed(() => {
     const query = this.searchQuery().trim().toLocaleLowerCase();
     if (!query) {
@@ -78,6 +83,13 @@ export class AdminMediaPage implements OnInit {
     this.pendingDelete.set(media);
   }
 
+  protected requestBulkDelete(selection: readonly Media[]): void {
+    const firstSelected = selection[0];
+    if (firstSelected) {
+      this.pendingDelete.set(firstSelected);
+    }
+  }
+
   protected toggleSelectionMode(): void {
     const next = !this.selectionMode();
     this.selectionMode.set(next);
@@ -106,6 +118,18 @@ export class AdminMediaPage implements OnInit {
 
   protected clearSelection(): void {
     this.selectedMediaIds.set([]);
+  }
+
+  protected formatBytes(bytes: number): string {
+    if (bytes < 1024) {
+      return `${bytes} B`;
+    }
+
+    if (bytes < 1024 * 1024) {
+      return `${Math.round(bytes / 1024)} KB`;
+    }
+
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }
 
   protected cancelDelete(): void {

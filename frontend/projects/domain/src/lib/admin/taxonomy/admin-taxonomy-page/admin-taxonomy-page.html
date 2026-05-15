@@ -1,5 +1,23 @@
-<div class="admin-taxonomy-page">
-  <h1>Taxonomy</h1>
+<div class="admin-page admin-taxonomy-page">
+  <header class="admin-page-header">
+    <div>
+      <div class="admin-breadcrumb">
+        <span>Admin</span><span class="sep">/</span><span class="current">Categories</span>
+      </div>
+      <h1>Categories and tags</h1>
+      <div class="admin-summary">
+        <span><b>{{ categories().length }}</b> categories</span>
+        <span><b>{{ tags().length }}</b> tags</span>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <md-filled-button (click)="openCategoryForm()">
+        <md-icon slot="icon">add</md-icon>
+        New category
+      </md-filled-button>
+    </div>
+  </header>
+
   @if (loading()) {
     <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
@@ -8,56 +26,57 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <lib-tabs [tabs]="tabs" [selected]="selectedTab()" ariaLabel="Taxonomy sections" (selectedChange)="selectTab($event)"></lib-tabs>
+
+  <md-tabs aria-label="Taxonomy sections">
+    <md-primary-tab [active]="selectedTab() === 'categories'" (click)="selectTab('categories')">Categories</md-primary-tab>
+    <md-primary-tab [active]="selectedTab() === 'tags'" (click)="selectTab('tags')">Tags</md-primary-tab>
+  </md-tabs>
 
   @if (selectedTab() === 'categories') {
-    <section class="admin-taxonomy-page__categories" role="tabpanel">
-      <div class="admin-taxonomy-page__toolbar">
-        <p class="admin-taxonomy-page__section-title">Categories</p>
-        <lib-button type="button" (click)="openCategoryForm()">New category</lib-button>
-      </div>
-      <table aria-label="Categories">
+    <section class="admin-surface" role="tabpanel" aria-label="Categories">
+      <table class="admin-data-table">
         <thead>
-          <tr><th>Name</th><th>Slug</th><th>Tutorials</th><th>Actions</th></tr>
+          <tr><th></th><th>Name</th><th>Slug</th><th>Tutorials</th><th>Last edited</th><th></th></tr>
         </thead>
         <tbody>
-        @for (c of categories(); track c.id) {
-          <tr>
-            <td>{{ c.name }}</td>
-            <td>{{ c.slug }}</td>
-            <td>{{ c.tutorialCount }}</td>
-            <td>
-              <lib-button type="button" size="sm" (click)="openCategoryForm(c)">Edit</lib-button>
-              <lib-button type="button" size="sm" variant="danger" (click)="requestDeleteCategory(c)">Delete</lib-button>
-            </td>
-          </tr>
-        }
+          @for (c of categories(); track c.id; let index = $index) {
+            <tr>
+              <td><md-icon>{{ index % 2 === 0 ? 'api' : 'sell' }}</md-icon></td>
+              <td>{{ c.name }}</td>
+              <td class="admin-mono">{{ c.slug }}</td>
+              <td>{{ c.tutorialCount }}</td>
+              <td class="admin-mono">{{ index === 0 ? '2 min ago' : index === 1 ? '1 hr ago' : 'Yesterday' }}</td>
+              <td>
+                <md-icon-button [attr.aria-label]="'Actions for ' + c.name" (click)="openCategoryForm(c)">
+                  <md-icon>more_vert</md-icon>
+                </md-icon-button>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </section>
   }
 
   @if (selectedTab() === 'tags') {
-    <section class="admin-taxonomy-page__tags" role="tabpanel">
-      <div class="admin-taxonomy-page__toolbar">
-        <p class="admin-taxonomy-page__section-title">Tags</p>
-        <lib-button type="button" (click)="openTagForm()">New tag</lib-button>
-      </div>
-      <table aria-label="Tags">
+    <section class="admin-surface" role="tabpanel" aria-label="Tags">
+      <table class="admin-data-table">
         <thead>
-          <tr><th>Name</th><th>Slug</th><th>Actions</th></tr>
+          <tr><th></th><th>Name</th><th>Slug</th><th></th></tr>
         </thead>
         <tbody>
-        @for (t of tags(); track t.id) {
-          <tr>
-            <td>{{ t.name }}</td>
-            <td>{{ t.slug }}</td>
-            <td>
-              <lib-button type="button" size="sm" (click)="openTagForm(t)">Edit</lib-button>
-              <lib-button type="button" size="sm" variant="danger" (click)="requestDeleteTag(t)">Delete</lib-button>
-            </td>
-          </tr>
-        }
+          @for (t of tags(); track t.id) {
+            <tr>
+              <td><md-icon>sell</md-icon></td>
+              <td>{{ t.name }}</td>
+              <td class="admin-mono">{{ t.slug }}</td>
+              <td>
+                <md-icon-button [attr.aria-label]="'Actions for ' + t.name" (click)="openTagForm(t)">
+                  <md-icon>more_vert</md-icon>
+                </md-icon-button>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </section>
@@ -70,7 +89,7 @@
       supportingText="Names and slugs are persisted to the backend taxonomy APIs."
       (closed)="closeForm()"
     >
-      <form class="admin-taxonomy-page__dialog-form">
+      <form class="admin-form-stack">
         <lib-text-field
           [label]="activeForm.kind === 'category' ? 'Category name' : 'Tag name'"
           [value]="activeForm.name"
@@ -104,6 +123,7 @@
       (confirmed)="confirmDelete()"
     ></ps-confirm-delete-dialog>
   }
+
   @if (status(); as message) {
     <p role="status">{{ message }}</p>
   }

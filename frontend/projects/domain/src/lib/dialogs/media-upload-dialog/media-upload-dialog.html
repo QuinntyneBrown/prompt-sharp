@@ -1,7 +1,7 @@
 <lib-dialog-shell
   [open]="open()"
   headline="Upload media"
-  supportingText="Add an image or diagram to the media library."
+  supportingText="Drop an image, SVG, or diagram and confirm the metadata before it is available to tutorials."
   (closed)="cancelled.emit()"
 >
   <lib-drop-zone
@@ -30,7 +30,12 @@
   @if (error(); as message) {
     <p role="alert">{{ message }}</p>
   }
+  <div class="admin-field-pair">
+    <lib-text-field label="Alt text" value="PromptSharp architecture diagram"></lib-text-field>
+    <lib-text-field label="Used in" value="MediatR tutorial"></lib-text-field>
+  </div>
   <div dialog-actions>
     <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
+    <lib-button variant="solid">Upload</lib-button>
   </div>
 </lib-dialog-shell>

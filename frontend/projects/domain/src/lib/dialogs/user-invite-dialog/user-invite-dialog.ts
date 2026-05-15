@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { Button, DialogShell, TextField } from 'components';
 
 @Component({
@@ -7,6 +7,7 @@ import { Button, DialogShell, TextField } from 'components';
   styleUrl: './user-invite-dialog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, DialogShell, TextField],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UserInviteDialog {
   readonly open = input<boolean>(false);
@@ -14,7 +15,7 @@ export class UserInviteDialog {
   readonly cancelled = output<void>();
   readonly submitted = output<{ email: string; roles: string[] }>();
 
-  protected emailValue = '';
+  protected emailValue = 'alex@example.com';
 
   protected onEmail(value: string): void {
     this.emailValue = value;

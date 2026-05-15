@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Category,
@@ -25,6 +25,7 @@ import { UnsavedChangesDialog } from '../../../dialogs/unsaved-changes-dialog/un
   styleUrl: './admin-tutorial-editor-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, DropZone, PublishDialog, SelectField, SpinnerDot, TextArea, TextField, UnsavedChangesDialog],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminTutorialEditorPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -76,6 +77,9 @@ export class AdminTutorialEditorPage implements OnInit {
     const stepId = this.route.snapshot.paramMap.get('stepId');
     this.selectedStepId.set(stepId);
     this.isStepRoute.set(stepId !== null);
+    if (this.route.snapshot.queryParamMap.get('auditDialog') === 'unsaved') {
+      this.unsavedDialogOpen.set(true);
+    }
     this.load();
   }
 

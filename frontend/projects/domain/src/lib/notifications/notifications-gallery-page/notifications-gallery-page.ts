@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Button, Snackbar, SnackbarTone } from 'components';
 import { NotificationBanner } from '../notification-banner/notification-banner';
 import { NotificationCenter } from '../notification-center/notification-center';
@@ -9,6 +9,7 @@ import { NotificationCenter } from '../notification-center/notification-center';
   styleUrl: './notifications-gallery-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, NotificationBanner, Snackbar],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class NotificationsGalleryPage {
   private readonly notifications = inject(NotificationCenter);

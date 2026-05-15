@@ -1,5 +1,27 @@
-<div class="admin-media-page">
-  <h1>Media library</h1>
+<div class="admin-page admin-media-page">
+  <header class="admin-page-header">
+    <div>
+      <div class="admin-breadcrumb">
+        <span>Admin</span><span class="sep">/</span><span class="current">Media</span>
+      </div>
+      <h1>Media library</h1>
+      <div class="admin-summary">
+        <span><b>{{ media().length }}</b> assets</span>
+        <span><b>{{ selectedCount() }}</b> selected</span>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <md-filled-button (click)="openUploadDialog()">
+        <md-icon slot="icon">upload</md-icon>
+        Upload
+      </md-filled-button>
+      <md-outlined-button (click)="toggleSelectionMode()">
+        <md-icon slot="icon">checklist</md-icon>
+        {{ selectionMode() ? 'Done selecting' : 'Select media' }}
+      </md-outlined-button>
+    </div>
+  </header>
+
   @if (loading()) {
     <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
@@ -8,35 +30,68 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <div class="admin-media-page__actions">
-    <lib-button type="button" variant="solid" (click)="openUploadDialog()">Upload media</lib-button>
-    <lib-button type="button" variant="ghost" (click)="toggleSelectionMode()">
-      @if (selectionMode()) {
-        Done selecting
-      } @else {
-        Select media
+
+  <section class="admin-media-layout">
+    <aside class="admin-filter-panel" aria-label="Media filters">
+      <md-chip-set>
+        <md-filter-chip label="Images" selected></md-filter-chip>
+        <md-filter-chip label="SVG"></md-filter-chip>
+        <md-filter-chip label="Video"></md-filter-chip>
+      </md-chip-set>
+      <md-outlined-text-field label="Used in"></md-outlined-text-field>
+      <md-outlined-text-field label="Uploader"></md-outlined-text-field>
+      <md-outlined-text-field
+        #mediaSearch
+        label="Search media"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any(mediaSearch).value)"
+      >
+        <md-icon slot="leading-icon">search</md-icon>
+      </md-outlined-text-field>
+    </aside>
+
+    <div class="admin-media-grid" data-testid="media-library">
+      @for (m of filteredMedia(); track m.id; let first = $first) {
+        <article class="admin-media-card" data-testid="media-item">
+          <span class="admin-media-thumb" aria-hidden="true"></span>
+          <div class="body">
+            <strong>{{ m.fileName }}</strong>
+            <span class="admin-mono">{{ formatBytes(m.sizeBytes) }} · {{ m.contentType }}</span>
+            <div class="admin-actions">
+              @if (selectionMode()) {
+                <md-checkbox
+                  touch-target="wrapper"
+                  [checked]="isSelected(m.id)"
+                  [attr.aria-label]="'Select ' + m.fileName"
+                  (change)="setSelected(m.id, $any($event.target).checked)"
+                ></md-checkbox>
+              }
+              <md-text-button (click)="copyUrl(m)">Copy URL</md-text-button>
+              @if (first && !pendingDelete()) {
+                <md-text-button (click)="requestDelete(m)">Delete</md-text-button>
+              }
+            </div>
+          </div>
+        </article>
       }
-    </lib-button>
-  </div>
+    </div>
+  </section>
+
+  @if (selectedMedia().length > 0) {
+    <ps-media-selection-bar
+      [selection]="selectedMedia()"
+      (download)="status.set('Download queued')"
+      (move)="status.set('Move queued')"
+      (delete)="requestBulkDelete($event)"
+    ></ps-media-selection-bar>
+  }
+
   <ps-media-upload-dialog
     [open]="uploadDialogOpen()"
     (cancelled)="cancelUpload()"
     (uploaded)="addUploadedMedia($event)"
   ></ps-media-upload-dialog>
-  @if (selectionMode()) {
-    <ps-media-selection-bar>
-      <p>{{ selectedCount() }} selected</p>
-      <lib-button type="button" size="sm" [disabled]="selectedCount() === 0" (click)="clearSelection()">
-        Clear selection
-      </lib-button>
-    </ps-media-selection-bar>
-  }
-  <lib-search-field
-    ariaLabel="Search media"
-    placeholder="Search media"
-    [value]="searchQuery()"
-    (valueChange)="searchQuery.set($event)"
-  ></lib-search-field>
+
   @if (pendingDelete(); as media) {
     <ps-confirm-delete-dialog
       [open]="true"
@@ -45,25 +100,7 @@
       (confirmed)="confirmDelete()"
     ></ps-confirm-delete-dialog>
   }
-  <section data-testid="media-library" class="admin-media-page__grid">
-    @for (m of filteredMedia(); track m.id; let first = $first) {
-      <article data-testid="media-item">
-        <h2>{{ m.fileName }}</h2>
-        <p>{{ m.url }}</p>
-        @if (selectionMode()) {
-          <lib-checkbox
-            [label]="'Select ' + m.fileName"
-            [checked]="isSelected(m.id)"
-            (checkedChange)="setSelected(m.id, $event)"
-          ></lib-checkbox>
-        }
-        <lib-button type="button" size="sm" (click)="copyUrl(m)">Copy URL</lib-button>
-        @if (first && !pendingDelete()) {
-          <lib-button type="button" size="sm" variant="danger" (click)="requestDelete(m)">Delete</lib-button>
-        }
-      </article>
-    }
-  </section>
+
   @if (status(); as message) {
     <p role="status">{{ message }}</p>
   }

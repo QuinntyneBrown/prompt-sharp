@@ -1,3 +1,8 @@
-<div class="media-selection-bar">
-  <ng-content></ng-content>
+<div class="admin-bottom-bar">
+  <span>{{ selectionLabel() }}</span>
+  <div class="admin-actions">
+    <md-text-button (click)="downloadSelection()">Download</md-text-button>
+    <md-text-button (click)="moveSelection()">Move</md-text-button>
+    <md-filled-button (click)="deleteSelection()">Delete</md-filled-button>
+  </div>
 </div>

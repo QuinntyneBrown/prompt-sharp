@@ -9,20 +9,22 @@
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgb(0 0 15 / 70%);
+  background: rgb(0 0 0 / 62%);
+  backdrop-filter: blur(10px) saturate(130%);
 }
 
 .dialog {
   position: fixed;
   z-index: 901;
   inset: 50% auto auto 50%;
-  width: min(560px, calc(100vw - 32px));
+  width: min(620px, calc(100vw - 32px));
   max-height: calc(100vh - 32px);
   overflow: auto;
   transform: translate(-50%, -50%);
-  border: t.$border-width solid t.$color-rule;
-  background: t.$color-bg;
-  color: t.$color-ink;
+  border: 1px solid #3a4880;
+  border-radius: 20px;
+  background: #161c2c;
+  color: #fbffff;
   box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
 }
 
@@ -39,19 +41,23 @@
 .header {
   display: grid;
   gap: t.$space-2;
-  border-bottom: t.$border-width solid t.$color-rule-soft;
+  border-bottom: 1px solid #3a4880;
 }
 
 .title {
   margin: 0;
-  font-size: t.$font-size-xl;
-  font-variation-settings: #{t.$fvs-card-title};
+  color: #fbffff;
+  font-family: 'Roboto Flex', system-ui, sans-serif;
+  font-size: 22px;
+  font-variation-settings: normal;
+  font-weight: 520;
   line-height: t.$line-height-snug;
+  letter-spacing: 0;
 }
 
 .supporting {
   margin: 0;
-  color: t.$color-ink-dim;
+  color: #c5cde4;
   font-size: t.$font-size-md;
   line-height: t.$line-height-base;
 }
@@ -66,5 +72,5 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: t.$space-2;
-  border-top: t.$border-width solid t.$color-rule-soft;
+  border-top: 1px solid #3a4880;
 }

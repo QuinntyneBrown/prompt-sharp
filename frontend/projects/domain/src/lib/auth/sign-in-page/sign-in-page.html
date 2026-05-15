@@ -84,7 +84,12 @@
       @if (error(); as message) {
         <p role="alert">{{ message }}</p>
       }
-    </section>
+</section>
+
+<ps-session-expired-dialog
+  [open]="sessionExpiredOpen()"
+  (reauthenticate)="acknowledgeSessionExpired()"
+></ps-session-expired-dialog>
   </main>
 
   <footer class="sign-in-foot">

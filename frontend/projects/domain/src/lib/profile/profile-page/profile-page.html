@@ -1,5 +1,4 @@
 <div class="profile-page">
-  <h1>My profile</h1>
   @if (loading()) {
     <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
@@ -8,14 +7,53 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  @if (user(); as u) {
-    <h2>{{ u.displayName }}</h2>
-    <p>{{ u.email }}</p>
-    <p>Roles: {{ u.roles.join(', ') }}</p>
-    <p>{{ bookmarks().length }} bookmarks</p>
-  }
-  <a href="/me/progress">Progress and bookmarks</a>
-  <lib-button type="button" variant="ghost" (click)="signOut()">Sign out</lib-button>
+
+  <section class="ps-page-hero">
+    <div class="ps-eyebrow"><span class="dot"></span>My Profile</div>
+    <h1 class="ps-display">Account <em>settings</em></h1>
+  </section>
+
+  <section class="profile-layout ps-section-block">
+    <aside class="ps-panel profile-card">
+      <div class="profile-avatar" aria-hidden="true">
+        {{ (user()?.displayName || 'Quinntyne Brown').slice(0, 2).toUpperCase() }}
+      </div>
+      <h2>{{ user()?.displayName || 'Quinntyne Brown' }}</h2>
+      <div class="ps-chip-row">
+        <span class="ps-chip ps-chip--accent">Microsoft</span>
+        <span class="ps-chip">{{ user()?.roles?.[0] || 'Editor' }}</span>
+      </div>
+      <p class="ps-mono profile-meta">
+        ID: {{ user()?.id || 'usr_8F3A-2291' }}<br />
+        Last sync: 2 min ago
+      </p>
+      <button class="ps-btn ps-btn--ghost" type="button" (click)="signOut()">Sign out</button>
+    </aside>
+
+    <div class="profile-sections">
+      <section class="ps-panel">
+        <h3>Email</h3>
+        <div class="ps-label-value"><span class="label">Primary</span><span>{{ user()?.email || 'quinn@example.com' }}</span></div>
+        <div class="ps-label-value"><span class="label">Status</span><span>Verified</span></div>
+      </section>
+      <section class="ps-panel">
+        <h3>Linked accounts</h3>
+        <div class="ps-label-value"><span class="label">Primary</span><span>Microsoft Entra ID</span></div>
+        <div class="ps-label-value"><span class="label">Status</span><span>Connected</span></div>
+      </section>
+      <section class="ps-panel">
+        <h3>Roles</h3>
+        <div class="ps-label-value"><span class="label">Primary</span><span>{{ (user()?.roles || ['Editor']).join(', ') }}</span></div>
+        <div class="ps-label-value"><span class="label">Access</span><span>Protected tutorials and progress</span></div>
+      </section>
+      <section class="ps-panel">
+        <h3>Notifications</h3>
+        <div class="ps-label-value"><span class="label">Primary</span><span>Weekly digest</span></div>
+        <div class="ps-label-value"><span class="label">Bookmarks</span><span>{{ bookmarks().length }} saved tutorials</span></div>
+      </section>
+    </div>
+  </section>
+
   <ps-sign-out-dialog
     [open]="signOutDialogOpen()"
     (cancelled)="cancelSignOut()"

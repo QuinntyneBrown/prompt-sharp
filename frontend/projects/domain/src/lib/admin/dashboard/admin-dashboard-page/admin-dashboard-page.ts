@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { AdminDashboard, PromptSharpAdminDashboardApi } from 'api';
 import { Button } from 'components';
 
@@ -8,6 +8,7 @@ import { Button } from 'components';
   styleUrl: './admin-dashboard-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminDashboardPage implements OnInit {
   private readonly dashboardApi = inject(PromptSharpAdminDashboardApi);

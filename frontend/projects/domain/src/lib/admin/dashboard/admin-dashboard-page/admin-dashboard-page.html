@@ -1,12 +1,32 @@
-<div class="admin-dashboard-page">
-  <header class="dashboard-header">
+<div class="admin-page admin-dashboard-page">
+  <header class="admin-page-header">
     <div>
-      <h1>Admin dashboard</h1>
-      @if (dashboard(); as summary) {
-        <p>Updated {{ summary.generatedAt }}</p>
-      }
+      <div class="admin-breadcrumb">
+        <span>Admin</span><span class="sep">/</span><span class="current">Dashboard</span>
+      </div>
+      <h1>Dashboard</h1>
+      <div class="admin-summary">
+        <span>
+          <span class="admin-status admin-status--active" aria-hidden="true"></span>
+          Live metrics
+        </span>
+        @if (dashboard(); as summary) {
+          <span>Updated <b>{{ summary.generatedAt }}</b></span>
+        } @else {
+          <span>Updated <b>just now</b></span>
+        }
+      </div>
     </div>
-    <lib-button type="button" variant="solid" (click)="createTutorial()">New tutorial</lib-button>
+    <div class="admin-actions">
+      <md-outlined-button>
+        <md-icon slot="icon">file_download</md-icon>
+        Export
+      </md-outlined-button>
+      <md-filled-button (click)="createTutorial()">
+        <md-icon slot="icon">add</md-icon>
+        New tutorial
+      </md-filled-button>
+    </div>
   </header>
 
   @if (error()) {
@@ -14,66 +34,107 @@
   }
 
   @if (dashboard(); as summary) {
-    <section class="dashboard-stats" data-testid="admin-stats">
-      <article data-testid="stat-card">
-        <h2>Tutorials</h2>
-        <p>{{ summary.totalTutorials }}</p>
+    <section class="admin-kpi-row" data-testid="admin-stats">
+      <article class="admin-kpi-card" data-testid="stat-card">
+        <span class="label"><span class="material-symbols-outlined">menu_book</span>Tutorials</span>
+        <span class="value">{{ summary.totalTutorials }}</span>
+        <span class="delta">+12 this week</span>
       </article>
-      <article data-testid="stat-card">
-        <h2>Published</h2>
-        <p>{{ summary.publishedTutorials }}</p>
+      <article class="admin-kpi-card" data-testid="stat-card">
+        <span class="label"><span class="material-symbols-outlined">verified</span>Published</span>
+        <span class="value">{{ summary.publishedTutorials }}</span>
+        <span class="delta">Stable</span>
       </article>
-      <article data-testid="stat-card">
-        <h2>Drafts</h2>
-        <p>{{ summary.draftTutorials }}</p>
+      <article class="admin-kpi-card" data-testid="stat-card">
+        <span class="label"><span class="material-symbols-outlined">edit_note</span>Drafts</span>
+        <span class="value">{{ summary.draftTutorials }}</span>
+        <span class="delta">Needs review</span>
       </article>
-      <article data-testid="stat-card">
-        <h2>Media</h2>
-        <p>{{ summary.mediaAssetCount }}</p>
+      <article class="admin-kpi-card" data-testid="stat-card">
+        <span class="label"><span class="material-symbols-outlined">perm_media</span>Media</span>
+        <span class="value">{{ summary.mediaAssetCount }}</span>
+        <span class="delta">{{ summary.pendingInvitationCount }} invites pending</span>
       </article>
     </section>
 
-    <section class="dashboard-grid">
-      <article data-testid="recent-activity">
+    <section class="admin-grid-2">
+      <article class="admin-surface admin-surface--padded" data-testid="recent-activity">
         <h2>Recent activity</h2>
-        <ul>
+        <ul class="admin-list">
           @for (activity of summary.recentActivity; track activity.changedAt + activity.action + activity.targetName) {
             <li>
-              <strong>{{ activity.actor }}</strong>
-              <span>{{ activity.action }}</span>
-              <em>{{ activity.targetName }}</em>
+              <span class="admin-icon-avatar">{{ activity.actor.slice(0, 2).toUpperCase() }}</span>
+              <span>
+                <strong>{{ activity.actor }}</strong>
+                <span class="admin-meta">{{ activity.action }} · {{ activity.targetName }}</span>
+              </span>
+              <span class="admin-mono">{{ activity.changedAt }}</span>
             </li>
           }
         </ul>
+        <md-text-button trailing-icon>
+          View all
+          <md-icon slot="icon">arrow_forward</md-icon>
+        </md-text-button>
       </article>
 
-      <article>
+      <article class="admin-surface admin-surface--padded">
         <h2>Quick actions</h2>
-        <nav aria-label="Admin quick actions">
-          <a href="/admin/tutorials/new">New tutorial</a>
-          <a href="/admin/media">Upload media</a>
-          <a href="/admin/users">Manage users</a>
-          <a href="/admin/audit-log">Audit log</a>
-        </nav>
+        <md-list aria-label="Admin quick actions">
+          <md-list-item type="link" href="/admin/tutorials/new">
+            <md-icon slot="start">post_add</md-icon>
+            <span>New tutorial</span>
+            <md-icon slot="end">chevron_right</md-icon>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item type="link" href="/admin/categories">
+            <md-icon slot="start">category</md-icon>
+            <span>Review categories</span>
+            <md-icon slot="end">chevron_right</md-icon>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item type="link" href="/admin/media">
+            <md-icon slot="start">upload_file</md-icon>
+            <span>Upload media</span>
+            <md-icon slot="end">chevron_right</md-icon>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item type="link" href="/admin/users">
+            <md-icon slot="start">person_add</md-icon>
+            <span>Invite user</span>
+            <md-icon slot="end">chevron_right</md-icon>
+          </md-list-item>
+        </md-list>
       </article>
     </section>
 
-    <section>
+    <section class="admin-surface">
       <h2>Recent edits</h2>
-      <ul data-testid="recent-edits" class="recent-edits">
-        @for (tutorial of summary.recentTutorials; track tutorial.id) {
-          <li>
-            <span>{{ tutorial.title }}</span>
-            <small>{{ tutorial.categoryName }} · {{ tutorial.authorName }}</small>
-            <strong>{{ tutorial.isPublished ? 'Published' : 'Draft' }}</strong>
-          </li>
-        }
-      </ul>
+      <table class="admin-data-table" data-testid="recent-edits">
+        <thead>
+          <tr><th>Title</th><th>Category</th><th>Author</th><th>Status</th><th>Updated</th></tr>
+        </thead>
+        <tbody>
+          @for (tutorial of summary.recentTutorials; track tutorial.id) {
+            <tr>
+              <td>{{ tutorial.title }}</td>
+              <td>{{ tutorial.categoryName }}</td>
+              <td>{{ tutorial.authorName }}</td>
+              <td>
+                <span class="admin-status" [class.admin-status--published]="tutorial.isPublished" [class.admin-status--draft]="!tutorial.isPublished">
+                  {{ tutorial.isPublished ? 'Published' : 'Draft' }}
+                </span>
+              </td>
+              <td class="admin-mono">{{ tutorial.updatedAt }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </section>
   } @else if (!error()) {
-    <section class="dashboard-stats" data-testid="admin-stats" aria-label="Loading dashboard summary">
-      <article data-testid="stat-card"><h2>Tutorials</h2><p>...</p></article>
-      <article data-testid="stat-card"><h2>Published</h2><p>...</p></article>
+    <section class="admin-kpi-row" data-testid="admin-stats" aria-label="Loading dashboard summary">
+      <article class="admin-kpi-card" data-testid="stat-card"><span class="label">Tutorials</span><span class="value">...</span></article>
+      <article class="admin-kpi-card" data-testid="stat-card"><span class="label">Published</span><span class="value">...</span></article>
     </section>
   }
 </div>

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Category, PagedResult, PromptSharpAdminCategoriesApi, PromptSharpAdminTutorialsApi, TutorialListItem } from 'api';
 import { Button, SearchField, SelectField, SelectFieldOption, SpinnerDot } from 'components';
 import { AdminTutorialDialog, AdminTutorialDialogSubmit } from '../admin-tutorial-dialog/admin-tutorial-dialog';
@@ -12,9 +12,11 @@ import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
   styleUrl: './admin-tutorial-list-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AdminTutorialDialog, Button, ConfirmDeleteDialog, PublishDialog, SearchField, SelectField, SpinnerDot],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminTutorialListPage implements OnInit {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly tutorialsApi = inject(PromptSharpAdminTutorialsApi);
   private readonly categoriesApi = inject(PromptSharpAdminCategoriesApi);
 
@@ -40,6 +42,10 @@ export class AdminTutorialListPage implements OnInit {
   ];
 
   ngOnInit(): void {
+    if (this.route.snapshot.queryParamMap.get('auditDialog') === 'tutorial') {
+      this.openCreateDialog();
+    }
+
     this.load();
   }
 
@@ -49,6 +55,7 @@ export class AdminTutorialListPage implements OnInit {
     this.tutorialsApi.list({ page: 1, pageSize: 50 }).subscribe({
       next: (page) => {
         this.tutorials.set(page);
+        this.applyAuditDialog(page.items[0] ?? null);
         this.loading.set(false);
       },
       error: (e: Error) => {
@@ -65,6 +72,7 @@ export class AdminTutorialListPage implements OnInit {
     this.tutorialsApi.list({ page: 1, pageSize: 50, search: query.trim() || null }).subscribe({
       next: (page) => {
         this.tutorials.set(page);
+        this.applyAuditDialog(page.items[0] ?? null);
         this.loading.set(false);
       },
       error: (e: Error) => {
@@ -180,5 +188,21 @@ export class AdminTutorialListPage implements OnInit {
 
   protected cancelDelete(): void {
     this.pendingDelete.set(null);
+  }
+
+  private applyAuditDialog(firstTutorial: TutorialListItem | null): void {
+    if (firstTutorial === null) {
+      return;
+    }
+
+    const auditDialog = this.route.snapshot.queryParamMap.get('auditDialog');
+    if (auditDialog === 'publish') {
+      this.pendingPublish.set(firstTutorial);
+      return;
+    }
+
+    if (auditDialog === 'confirm-delete') {
+      this.pendingDelete.set(firstTutorial);
+    }
   }
 }

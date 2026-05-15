@@ -1,78 +1,40 @@
 <aside class="admin-nav-rail" [attr.data-collapsed]="collapsed() || null">
-  <div class="admin-nav-rail__brand">
-    <lib-wordmark size="sm" variant="inline"></lib-wordmark>
-    <lib-icon-button
-      icon="menu"
-      label="Toggle navigation"
-      size="sm"
-      (clicked)="collapseToggled.emit()"
-    ></lib-icon-button>
-  </div>
-  <nav>
-    <ul>
-      <li>
-        <lib-nav-item
-          icon="dashboard"
-          label="Dashboard"
-          href="/admin"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'dashboard'"
-        ></lib-nav-item>
-      </li>
-      <li>
-        <lib-nav-item
-          icon="article"
-          label="Tutorials"
-          href="/admin/tutorials"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'tutorials'"
-        ></lib-nav-item>
-      </li>
-      <li>
-        <lib-nav-item
-          icon="label"
-          label="Taxonomy"
-          href="/admin/taxonomy"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'taxonomy'"
-        ></lib-nav-item>
-      </li>
-      <li>
-        <lib-nav-item
-          icon="image"
-          label="Media"
-          href="/admin/media"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'media'"
-        ></lib-nav-item>
-      </li>
-      <li>
-        <lib-nav-item
-          icon="group"
-          label="Users"
-          href="/admin/users"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'users'"
-        ></lib-nav-item>
-      </li>
-      <li>
-        <lib-nav-item
-          icon="history"
-          label="Audit log"
-          href="/admin/audit-log"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'audit'"
-        ></lib-nav-item>
-      </li>
-      <li>
-        <lib-nav-item
-          icon="notifications"
-          label="Notifications"
-          href="/admin/notifications"
-          [collapsed]="collapsed()"
-          [active]="activeRoute() === 'notifications'"
-        ></lib-nav-item>
-      </li>
-    </ul>
+  <nav aria-label="Admin">
+    <div class="admin-nav-rail__group">
+      <p class="admin-nav-rail__label">Manage</p>
+      @for (item of primaryItems; track item.route) {
+        <a
+          class="admin-nav-rail__item"
+          [class.active]="isActive(item)"
+          [href]="item.route"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">{{ item.icon }}</span>
+          <span class="admin-nav-rail__text">{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="admin-nav-rail__badge">{{ item.badge }}</span>
+          }
+        </a>
+      }
+    </div>
+
+    <div class="admin-nav-rail__divider" aria-hidden="true"></div>
+
+    <div class="admin-nav-rail__group">
+      <p class="admin-nav-rail__label">System</p>
+      @for (item of systemItems; track item.route) {
+        <a
+          class="admin-nav-rail__item"
+          [class.active]="isActive(item)"
+          [href]="item.route"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">{{ item.icon }}</span>
+          <span class="admin-nav-rail__text">{{ item.label }}</span>
+        </a>
+      }
+      <button class="admin-nav-rail__item" type="button" (click)="signOut.emit()">
+        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+        <span class="admin-nav-rail__text">Sign out</span>
+      </button>
+    </div>
   </nav>
 </aside>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { PromptSharpAdminUsersApi, RoleName, User, UserInvitation } from 'api';
 import { Button, Checkbox, SearchField, SpinnerDot } from 'components';
 import { UserInviteDialog } from '../../../dialogs/user-invite-dialog/user-invite-dialog';
@@ -9,6 +9,7 @@ import { UserInviteDialog } from '../../../dialogs/user-invite-dialog/user-invit
   styleUrl: './admin-users-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, Checkbox, SearchField, SpinnerDot, UserInviteDialog],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminUsersPage implements OnInit {
   private readonly usersApi = inject(PromptSharpAdminUsersApi);

@@ -2,21 +2,41 @@
   display: block;
 }
 
-.admin-tutorial-list-page {
-  display: block;
+.admin-toolbar md-outlined-text-field {
+  min-width: min(100%, 420px);
 }
 
-.admin-tutorial-list-page__header {
-  align-items: center;
+.admin-row-menu {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  gap: 2px;
+  min-width: 160px;
+  padding: 8px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 12px;
+  background: var(--md-sys-color-surface-container-high);
+  box-shadow: 0 16px 34px rgb(0 0 0 / 36%);
+}
+
+.admin-row-menu button {
+  border: 0;
+  border-radius: 8px;
+  color: var(--md-sys-color-on-surface);
+  background: transparent;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-row-menu button:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+}
+
+.admin-table-footer {
   display: flex;
-  gap: 16px;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-@media (max-width: 640px) {
-  .admin-tutorial-list-page__header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 0 0;
 }

@@ -1,7 +1,7 @@
 <lib-dialog-shell
   [open]="open()"
-  headline="New tutorial"
-  supportingText="Create the tutorial metadata first, then continue in the full step editor."
+  headline="Edit tutorial"
+  supportingText="Update the tutorial metadata, publishing flags, and editorial tags before continuing in the full editor."
   (closed)="cancelled.emit()"
 >
   <form class="admin-tutorial-dialog__form">
@@ -48,6 +48,20 @@
       [rows]="3"
       (valueChange)="summary.set($event)"
     ></lib-text-area>
+    <div class="admin-toggle-row">
+      <div>
+        <div class="t">Editor's pick</div>
+        <div class="s">Promote at the top of the home page</div>
+      </div>
+      <md-switch></md-switch>
+    </div>
+    <div class="admin-toggle-row">
+      <div>
+        <div class="t">Featured</div>
+        <div class="s">Include in the home page grid</div>
+      </div>
+      <md-switch selected></md-switch>
+    </div>
     @if (validation(); as message) {
       <p role="alert">{{ message }}</p>
     }
@@ -57,6 +71,6 @@
   </form>
   <div dialog-actions>
     <lib-button type="button" variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
-    <lib-button type="button" variant="solid" (click)="submit()">Create draft</lib-button>
+    <lib-button type="button" variant="solid" (click)="submit()">Save changes</lib-button>
   </div>
 </lib-dialog-shell>

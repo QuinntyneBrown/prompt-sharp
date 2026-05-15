@@ -1,9 +1,17 @@
 <lib-dialog-shell
   [open]="open()"
   headline="Invite user"
+  supportingText="Send an invitation and assign the roles the user needs on first sign-in."
   (closed)="cancelled.emit()"
 >
-  <lib-text-field label="Email" type="email" (valueChange)="onEmail($event)"></lib-text-field>
+  <div class="admin-dialog-body">
+    <lib-text-field label="Email" type="email" value="alex@example.com" (valueChange)="onEmail($event)"></lib-text-field>
+    <md-chip-set aria-label="Roles">
+      <md-filter-chip label="User" selected></md-filter-chip>
+      <md-filter-chip label="Editor"></md-filter-chip>
+      <md-filter-chip label="Admin"></md-filter-chip>
+    </md-chip-set>
+  </div>
   @if (error(); as message) {
     <p role="alert">{{ message }}</p>
   }

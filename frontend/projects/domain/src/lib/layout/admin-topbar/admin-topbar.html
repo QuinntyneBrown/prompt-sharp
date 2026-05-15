@@ -1,13 +1,25 @@
 <header class="admin-topbar">
-  <div class="admin-topbar__status">
-    <lib-status-dot tone="success"></lib-status-dot>
-    <span>Live</span>
-  </div>
+  <button class="admin-icon-button" type="button" aria-label="Toggle menu">
+    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+  </button>
+
+  <a class="admin-topbar__brand" href="/admin" aria-label="Prompt/Sharp admin home">
+    <span>Prompt<span class="slash">/</span>Sharp</span>
+    <b>Admin</b>
+  </a>
+
+  <div class="admin-topbar__spacer"></div>
+
   <div class="admin-topbar__actions">
-    <lib-icon-button icon="notifications" label="Notifications" size="sm"></lib-icon-button>
-    @if (currentUserName(); as name) {
-      <lib-avatar [name]="name" size="sm"></lib-avatar>
-    }
-    <lib-button variant="ghost" (click)="signOut.emit()">Sign out</lib-button>
+    <button class="admin-icon-button" type="button" aria-label="Notifications">
+      <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+    </button>
+    <button class="admin-icon-button" type="button" aria-label="Help">
+      <span class="material-symbols-outlined" aria-hidden="true">help</span>
+    </button>
+    <button class="admin-topbar__avatar" type="button" aria-label="Account">
+      {{ initials() }}
+    </button>
+    <button class="admin-topbar__signout" type="button" (click)="signOut.emit()">Sign out</button>
   </div>
 </header>

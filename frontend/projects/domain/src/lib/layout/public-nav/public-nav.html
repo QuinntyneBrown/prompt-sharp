@@ -15,6 +15,8 @@
   </ul>
   <div class="public-nav__actions">
     @if (signedIn()) {
+      <a class="public-nav__link-action" href="/profile">Profile</a>
+      <a class="public-nav__link-action" href="/progress">Progress</a>
       <button class="public-nav__button" type="button" (click)="signOut.emit()">Sign out</button>
     } @else {
       <a class="public-nav__button" href="/sign-in">Sign in</a>

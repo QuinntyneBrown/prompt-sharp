@@ -74,6 +74,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 12px;
+}
+
+.public-nav__link-action {
+  color: var(--ps-ink-dim, #c5cde4);
+  font-family: var(--ps-font-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.public-nav__link-action:hover {
+  color: var(--ps-ink, #fbffff);
 }
 
 .public-nav__button {
@@ -107,6 +121,10 @@
   }
 
   .public-nav__links {
+    display: none;
+  }
+
+  .public-nav__link-action {
     display: none;
   }
 }

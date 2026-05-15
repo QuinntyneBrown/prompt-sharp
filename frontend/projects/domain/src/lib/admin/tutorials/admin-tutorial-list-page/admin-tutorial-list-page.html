@@ -1,8 +1,32 @@
-<div class="admin-tutorial-list-page">
-  <header class="admin-tutorial-list-page__header">
-    <h1>Tutorials</h1>
-    <lib-button type="button" variant="solid" (click)="openCreateDialog()">New tutorial</lib-button>
+<div class="admin-page admin-tutorial-list-page">
+  <header class="admin-page-header">
+    <div>
+      <div class="admin-breadcrumb">
+        <span>Admin</span><span class="sep">/</span><span class="current">Tutorials</span>
+      </div>
+      <h1>Tutorials</h1>
+      <div class="admin-summary">
+        @if (tutorials(); as page) {
+          <span><b>{{ page.totalCount }}</b> total</span>
+          <span><b>{{ page.items.length }}</b> loaded</span>
+        } @else {
+          <span><b>0</b> loaded</span>
+        }
+        <span><b>23</b> drafts</span>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <md-outlined-button>
+        <md-icon slot="icon">file_download</md-icon>
+        Export
+      </md-outlined-button>
+      <md-filled-button (click)="openCreateDialog()">
+        <md-icon slot="icon">add</md-icon>
+        New tutorial
+      </md-filled-button>
+    </div>
   </header>
+
   @if (loading()) {
     <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
@@ -11,6 +35,91 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
+
+  <section class="admin-toolbar">
+    <md-outlined-text-field
+      #tutorialSearch
+      label="Search tutorials, authors, tags..."
+      [value]="searchQuery()"
+      (input)="search($any(tutorialSearch).value)"
+    >
+      <md-icon slot="leading-icon">search</md-icon>
+    </md-outlined-text-field>
+    <md-outlined-button trailing-icon>
+      Most recent
+      <md-icon slot="icon">arrow_drop_down</md-icon>
+    </md-outlined-button>
+  </section>
+
+  <md-chip-set aria-label="Tutorial status">
+    <md-filter-chip label="All" [selected]="statusFilter() === 'All'" (click)="statusFilter.set('All')"></md-filter-chip>
+    <md-filter-chip label="Published" [selected]="statusFilter() === 'Published'" (click)="statusFilter.set('Published')"></md-filter-chip>
+    <md-filter-chip label="Draft" [selected]="statusFilter() === 'Draft'" (click)="statusFilter.set('Draft')"></md-filter-chip>
+    <md-filter-chip label="Awaiting review"></md-filter-chip>
+    <md-filter-chip label="Archived"></md-filter-chip>
+  </md-chip-set>
+
+  <section class="admin-surface">
+    <table class="admin-data-table" aria-label="Tutorials">
+      <thead>
+        <tr>
+          <th><md-checkbox touch-target="wrapper" aria-label="Select all"></md-checkbox></th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Steps</th>
+          <th>Duration</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (tutorials(); as page) {
+          @for (t of page.items; track t.id) {
+            <tr>
+              <td><md-checkbox touch-target="wrapper" [attr.aria-label]="'Select ' + t.title"></md-checkbox></td>
+              <td>
+                <strong>{{ t.title }}</strong>
+                <div class="admin-meta">{{ t.slug }}</div>
+              </td>
+              <td><span class="admin-pill">{{ t.categoryName }}</span></td>
+              <td>
+                <span class="admin-status" [class.admin-status--published]="t.isPublished" [class.admin-status--draft]="!t.isPublished">
+                  {{ t.isPublished ? 'Published' : 'Draft' }}
+                </span>
+              </td>
+              <td>{{ t.stepCount }}</td>
+              <td class="admin-mono">{{ t.estimatedMinutes }} min</td>
+              <td>
+                <md-icon-button aria-label="Row actions" (click)="openActions(t)">
+                  <md-icon>more_vert</md-icon>
+                </md-icon-button>
+                @if (activeActionsId() === t.id) {
+                  <div class="admin-row-menu">
+                    <button type="button" (click)="requestPublish(t)">Publish</button>
+                    <button type="button" (click)="feature(t)">Feature</button>
+                    <button type="button" (click)="editorsPick(t)">Editor's pick</button>
+                    <button type="button" (click)="requestDelete(t)">Delete</button>
+                  </div>
+                }
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="admin-table-footer">
+    <span class="admin-mono">Rows per page</span>
+    <md-outlined-button trailing-icon>
+      50
+      <md-icon slot="icon">arrow_drop_down</md-icon>
+    </md-outlined-button>
+    <span class="admin-mono">Page 1</span>
+    <md-icon-button aria-label="Previous page" disabled><md-icon>chevron_left</md-icon></md-icon-button>
+    <md-icon-button aria-label="Next page"><md-icon>chevron_right</md-icon></md-icon-button>
+  </footer>
+
   <ps-admin-tutorial-dialog
     [open]="createDialogOpen()"
     [categoryOptions]="categoryOptions()"
@@ -18,19 +127,7 @@
     (cancelled)="closeCreateDialog()"
     (submitted)="createDraft($event)"
   ></ps-admin-tutorial-dialog>
-  <lib-search-field
-    ariaLabel="Search tutorials"
-    placeholder="Search tutorials"
-    [value]="searchQuery()"
-    (valueChange)="searchQuery.set($event)"
-    (searched)="search($event)"
-  ></lib-search-field>
-  <lib-select-field
-    label="Status"
-    [value]="statusFilter()"
-    [options]="statusOptions"
-    (valueChange)="statusFilter.set($event)"
-  ></lib-select-field>
+
   @if (pendingDelete(); as tutorial) {
     <ps-confirm-delete-dialog
       [open]="true"
@@ -39,6 +136,7 @@
       (confirmed)="confirmDelete()"
     ></ps-confirm-delete-dialog>
   }
+
   @if (pendingPublish(); as tutorial) {
     <ps-publish-dialog
       [open]="true"
@@ -47,28 +145,7 @@
       (submitted)="confirmPublish()"
     ></ps-publish-dialog>
   }
-  @if (tutorials(); as page) {
-    <table aria-label="Tutorials">
-      <thead><tr><th>Title</th><th>Status</th></tr></thead>
-      <tbody>
-        @for (t of page.items; track t.id) {
-          <tr>
-            <td>{{ t.title }}</td>
-            <td>{{ t.isPublished ? 'Published' : 'Draft' }}</td>
-            <td>
-              <lib-button type="button" size="sm" (click)="openActions(t)">Actions</lib-button>
-              @if (activeActionsId() === t.id) {
-                <lib-button type="button" size="sm" (click)="requestPublish(t)">Publish</lib-button>
-                <lib-button type="button" size="sm" (click)="feature(t)">Feature</lib-button>
-                <lib-button type="button" size="sm" (click)="editorsPick(t)">Editor's pick</lib-button>
-                <lib-button type="button" size="sm" variant="danger" (click)="requestDelete(t)">Delete</lib-button>
-              }
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
+
   @if (status(); as message) {
     <p role="status">{{ message }}</p>
   }

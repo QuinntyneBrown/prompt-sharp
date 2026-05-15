@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Category, PromptSharpAdminCategoriesApi, PromptSharpAdminTagsApi, Tag } from 'api';
 import { Button, DialogShell, SpinnerDot, Tabs, TextField } from 'components';
 import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
@@ -26,6 +26,7 @@ type DeleteTarget = {
   styleUrl: './admin-taxonomy-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, ConfirmDeleteDialog, DialogShell, SpinnerDot, Tabs, TextField],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminTaxonomyPage implements OnInit {
   private readonly categoriesApi = inject(PromptSharpAdminCategoriesApi);

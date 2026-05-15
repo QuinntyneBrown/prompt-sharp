@@ -13,6 +13,14 @@ import { AdminTopbar } from '../admin-topbar/admin-topbar';
 export class AdminShell {
   private readonly router = inject(Router);
 
+  protected signOut(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('prompt-sharp.access-token');
+    }
+
+    void this.router.navigateByUrl('/sign-in');
+  }
+
   protected navigateWithinAdmin(event: MouseEvent): void {
     if (
       event.defaultPrevented ||
