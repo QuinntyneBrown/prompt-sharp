@@ -6,3 +6,9 @@
   border-radius: 50%;
   @include s.shimmer;
 }
+
+:host([data-size='xs']) { width: 24px; }
+:host([data-size='sm']) { width: 32px; }
+:host([data-size='md']) { width: 40px; }
+:host([data-size='lg']) { width: 56px; }
+:host([data-size='xl']) { width: 72px; }
