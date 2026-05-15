@@ -8,8 +8,8 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <lib-text-field
-    label="Actor"
+  <lib-search-field
+    ariaLabel="Actor"
     placeholder="Actor or user"
     [value]="actorFilter()"
     (valueChange)="filterByActor($event)"

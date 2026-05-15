@@ -8,7 +8,7 @@ export class SearchResultsPage extends BasePage {
   }
 
   searchInput(): Locator {
-    return this.textbox(/search/i);
+    return this.searchbox(/search/i);
   }
 
   results(): Locator {

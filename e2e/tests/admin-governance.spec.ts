@@ -2,6 +2,8 @@ import { test, expect } from '../fixtures/page-fixtures';
 import { users } from '../fixtures/test-data';
 
 test.describe('admin governance', () => {
+  test.use({ storageState: '.auth/admin.json' });
+
   test('user role management searches users and changes RBAC assignments', async ({
     userRoleManagementPage,
     page,

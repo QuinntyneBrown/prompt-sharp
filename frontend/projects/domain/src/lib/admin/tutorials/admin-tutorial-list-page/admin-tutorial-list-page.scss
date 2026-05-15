@@ -5,3 +5,18 @@
 .admin-tutorial-list-page {
   display: block;
 }
+
+.admin-tutorial-list-page__header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 640px) {
+  .admin-tutorial-list-page__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

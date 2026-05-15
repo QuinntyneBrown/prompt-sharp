@@ -5,10 +5,13 @@
 <section
   class="dialog"
   role="dialog"
+  [cdkTrapFocus]="open() && modal()"
+  [cdkTrapFocusAutoCapture]="open() && modal()"
   [attr.aria-modal]="modal() ? 'true' : 'false'"
   [attr.aria-labelledby]="headline() ? titleId : null"
   [attr.aria-describedby]="supportingText() ? descriptionId : null"
   [attr.hidden]="open() ? null : true"
+  (keydown.escape)="onEscape($event)"
 >
   @if (headline() || supportingText()) {
     <header class="header">

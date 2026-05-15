@@ -7,14 +7,14 @@ import {
   PromptSharpTutorialsApi,
   TutorialListItem,
 } from 'api';
-import { Button, SelectField, SelectFieldOption, TextField } from 'components';
+import { Button, SearchField, SelectField, SelectFieldOption } from 'components';
 
 @Component({
   selector: 'ps-catalog-page',
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, SelectField, TextField],
+  imports: [Button, SearchField, SelectField],
 })
 export class CatalogPage implements OnInit {
   private readonly tutorialsApi = inject(PromptSharpTutorialsApi);

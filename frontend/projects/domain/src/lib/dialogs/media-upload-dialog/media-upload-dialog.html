@@ -11,7 +11,21 @@
     (filesSelected)="onFiles($event)"
   ></lib-drop-zone>
   @if (uploading()) {
-    <p role="status">Uploading…</p>
+    <div class="upload-progress">
+      <lib-meter
+        label="Upload progress"
+        tone="accent"
+        [value]="uploadPercent() ?? 0"
+        [indeterminate]="uploadPercent() === null"
+      ></lib-meter>
+      <p role="status">
+        @if (uploadPercent() !== null) {
+          Uploading {{ uploadPercent() }}%
+        } @else {
+          Uploading…
+        }
+      </p>
+    </div>
   }
   @if (error(); as message) {
     <p role="alert">{{ message }}</p>

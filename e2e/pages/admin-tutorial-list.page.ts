@@ -16,12 +16,38 @@ export class AdminTutorialListPage extends BasePage {
   }
 
   async searchFor(query: string): Promise<void> {
-    await this.textbox(/search tutorials/i).fill(query);
-    await this.textbox(/search tutorials/i).press('Enter');
+    await this.searchbox(/search tutorials/i).fill(query);
+    await this.searchbox(/search tutorials/i).press('Enter');
   }
 
   async filterByStatus(status: string): Promise<void> {
     await this.combobox(/status/i).selectOption({ label: status });
+  }
+
+  async createDraftFromDialog(input: {
+    title: string;
+    slug: string;
+    summary: string;
+    category: string;
+    difficulty: string;
+    estimatedMinutes: string;
+  }): Promise<void> {
+    await this.button(/new tutorial/i).click();
+    const dialog = this.page.getByRole('dialog', { name: /new tutorial/i });
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('textbox', { name: /^title$/i }).fill(input.title);
+    await dialog.getByRole('textbox', { name: /^slug$/i }).fill(input.slug);
+    await dialog.getByRole('textbox', { name: /summary/i }).fill(input.summary);
+    await dialog.getByRole('combobox', { name: /category/i }).selectOption({ label: input.category });
+    await dialog.getByRole('combobox', { name: /difficulty/i }).selectOption({ label: input.difficulty });
+    await dialog.getByLabel(/estimated minutes/i).fill(input.estimatedMinutes);
+    const createResponse = this.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        response.url().endsWith('/api/v1/admin/tutorials'),
+    );
+    await dialog.getByRole('button', { name: /create draft/i }).click();
+    expect((await createResponse).status()).toBe(201);
   }
 
   async createTutorial(): Promise<void> {

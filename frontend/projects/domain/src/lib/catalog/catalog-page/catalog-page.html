@@ -9,12 +9,13 @@
     </div>
   }
   <div class="catalog-page__controls">
-    <lib-text-field
-      label="Search tutorials"
+    <lib-search-field
+      ariaLabel="Search tutorials"
+      placeholder="Search tutorials"
       [value]="searchQuery()"
       (valueChange)="setSearchQuery($event)"
-      (keydown.enter)="search(searchQuery())"
-    ></lib-text-field>
+      (searched)="search($event)"
+    ></lib-search-field>
     <lib-select-field
       label="Category"
       [value]="categoryFilter() ?? ''"

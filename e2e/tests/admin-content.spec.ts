@@ -5,6 +5,8 @@ import { alternateTutorial, mediaAsset, tutorial } from '../fixtures/test-data';
 import { routes } from '../pages/routes';
 
 test.describe('admin content management', () => {
+  test.use({ storageState: '.auth/admin.json' });
+
   test('dashboard summarizes publishing operations and links to core admin workflows', async ({
     adminDashboardPage,
     page,
@@ -44,6 +46,26 @@ test.describe('admin content management', () => {
     await adminTutorialListPage.goto();
     await adminTutorialListPage.searchFor(disposable.title);
     await adminTutorialListPage.deleteTutorial(new RegExp(disposable.title, 'i'));
+  });
+
+  test('tutorial list creates a draft through the metadata dialog before opening the editor', async ({
+    adminTutorialListPage,
+    page,
+  }) => {
+    await adminTutorialListPage.goto();
+    await adminTutorialListPage.expectLoaded();
+
+    const suffix = Date.now().toString(36);
+    await adminTutorialListPage.createDraftFromDialog({
+      title: `Dialog draft ${suffix}`,
+      slug: `dialog-draft-${suffix}`,
+      summary: 'Created through the tutorial metadata dialog.',
+      category: alternateTutorial.category,
+      difficulty: alternateTutorial.difficulty,
+      estimatedMinutes: tutorial.estimatedMinutes,
+    });
+
+    await expect(page).toHaveURL(/\/admin\/tutorials\/[^/]+\/edit$/);
   });
 
   test('tutorial editor validates required data, saves drafts, previews, adds steps, and publishes', async ({
@@ -146,6 +168,12 @@ test.describe('admin content management', () => {
     await mediaLibraryPage.expectLoaded();
     await mediaLibraryPage.expectLibraryReady();
 
+    await mediaLibraryPage.enableSelectionMode();
+    await mediaLibraryPage.expectSelectionMode();
+    await mediaLibraryPage.selectFirstMedia();
+    await mediaLibraryPage.expectSelectedCount(1);
+
+    await mediaLibraryPage.delayNextUpload();
     await mediaLibraryPage.upload(mediaAsset.path);
     await expect(page.getByRole('status')).toContainText(/uploaded/i);
 
@@ -229,9 +257,9 @@ function signJwt(): string {
     JSON.stringify({
       iss: 'prompt-sharp-dev',
       aud: 'prompt-sharp-api',
-      sub: 'e2e:admin',
-      email: 'alex.learner@example.com',
-      name: 'Alex Learner',
+      sub: 'seed:admin',
+      email: 'ada.admin@example.com',
+      name: 'Ada Admin',
       role: ['User', 'Editor', 'Admin'],
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
     }),

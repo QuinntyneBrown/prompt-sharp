@@ -24,6 +24,20 @@ export class ProfilePage extends BasePage {
     await expect(this.page.getByRole('dialog', { name: /sign out/i })).toBeVisible();
   }
 
+  async expectSignOutDialogKeepsFocus(): Promise<void> {
+    const dialog = this.page.getByRole('dialog', { name: /sign out/i });
+    await expect
+      .poll(async () => dialog.evaluate((node) => node.contains(document.activeElement)))
+      .toBe(true);
+    await this.page.keyboard.press('Tab');
+    expect(await dialog.evaluate((node) => node.contains(document.activeElement))).toBe(true);
+  }
+
+  async dismissSignOutWithEscape(): Promise<void> {
+    await this.page.keyboard.press('Escape');
+    await expect(this.page.getByRole('dialog', { name: /sign out/i })).toBeHidden();
+  }
+
   async cancelSignOut(): Promise<void> {
     await this.page.getByRole('dialog', { name: /sign out/i }).getByRole('button', { name: /stay signed in/i }).click();
   }

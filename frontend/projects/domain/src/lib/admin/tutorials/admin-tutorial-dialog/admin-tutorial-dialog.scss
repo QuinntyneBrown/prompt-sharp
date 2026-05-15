@@ -1,5 +1,24 @@
+@use 'tokens' as t;
+
 :host {
-  display: block;
+  display: contents;
+}
+
+.admin-tutorial-dialog__form {
+  display: grid;
+  gap: t.$space-4;
+}
+
+.admin-tutorial-dialog__pair {
+  display: grid;
+  gap: t.$space-4;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@media (max-width: 600px) {
+  .admin-tutorial-dialog__pair {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-tutorial-dialog {

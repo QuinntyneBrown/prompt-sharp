@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
-import { PagedResult, PromptSharpAdminTutorialsApi, TutorialListItem } from 'api';
-import { Button, SelectField, SelectFieldOption, TextField } from 'components';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { Category, PagedResult, PromptSharpAdminCategoriesApi, PromptSharpAdminTutorialsApi, TutorialListItem } from 'api';
+import { Button, SearchField, SelectField, SelectFieldOption } from 'components';
+import { AdminTutorialDialog, AdminTutorialDialogSubmit } from '../admin-tutorial-dialog/admin-tutorial-dialog';
 import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
 import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
 
@@ -9,12 +11,15 @@ import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
   templateUrl: './admin-tutorial-list-page.html',
   styleUrl: './admin-tutorial-list-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, ConfirmDeleteDialog, PublishDialog, SelectField, TextField],
+  imports: [AdminTutorialDialog, Button, ConfirmDeleteDialog, PublishDialog, SearchField, SelectField],
 })
 export class AdminTutorialListPage implements OnInit {
+  private readonly router = inject(Router);
   private readonly tutorialsApi = inject(PromptSharpAdminTutorialsApi);
+  private readonly categoriesApi = inject(PromptSharpAdminCategoriesApi);
 
   protected readonly tutorials = signal<PagedResult<TutorialListItem> | null>(null);
+  protected readonly categories = signal<readonly Category[]>([]);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
   protected readonly status = signal<string | null>(null);
@@ -22,7 +27,12 @@ export class AdminTutorialListPage implements OnInit {
   protected readonly statusFilter = signal<string>('All');
   protected readonly pendingDelete = signal<TutorialListItem | null>(null);
   protected readonly pendingPublish = signal<TutorialListItem | null>(null);
+  protected readonly createDialogOpen = signal<boolean>(false);
+  protected readonly createDialogError = signal<string | null>(null);
   protected readonly activeActionsId = signal<string | null>(null);
+  protected readonly categoryOptions = computed<SelectFieldOption[]>(() =>
+    this.categories().map((category) => ({ value: category.id, label: category.name })),
+  );
   protected readonly statusOptions: SelectFieldOption[] = [
     { value: 'All', label: 'All' },
     { value: 'Draft', label: 'Draft' },
@@ -46,6 +56,7 @@ export class AdminTutorialListPage implements OnInit {
         this.loading.set(false);
       },
     });
+    this.categoriesApi.list().subscribe({ next: (categories) => this.categories.set(categories) });
   }
 
   protected search(query: string): void {
@@ -66,6 +77,31 @@ export class AdminTutorialListPage implements OnInit {
   protected requestPublish(tutorial: TutorialListItem): void {
     this.pendingPublish.set(tutorial);
     this.activeActionsId.set(null);
+  }
+
+  protected openCreateDialog(): void {
+    this.createDialogError.set(null);
+    this.createDialogOpen.set(true);
+  }
+
+  protected closeCreateDialog(): void {
+    this.createDialogOpen.set(false);
+    this.createDialogError.set(null);
+  }
+
+  protected createDraft(input: AdminTutorialDialogSubmit): void {
+    this.createDialogError.set(null);
+    this.tutorialsApi.create({
+      ...input,
+      tagIds: [],
+    }).subscribe({
+      next: (tutorial) => {
+        this.status.set('Draft created');
+        this.createDialogOpen.set(false);
+        void this.router.navigate(['/admin/tutorials', tutorial.id, 'edit']);
+      },
+      error: (e: Error) => this.createDialogError.set(e.message),
+    });
   }
 
   protected confirmPublish(): void {

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&display=swap');
 
 :root {
   --ps-bg: #00000f;
@@ -91,6 +91,21 @@ video {
   max-width: 100%;
 }
 
+.material-symbols-outlined {
+  direction: ltr;
+  display: inline-block;
+  font-family: 'Material Symbols Outlined';
+  font-feature-settings: 'liga';
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'GRAD' 0, 'opsz' 24, 'wght' 400;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -143,8 +158,44 @@ tbody tr:hover {
     font-size: clamp(2rem, 12vw, 3.5rem);
   }
 
+  table,
+  thead,
+  tbody,
+  tr,
   th,
   td {
-    padding: 0.7rem 0.75rem;
+    display: block;
+  }
+
+  table {
+    border: 0;
+    background: transparent;
+  }
+
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  tbody {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  tr {
+    border: 1px solid var(--ps-rule);
+    background: rgba(0, 42, 84, 0.68);
+    padding: 0.9rem;
+  }
+
+  th,
+  td {
+    border: 0;
+    padding: 0.25rem 0;
+    overflow-wrap: anywhere;
   }
 }

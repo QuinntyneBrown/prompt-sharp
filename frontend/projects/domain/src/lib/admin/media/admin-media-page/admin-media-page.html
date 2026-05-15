@@ -8,17 +8,35 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <lib-button type="button" variant="solid" (click)="openUploadDialog()">Upload media</lib-button>
+  <div class="admin-media-page__actions">
+    <lib-button type="button" variant="solid" (click)="openUploadDialog()">Upload media</lib-button>
+    <lib-button type="button" variant="ghost" (click)="toggleSelectionMode()">
+      @if (selectionMode()) {
+        Done selecting
+      } @else {
+        Select media
+      }
+    </lib-button>
+  </div>
   <ps-media-upload-dialog
     [open]="uploadDialogOpen()"
     (cancelled)="cancelUpload()"
     (uploaded)="addUploadedMedia($event)"
   ></ps-media-upload-dialog>
-  <lib-text-field
-    label="Search media"
+  @if (selectionMode()) {
+    <ps-media-selection-bar>
+      <p>{{ selectedCount() }} selected</p>
+      <lib-button type="button" size="sm" [disabled]="selectedCount() === 0" (click)="clearSelection()">
+        Clear selection
+      </lib-button>
+    </ps-media-selection-bar>
+  }
+  <lib-search-field
+    ariaLabel="Search media"
+    placeholder="Search media"
     [value]="searchQuery()"
     (valueChange)="searchQuery.set($event)"
-  ></lib-text-field>
+  ></lib-search-field>
   @if (pendingDelete(); as media) {
     <ps-confirm-delete-dialog
       [open]="true"
@@ -32,6 +50,13 @@
       <article data-testid="media-item">
         <h2>{{ m.fileName }}</h2>
         <p>{{ m.url }}</p>
+        @if (selectionMode()) {
+          <lib-checkbox
+            [label]="'Select ' + m.fileName"
+            [checked]="isSelected(m.id)"
+            (checkedChange)="setSelected(m.id, $event)"
+          ></lib-checkbox>
+        }
         <lib-button type="button" size="sm" (click)="copyUrl(m)">Copy URL</lib-button>
         @if (first && !pendingDelete()) {
           <lib-button type="button" size="sm" variant="danger" (click)="requestDelete(m)">Delete</lib-button>

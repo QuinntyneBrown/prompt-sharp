@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Media, PromptSharpAdminMediaApi } from 'api';
-import { Button, TextField } from 'components';
+import { Button, Checkbox, SearchField } from 'components';
 import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
 import { MediaUploadDialog } from '../../../dialogs/media-upload-dialog/media-upload-dialog';
+import { MediaSelectionBar } from '../media-selection-bar/media-selection-bar';
 
 @Component({
   selector: 'ps-admin-media-page',
   templateUrl: './admin-media-page.html',
   styleUrl: './admin-media-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, ConfirmDeleteDialog, MediaUploadDialog, TextField],
+  imports: [Button, Checkbox, ConfirmDeleteDialog, MediaSelectionBar, MediaUploadDialog, SearchField],
 })
 export class AdminMediaPage implements OnInit {
   private readonly mediaApi = inject(PromptSharpAdminMediaApi);
@@ -18,9 +19,12 @@ export class AdminMediaPage implements OnInit {
   protected readonly searchQuery = signal<string>('');
   protected readonly pendingDelete = signal<Media | null>(null);
   protected readonly uploadDialogOpen = signal<boolean>(false);
+  protected readonly selectionMode = signal<boolean>(false);
+  protected readonly selectedMediaIds = signal<readonly string[]>([]);
   protected readonly status = signal<string | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly selectedCount = computed(() => this.selectedMediaIds().length);
   protected readonly filteredMedia = computed(() => {
     const query = this.searchQuery().trim().toLocaleLowerCase();
     if (!query) {
@@ -74,6 +78,36 @@ export class AdminMediaPage implements OnInit {
     this.pendingDelete.set(media);
   }
 
+  protected toggleSelectionMode(): void {
+    const next = !this.selectionMode();
+    this.selectionMode.set(next);
+    if (!next) {
+      this.clearSelection();
+    }
+  }
+
+  protected setSelected(mediaId: string, selected: boolean): void {
+    this.selectedMediaIds.update((ids) => {
+      if (selected && !ids.includes(mediaId)) {
+        return [...ids, mediaId];
+      }
+
+      if (!selected) {
+        return ids.filter((id) => id !== mediaId);
+      }
+
+      return ids;
+    });
+  }
+
+  protected isSelected(mediaId: string): boolean {
+    return this.selectedMediaIds().includes(mediaId);
+  }
+
+  protected clearSelection(): void {
+    this.selectedMediaIds.set([]);
+  }
+
   protected cancelDelete(): void {
     this.pendingDelete.set(null);
   }
@@ -87,6 +121,7 @@ export class AdminMediaPage implements OnInit {
     this.mediaApi.delete(media.id).subscribe({
       next: () => {
         this.media.update((items) => items.filter((item) => item.id !== media.id));
+        this.selectedMediaIds.update((ids) => ids.filter((id) => id !== media.id));
         this.pendingDelete.set(null);
         this.status.set('Deleted');
       },

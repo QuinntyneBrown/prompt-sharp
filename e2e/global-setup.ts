@@ -4,24 +4,80 @@ import path from 'node:path';
 import type { FullConfig } from '@playwright/test';
 
 const signingKey = 'development-only-signing-key-change-with-user-secrets';
+const apiURL = process.env.PLAYWRIGHT_API_BASE_URL ?? 'http://127.0.0.1:5000';
+
+type AuthStateName = 'learner' | 'editor' | 'admin';
+
+type AuthPayload = {
+  sub: string;
+  email: string;
+  name: string;
+  role: string[];
+};
+
+type Category = { id: string; slug: string; name: string };
+type Tag = { id: string; slug: string; name: string };
+type TutorialListItem = {
+  id: string;
+  slug: string;
+  isPublished: boolean;
+  isFeatured: boolean;
+  isEditorsPick: boolean;
+  stepCount: number;
+};
+type PagedResult<T> = { items: T[] };
+type TutorialDetail = TutorialListItem & { steps: Array<{ id: string }> };
+type Media = { id: string; fileName: string };
 
 export default async function globalSetup(config: FullConfig): Promise<void> {
   const baseURL = config.projects[0]?.use.baseURL ?? 'http://127.0.0.1:4200';
   const authDir = path.resolve(process.cwd(), '.auth');
   await fs.mkdir(authDir, { recursive: true });
 
+  const identities = {
+    learner: {
+      sub: 'seed:learner',
+      email: 'alex.learner@example.com',
+      name: 'Alex Learner',
+      role: ['User'],
+    },
+    editor: {
+      sub: 'seed:editor',
+      email: 'erin.editor@example.com',
+      name: 'Erin Editor',
+      role: ['User', 'Editor'],
+    },
+    admin: {
+      sub: 'seed:admin',
+      email: 'ada.admin@example.com',
+      name: 'Ada Admin',
+      role: ['User', 'Editor', 'Admin'],
+    },
+  } satisfies Record<AuthStateName, AuthPayload>;
+
+  const tokens = {} as Record<AuthStateName, string>;
+  for (const [name, payload] of Object.entries(identities) as Array<[AuthStateName, AuthPayload]>) {
+    tokens[name] = await writeStorageState(authDir, baseURL, name, payload);
+  }
+
+  await ensureE2eData(tokens);
+}
+
+async function writeStorageState(
+  authDir: string,
+  baseURL: string,
+  name: AuthStateName,
+  payload: AuthPayload,
+): Promise<string> {
   const token = signJwt({
     iss: 'prompt-sharp-dev',
     aud: 'prompt-sharp-api',
-    sub: 'seed:learner',
-    email: 'alex.learner@example.com',
-    name: 'Alex Learner',
-    role: ['User', 'Editor', 'Admin'],
+    ...payload,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 6,
   });
 
   await fs.writeFile(
-    path.join(authDir, 'learner.json'),
+    path.join(authDir, `${name}.json`),
     JSON.stringify(
       {
         cookies: [],
@@ -41,6 +97,252 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
       2,
     ),
   );
+
+  return token;
+}
+
+async function ensureE2eData(tokens: Record<AuthStateName, string>): Promise<void> {
+  await waitForApi();
+
+  await Promise.all([
+    apiGet('api/v1/me', tokens.learner),
+    apiGet('api/v1/me', tokens.editor),
+    apiGet('api/v1/me', tokens.admin),
+  ]);
+
+  const dotnet = await ensureCategory(tokens.admin, { slug: 'dotnet', name: '.NET', order: 1 });
+  const blazor = await ensureCategory(tokens.admin, { slug: 'blazor', name: 'Blazor', order: 2 });
+  const azureCategory = await ensureCategory(tokens.admin, { slug: 'azure', name: 'Azure', order: 3 });
+
+  const azure = await ensureTag(tokens.admin, { slug: 'azure', name: 'Azure' });
+  const cleanArchitecture = await ensureTag(tokens.admin, { slug: 'clean-architecture', name: 'Clean Architecture' });
+  const containerApps = await ensureTag(tokens.admin, { slug: 'container-apps', name: 'Container Apps' });
+
+  const cleanArchitectureTutorial = await ensureTutorial(tokens.admin, {
+    slug: 'build-dotnet-api-with-clean-architecture',
+    title: 'Build a .NET API with Clean Architecture',
+    summary: 'Create a production-ready API using controllers, MediatR, EF Core, and SQL Server.',
+    difficultyLevel: 'intermediate',
+    estimatedMinutes: 45,
+    categoryId: dotnet.id,
+    tagIds: [azure.id, cleanArchitecture.id],
+    featured: true,
+    editorsPick: true,
+    steps: [
+      {
+        title: 'Create the solution structure',
+        bodyMarkdown: 'Create separate API, Application, Domain, and Infrastructure projects.',
+        codeSnippet: 'dotnet new sln --name PromptSharp',
+        codeLanguage: 'Bash',
+        imageMediaId: null,
+      },
+      {
+        title: 'Add the first endpoint',
+        bodyMarkdown: 'Wire a controller through MediatR and return data from SQL Server.',
+        codeSnippet: 'dotnet add package MediatR',
+        codeLanguage: 'Bash',
+        imageMediaId: null,
+      },
+    ],
+  });
+
+  await ensureTutorial(tokens.admin, {
+    slug: 'ship-blazor-dashboard-with-azure-container-apps',
+    title: 'Ship a Blazor dashboard with Azure Container Apps',
+    summary: 'Deploy a dashboard with containerized hosting, managed identity, and observability.',
+    difficultyLevel: 'advanced',
+    estimatedMinutes: 60,
+    categoryId: blazor.id,
+    tagIds: [azure.id, containerApps.id],
+    featured: true,
+    editorsPick: false,
+    steps: [
+      {
+        title: 'Create the dashboard shell',
+        bodyMarkdown: 'Build the first Blazor dashboard page and prepare it for deployment.',
+        codeSnippet: 'dotnet new blazor -n PromptSharp.Dashboard',
+        codeLanguage: 'Bash',
+        imageMediaId: null,
+      },
+    ],
+  });
+
+  await ensureTutorial(tokens.admin, {
+    slug: 'publish-observable-apis-on-azure',
+    title: 'Publish observable APIs on Azure',
+    summary: 'Add structured logs, traces, and deployment settings for Azure-hosted APIs.',
+    difficultyLevel: 'beginner',
+    estimatedMinutes: 30,
+    categoryId: azureCategory.id,
+    tagIds: [azure.id],
+    featured: false,
+    editorsPick: false,
+    steps: [
+      {
+        title: 'Enable health checks',
+        bodyMarkdown: 'Expose readiness and liveness checks before deploying.',
+        codeSnippet: 'builder.Services.AddHealthChecks();',
+        codeLanguage: 'CSharp',
+        imageMediaId: null,
+      },
+    ],
+  });
+
+  await ensureLearnerState(tokens.learner, cleanArchitectureTutorial);
+  await ensureMedia(tokens.admin);
+}
+
+async function waitForApi(): Promise<void> {
+  const deadline = Date.now() + 120_000;
+  let lastError: unknown;
+  while (Date.now() < deadline) {
+    try {
+      const response = await fetch(`${apiURL}/health/ready`);
+      if (response.ok) {
+        return;
+      }
+      lastError = new Error(`ready check returned ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
+
+  throw new Error(`PromptSharp API was not ready at ${apiURL}: ${String(lastError)}`);
+}
+
+async function ensureCategory(token: string, input: { slug: string; name: string; order: number }): Promise<Category> {
+  const categories = await apiGet<Category[]>('api/v1/admin/categories', token);
+  const existing = categories.find((category) => category.slug === input.slug);
+  if (existing) {
+    return existing;
+  }
+
+  return apiJson<Category>('api/v1/admin/categories', token, 'POST', input);
+}
+
+async function ensureTag(token: string, input: { slug: string; name: string }): Promise<Tag> {
+  const tags = await apiGet<Tag[]>('api/v1/admin/tags', token);
+  const existing = tags.find((tag) => tag.slug === input.slug);
+  if (existing) {
+    return existing;
+  }
+
+  return apiJson<Tag>('api/v1/admin/tags', token, 'POST', input);
+}
+
+async function ensureTutorial(
+  token: string,
+  input: {
+    slug: string;
+    title: string;
+    summary: string;
+    difficultyLevel: 'beginner' | 'intermediate' | 'advanced';
+    estimatedMinutes: number;
+    categoryId: string;
+    tagIds: string[];
+    featured: boolean;
+    editorsPick: boolean;
+    steps: Array<{
+      title: string;
+      bodyMarkdown: string;
+      codeSnippet: string;
+      codeLanguage: string;
+      imageMediaId: string | null;
+    }>;
+  },
+): Promise<TutorialDetail> {
+  const list = await apiGet<PagedResult<TutorialListItem>>(
+    `api/v1/admin/tutorials?page=1&pageSize=100&search=${encodeURIComponent(input.slug)}`,
+    token,
+  );
+  const existing = list.items.find((tutorial) => tutorial.slug === input.slug);
+  let tutorial = existing
+    ? await apiGet<TutorialDetail>(`api/v1/admin/tutorials/${existing.id}`, token)
+    : await apiJson<TutorialDetail>('api/v1/admin/tutorials', token, 'POST', {
+        slug: input.slug,
+        title: input.title,
+        summary: input.summary,
+        difficultyLevel: input.difficultyLevel,
+        estimatedMinutes: input.estimatedMinutes,
+        categoryId: input.categoryId,
+        tagIds: input.tagIds,
+      });
+
+  if (tutorial.stepCount !== input.steps.length) {
+    tutorial = await apiJson<TutorialDetail>(`api/v1/admin/tutorials/${tutorial.id}/steps`, token, 'PUT', input.steps);
+  }
+  if (!tutorial.isPublished) {
+    tutorial = await apiJson<TutorialDetail>(`api/v1/admin/tutorials/${tutorial.id}/publish`, token, 'POST', null);
+  }
+  if (input.featured && !tutorial.isFeatured) {
+    tutorial = await apiJson<TutorialDetail>(`api/v1/admin/tutorials/${tutorial.id}/feature`, token, 'POST', null);
+  }
+  if (input.editorsPick && !tutorial.isEditorsPick) {
+    tutorial = await apiJson<TutorialDetail>(`api/v1/admin/tutorials/${tutorial.id}/editors-pick`, token, 'POST', null);
+  }
+
+  return tutorial;
+}
+
+async function ensureLearnerState(token: string, tutorial: TutorialDetail): Promise<void> {
+  await apiJson<void>(`api/v1/me/bookmarks/${tutorial.id}`, token, 'POST', null);
+  const step = tutorial.steps[0];
+  if (step) {
+    await apiJson<void>(`api/v1/me/progress/${tutorial.id}`, token, 'PUT', {
+      currentStepId: step.id,
+      completedStepIds: [step.id],
+    });
+  }
+}
+
+async function ensureMedia(token: string): Promise<void> {
+  const media = await apiGet<Media[]>('api/v1/admin/media', token);
+  if (media.some((item) => item.fileName === 'promptsharp-diagram.svg')) {
+    return;
+  }
+
+  const filePath = path.resolve(process.cwd(), 'fixtures', 'files', 'promptsharp-diagram.svg');
+  const content = await fs.readFile(filePath);
+  const form = new FormData();
+  form.append('file', new Blob([content], { type: 'image/svg+xml' }), 'promptsharp-diagram.svg');
+
+  await apiFetch<Media>('api/v1/admin/media', token, { method: 'POST', body: form });
+}
+
+async function apiGet<T>(pathAndQuery: string, token: string): Promise<T> {
+  return apiFetch<T>(pathAndQuery, token);
+}
+
+async function apiJson<T>(
+  pathAndQuery: string,
+  token: string,
+  method: 'POST' | 'PUT',
+  body: unknown,
+): Promise<T> {
+  return apiFetch<T>(pathAndQuery, token, {
+    method,
+    headers: { 'content-type': 'application/json' },
+    body: body === null ? undefined : JSON.stringify(body),
+  });
+}
+
+async function apiFetch<T>(pathAndQuery: string, token: string, init: RequestInit = {}): Promise<T> {
+  const response = await fetch(`${apiURL}/${pathAndQuery}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...init.headers,
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`${init.method ?? 'GET'} ${pathAndQuery} failed with ${response.status}: ${await response.text()}`);
+  }
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
+  return (await response.json()) as T;
 }
 
 function signJwt(payload: Record<string, unknown>): string {

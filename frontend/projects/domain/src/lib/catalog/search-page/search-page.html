@@ -1,11 +1,12 @@
 <div class="search-page">
   <h1 class="search-page__title">Search results</h1>
-  <lib-text-field
-    label="Search"
+  <lib-search-field
+    ariaLabel="Search"
+    placeholder="Search tutorials"
     [value]="query()"
     (valueChange)="query.set($event)"
-    (keydown.enter)="search(query())"
-  ></lib-text-field>
+    (searched)="search($event)"
+  ></lib-search-field>
   @if (query()) {
     <p>Results for "{{ query() }}"</p>
   }

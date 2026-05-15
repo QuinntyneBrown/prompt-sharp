@@ -8,7 +8,7 @@ export class TutorialCatalogPage extends BasePage {
   }
 
   searchInput(): Locator {
-    return this.textbox(/search tutorials/i);
+    return this.searchbox(/search tutorials/i);
   }
 
   categoryFilter(): Locator {

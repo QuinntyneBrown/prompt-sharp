@@ -91,12 +91,14 @@
       [options]="codeLanguageOptions"
       (valueChange)="setStepCodeLanguage($event)"
     ></lib-select-field>
-    <label>
-      Image media
-      <input type="file" (change)="markDirty()" />
-    </label>
-    <lib-button type="button" (click)="moveUp()">Move up</lib-button>
-    <lib-button type="button" variant="solid" (click)="saveStep()">Save step</lib-button>
+    <lib-drop-zone
+      label="Image media"
+      description="Choose an image or diagram for this step."
+      accept="image/*,.svg"
+      (filesSelected)="markDirty()"
+    ></lib-drop-zone>
+    <lib-button type="button" [disabled]="loading() || !tutorial()" (click)="moveUp()">Move up</lib-button>
+    <lib-button type="button" variant="solid" [disabled]="loading() || !tutorial()" (click)="saveStep()">Save step</lib-button>
     <div data-testid="step-preview">
       <h2>{{ stepTitle() || 'Preview' }}</h2>
       <p>{{ stepBodyMarkdown() }}</p>

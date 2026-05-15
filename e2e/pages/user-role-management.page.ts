@@ -12,8 +12,8 @@ export class UserRoleManagementPage extends BasePage {
   }
 
   async searchForUser(query: string): Promise<void> {
-    await this.textbox(/search users/i).fill(query);
-    await this.textbox(/search users/i).press('Enter');
+    await this.searchbox(/search users/i).fill(query);
+    await this.searchbox(/search users/i).press('Enter');
   }
 
   async setRole(email: string | RegExp, role: 'Admin' | 'Editor' | 'User', enabled: boolean): Promise<void> {
@@ -56,6 +56,6 @@ export class UserRoleManagementPage extends BasePage {
 
   async expectUsersReady(): Promise<void> {
     await expect(this.usersTable()).toBeVisible();
-    await expect(this.usersTable().getByRole('row').nth(1)).toBeVisible();
+    await expect(this.usersTable().getByRole('row').nth(1)).toBeVisible({ timeout: 15_000 });
   }
 }

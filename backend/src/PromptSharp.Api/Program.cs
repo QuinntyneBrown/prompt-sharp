@@ -54,6 +54,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 MediatorRequestStartupValidator.AssertAllRequestsDeclareIntent(ApplicationAssembly.Assembly);
 
 var appSettings = builder.Configuration.GetSection(AppSettingsOptions.SectionName).Get<AppSettingsOptions>() ?? new AppSettingsOptions();
+var publicRateLimit = builder.Configuration.GetValue("RateLimiting:PublicPermitLimit", 120);
+var writeRateLimit = builder.Configuration.GetValue("RateLimiting:WritePermitLimit", 60);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ConfiguredOrigins", policy =>
@@ -76,7 +78,7 @@ builder.Services.AddRateLimiter(options =>
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
     options.AddFixedWindowLimiter("public", limiter =>
     {
-        limiter.PermitLimit = 120;
+        limiter.PermitLimit = publicRateLimit;
         limiter.Window = TimeSpan.FromMinutes(1);
         limiter.QueueLimit = 0;
     });
@@ -88,7 +90,7 @@ builder.Services.AddRateLimiter(options =>
 
         return RateLimitPartition.GetFixedWindowLimiter(key, _ => new FixedWindowRateLimiterOptions
         {
-            PermitLimit = 60,
+            PermitLimit = writeRateLimit,
             Window = TimeSpan.FromMinutes(1),
             QueueLimit = 0
         });

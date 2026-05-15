@@ -42,6 +42,7 @@ export default defineConfig({
             command:
               `powershell -NoProfile -ExecutionPolicy Bypass -Command "$env:ASPNETCORE_ENVIRONMENT='Development'; ` +
               `$env:ConnectionStrings__PromptSharpDb='${sqlExpressConnection}'; ` +
+              `$env:RateLimiting__WritePermitLimit='600'; ` +
               `dotnet run --project src\\PromptSharp.Api --urls ${apiURL}"`,
             cwd: '../backend',
             url: `${apiURL}/health/ready`,

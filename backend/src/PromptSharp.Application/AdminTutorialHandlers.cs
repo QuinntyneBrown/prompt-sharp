@@ -191,7 +191,8 @@ internal sealed class AdminTutorialHandlers(
             .Include(entity => entity.Steps)
             .Include(entity => entity.TutorialTags)
             .ThenInclude(tutorialTag => tutorialTag.Tag)
-            .SingleAsync(entity => entity.Id == id, cancellationToken);
+            .SingleOrDefaultAsync(entity => entity.Id == id, cancellationToken)
+            ?? throw new NotFoundException($"Tutorial '{id}' was not found.");
 
         return TutorialMapper.ToDetail(tutorial);
     }

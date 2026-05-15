@@ -11,6 +11,7 @@
   },
   "include": [
     "playwright.config.ts",
+    "global-setup.ts",
     "fixtures/**/*.ts",
     "pages/**/*.ts",
     "tests/**/*.ts"

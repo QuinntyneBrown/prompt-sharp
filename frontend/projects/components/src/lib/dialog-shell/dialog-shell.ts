@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 
 let nextDialogId = 0;
 
@@ -7,6 +8,7 @@ let nextDialogId = 0;
   templateUrl: './dialog-shell.html',
   styleUrl: './dialog-shell.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CdkTrapFocus],
   host: {
     '[attr.data-open]': 'open() || null',
     '[attr.data-modal]': 'modal()',
@@ -24,6 +26,11 @@ export class DialogShell {
   protected readonly descriptionId = `lib-dialog-description-${nextDialogId++}`;
 
   protected onScrimClick(): void {
+    this.closed.emit();
+  }
+
+  protected onEscape(event: Event): void {
+    event.stopPropagation();
     this.closed.emit();
   }
 }

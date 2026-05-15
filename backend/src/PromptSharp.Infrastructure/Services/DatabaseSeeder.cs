@@ -63,9 +63,27 @@ public sealed class DatabaseSeeder(
     private async Task SeedDevelopmentCatalog(CancellationToken cancellationToken)
     {
         var now = timeProvider.GetUtcNow();
-        var author = await EnsureUser("seed:admin", "ada.admin@example.com", "Ada Admin", now, cancellationToken);
-        await EnsureUser("seed:editor", "erin.editor@example.com", "Erin Editor", now, cancellationToken);
-        var learner = await EnsureUser("seed:learner", "alex.learner@example.com", "Alex Learner", now, cancellationToken);
+        var author = await EnsureUser(
+            "seed:admin",
+            "ada.admin@example.com",
+            "Ada Admin",
+            [RoleNames.Admin, RoleNames.Editor, RoleNames.User],
+            now,
+            cancellationToken);
+        await EnsureUser(
+            "seed:editor",
+            "erin.editor@example.com",
+            "Erin Editor",
+            [RoleNames.Editor, RoleNames.User],
+            now,
+            cancellationToken);
+        var learner = await EnsureUser(
+            "seed:learner",
+            "alex.learner@example.com",
+            "Alex Learner",
+            [RoleNames.User],
+            now,
+            cancellationToken);
 
         var dotnet = await EnsureCategory("dotnet", ".NET", 1, cancellationToken);
         var blazor = await EnsureCategory("blazor", "Blazor", 2, cancellationToken);
@@ -237,6 +255,7 @@ public sealed class DatabaseSeeder(
         string subject,
         string email,
         string displayName,
+        IReadOnlyCollection<string> roleNames,
         DateTimeOffset now,
         CancellationToken cancellationToken)
     {
@@ -246,17 +265,31 @@ public sealed class DatabaseSeeder(
 
         if (user is not null)
         {
+            user.UpdateProfile(email, displayName, null, now);
+            await EnsureUserRoles(user, roleNames, cancellationToken);
             return user;
         }
 
         user = User.Create(subject, email, displayName, null, now);
-        var roleIds = await dbContext.Roles
-            .Where(role => RoleNames.All.Contains(role.Name))
-            .Select(role => role.Id)
-            .ToArrayAsync(cancellationToken);
-        user.ReplaceRoles(roleIds);
+        await EnsureUserRoles(user, roleNames, cancellationToken);
         dbContext.Users.Add(user);
         return user;
+    }
+
+    private async Task EnsureUserRoles(
+        User user,
+        IReadOnlyCollection<string> roleNames,
+        CancellationToken cancellationToken)
+    {
+        var roleIds = await dbContext.Roles
+            .Where(role => roleNames.Contains(role.Name))
+            .Select(role => role.Id)
+            .ToArrayAsync(cancellationToken);
+
+        if (!user.UserRoles.Select(userRole => userRole.RoleId).ToHashSet().SetEquals(roleIds))
+        {
+            user.ReplaceRoles(roleIds);
+        }
     }
 
     private async Task<Category> EnsureCategory(string slug, string name, int order, CancellationToken cancellationToken)

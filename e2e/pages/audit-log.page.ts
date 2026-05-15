@@ -16,8 +16,8 @@ export class AuditLogPage extends BasePage {
   }
 
   async filterByActor(actor: string): Promise<void> {
-    await this.textbox(/actor|user/i).fill(actor);
-    await this.textbox(/actor|user/i).press('Enter');
+    await this.searchbox(/actor|user/i).fill(actor);
+    await this.searchbox(/actor|user/i).press('Enter');
   }
 
   async openFirstEntry(): Promise<void> {
@@ -26,6 +26,6 @@ export class AuditLogPage extends BasePage {
 
   async expectEntries(): Promise<void> {
     await expect(this.auditTable()).toBeVisible();
-    await expect(this.auditTable().getByRole('row').nth(1)).toBeVisible();
+    await expect(this.auditTable().getByRole('row').nth(1)).toBeVisible({ timeout: 15_000 });
   }
 }

@@ -21,6 +21,14 @@ export abstract class BasePage {
     await expect(this.heading()).toBeVisible();
   }
 
+  async openPrimaryNavLink(name: TextMatch): Promise<void> {
+    await this.page.getByRole('navigation', { name: /primary/i }).getByRole('link', { name }).click();
+  }
+
+  async openAdminNavLink(name: TextMatch): Promise<void> {
+    await this.page.getByRole('complementary').getByRole('link', { name }).click();
+  }
+
   protected byTestId(testId: string): Locator {
     return this.page.getByTestId(testId);
   }
@@ -35,6 +43,10 @@ export abstract class BasePage {
 
   protected textbox(name: TextMatch): Locator {
     return this.page.getByRole('textbox', { name });
+  }
+
+  protected searchbox(name: TextMatch): Locator {
+    return this.page.getByRole('searchbox', { name });
   }
 
   protected combobox(name: TextMatch): Locator {

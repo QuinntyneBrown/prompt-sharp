@@ -1,5 +1,8 @@
 <div class="admin-tutorial-list-page">
-  <h1>Tutorials</h1>
+  <header class="admin-tutorial-list-page__header">
+    <h1>Tutorials</h1>
+    <lib-button type="button" variant="solid" (click)="openCreateDialog()">New tutorial</lib-button>
+  </header>
   @if (loading()) {
     <p class="state state--loading">Loading…</p>
   } @else if (error(); as message) {
@@ -8,12 +11,20 @@
       <lib-button type="button" (click)="load()">Retry</lib-button>
     </div>
   }
-  <lib-text-field
-    label="Search tutorials"
+  <ps-admin-tutorial-dialog
+    [open]="createDialogOpen()"
+    [categoryOptions]="categoryOptions()"
+    [error]="createDialogError()"
+    (cancelled)="closeCreateDialog()"
+    (submitted)="createDraft($event)"
+  ></ps-admin-tutorial-dialog>
+  <lib-search-field
+    ariaLabel="Search tutorials"
+    placeholder="Search tutorials"
     [value]="searchQuery()"
     (valueChange)="searchQuery.set($event)"
-    (keydown.enter)="search(searchQuery())"
-  ></lib-text-field>
+    (searched)="search($event)"
+  ></lib-search-field>
   <lib-select-field
     label="Status"
     [value]="statusFilter()"

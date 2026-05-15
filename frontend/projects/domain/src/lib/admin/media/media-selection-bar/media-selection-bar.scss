@@ -3,5 +3,17 @@
 }
 
 .media-selection-bar {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--ps-rule, rgba(34, 67, 97, 0.75));
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 42, 84, 0.68);
+}
+
+.media-selection-bar p {
+  margin: 0;
 }

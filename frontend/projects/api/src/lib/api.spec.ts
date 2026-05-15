@@ -1,3 +1,4 @@
+import { HttpEventType } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -152,5 +153,44 @@ describe('PromptSharp API services', () => {
       uploadedById: 'user-id',
       uploadedAt: '2026-05-14T00:00:00Z',
     });
+  });
+
+  it('reports admin media upload progress before completion', () => {
+    const api = TestBed.inject(PromptSharpAdminMediaApi);
+    const file = new Blob(['<svg></svg>'], { type: 'image/svg+xml' });
+    const events: unknown[] = [];
+
+    api.uploadWithProgress(file, 'diagram.svg').subscribe((event) => events.push(event));
+
+    const request = http.expectOne('https://backend.test/api/v1/admin/media');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.reportProgress).toBe(true);
+
+    request.event({ type: HttpEventType.UploadProgress, loaded: 5, total: 10 });
+    request.flush({
+      id: 'media-id',
+      url: '/media/diagram.svg',
+      fileName: 'diagram.svg',
+      contentType: 'image/svg+xml',
+      sizeBytes: 11,
+      uploadedById: 'user-id',
+      uploadedAt: '2026-05-14T00:00:00Z',
+    });
+
+    expect(events).toEqual([
+      { type: 'progress', percent: 50 },
+      {
+        type: 'complete',
+        media: {
+          id: 'media-id',
+          url: '/media/diagram.svg',
+          fileName: 'diagram.svg',
+          contentType: 'image/svg+xml',
+          sizeBytes: 11,
+          uploadedById: 'user-id',
+          uploadedAt: '2026-05-14T00:00:00Z',
+        },
+      },
+    ]);
   });
 });

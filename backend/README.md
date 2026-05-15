@@ -12,6 +12,13 @@ dotnet run --project src/PromptSharp.Api
 
 The API listens on `https://localhost:5001` and exposes OpenAPI at `/openapi/v1.json`.
 
+For local SQL Express or Playwright e2e verification, override the development connection string with:
+
+```powershell
+$env:ConnectionStrings__PromptSharpDb='Server=.\SQLEXPRESS;Database=PromptSharp;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False'
+dotnet run --project src/PromptSharp.Api
+```
+
 ## Verification
 
 ```powershell

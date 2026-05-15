@@ -1,3 +1,26 @@
 <div class="oauth-consent-page">
-  <h1>OAuth consent</h1>
+  <lib-dialog-shell
+    [open]="true"
+    headline="OAuth consent"
+    supportingText="Review the provider permissions before continuing."
+  >
+    <div class="oauth-consent-page__brand">Prompt<span>/</span>Sharp</div>
+    <h1>Prompt/Sharp wants to access your Microsoft account</h1>
+    <p class="oauth-consent-page__identity">Signed in as alex.learner@example.com</p>
+    <dl class="oauth-consent-page__scopes">
+      @for (scope of scopes; track scope.label) {
+        <div>
+          <dt>{{ scope.label }}</dt>
+          <dd>{{ scope.description }}</dd>
+        </div>
+      }
+    </dl>
+    @if (status(); as message) {
+      <p role="status">{{ message }}</p>
+    }
+    <div dialog-actions>
+      <lib-button type="button" variant="ghost" (click)="deny()">Deny</lib-button>
+      <lib-button type="button" variant="solid" (click)="allow()">Allow</lib-button>
+    </div>
+  </lib-dialog-shell>
 </div>

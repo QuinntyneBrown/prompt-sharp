@@ -15,8 +15,8 @@
     (cancelled)="closeInviteDialog()"
     (submitted)="inviteUser($event)"
   />
-  <lib-text-field
-    label="Search users"
+  <lib-search-field
+    ariaLabel="Search users"
     placeholder="Search users"
     [value]="userSearch()"
     (valueChange)="searchUsers($event)"
