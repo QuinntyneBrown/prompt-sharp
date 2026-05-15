@@ -292,3 +292,13 @@ For every failed check above:
 | FAB not extended (icon-only circle) | `admin-taxonomy-page.html` — keep both `label="New category"` and a slotted `<md-icon>add</md-icon>` |
 | FAB and page-header button open different dialogs | route both to the same `admin-category-dialog` |
 | Color token drift | `frontend/projects/tokens/_md3-tokens.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-CATEGORIES-001-categories-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-categories/admin-categories-desktop.png`; `docs/ui-audit/screenshots/admin-categories/admin-categories-tablet.png`; `docs/ui-audit/screenshots/admin-categories/admin-categories-mobile.png`

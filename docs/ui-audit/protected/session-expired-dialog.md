@@ -157,3 +157,13 @@ Log every failure in [`bugs/session-expired-dialog.md`](../../bugs/session-expir
 | Dialog flashes / re-opens on resize | open it from the auth interceptor's RxJS subject once, not in a component lifecycle hook |
 | Two buttons rendered (Cancel + Sign in again) | template — only one `<md-filled-button>`, no Cancel |
 | Label says `Sign in` (missing "again") | template — `Sign in again` verbatim |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/SESSION-001-session-expired-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/session-expired-dialog/session-expired-dialog-desktop.png`; `docs/ui-audit/screenshots/session-expired-dialog/session-expired-dialog-tablet.png`; `docs/ui-audit/screenshots/session-expired-dialog/session-expired-dialog-mobile.png`

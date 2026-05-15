@@ -275,3 +275,13 @@ For every failed check above:
 | Footer foot-mark not condensed/heavy | `domain/src/lib/layout/public-footer/public-footer.scss` |
 | Background gradients missing | `frontend/projects/promp-sharp/src/styles.scss` body::before block |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/PROFILE-001-profile-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/profile/profile-desktop.png`; `docs/ui-audit/screenshots/profile/profile-tablet.png`; `docs/ui-audit/screenshots/profile/profile-mobile.png`

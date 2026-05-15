@@ -152,3 +152,13 @@ Log every failure in [`bugs/signout-dialog.md`](../../bugs/signout-dialog.md) us
 | Pattern A backdrop loses saturation filter | `ps-public-backdrop` SCSS — `filter: saturate(.8)` must remain |
 | Snackbar after sign-out missing | not in scope of this dialog — log against the auth service / public snackbar host |
 | Headline copy uses `Log out` instead of `Sign out` | template — `Sign out of Prompt/Sharp?` verbatim |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/SIGNOUT-001-signout-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/signout-dialog/signout-dialog-desktop.png`; `docs/ui-audit/screenshots/signout-dialog/signout-dialog-tablet.png`; `docs/ui-audit/screenshots/signout-dialog/signout-dialog-mobile.png`

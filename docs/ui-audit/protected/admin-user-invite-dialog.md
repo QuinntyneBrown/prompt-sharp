@@ -155,3 +155,13 @@ Log every failure in [`bugs/admin-user-invite-dialog.md`](../../bugs/admin-user-
 | Mono footer styled wrong | use Pattern B `.mono` from shared admin SCSS (Roboto Flex 12 px, 0.04 em) |
 | Send invite label wrong | template — `Send invite` (sentence case, two words) |
 | Send invite enabled when form invalid | bind `[disabled]="form.invalid \|\| form.pending"` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-USER-INVITE-001-user-invite-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-user-invite-dialog/admin-user-invite-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-user-invite-dialog/admin-user-invite-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-user-invite-dialog/admin-user-invite-dialog-mobile.png`

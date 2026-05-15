@@ -319,3 +319,13 @@ For every failed check above:
 | Delete button red instead of orange | match skeleton: keep `md-filled-button` (primary) — destructive intent handled by the confirm dialog |
 | Bottom bar `left` offset doesn't account for nav rail | use `left: calc(var(--rail-w) + 32px)` with `--rail-w` from the global token |
 | Color token drift | `frontend/projects/tokens/_md3-tokens.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-MEDIA-001-media-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-media/admin-media-desktop.png`; `docs/ui-audit/screenshots/admin-media/admin-media-tablet.png`; `docs/ui-audit/screenshots/admin-media/admin-media-mobile.png`

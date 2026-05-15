@@ -161,3 +161,13 @@ Log every failure in [`bugs/admin-publish-dialog.md`](../../bugs/admin-publish-d
 | Filter chips allow multi-select | component TS — enforce mutual exclusion in `(selected)` handlers |
 | Publish button rendered red (danger) | remove `.danger-button` class — Publish is primary |
 | Visibility caption uppercase / wrong font | `.mono` shared SCSS — Roboto Flex 12 px / 0.04 em |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-PUBLISH-001-publish-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-publish-dialog/admin-publish-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-publish-dialog/admin-publish-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-publish-dialog/admin-publish-dialog-mobile.png`

@@ -171,3 +171,13 @@ Log every failure in [`bugs/admin-unsaved-changes-dialog.md`](../../bugs/admin-u
 | Buttons overflow at 560 px width | shorten label only if absolutely necessary; otherwise let M3 default action layout handle |
 | Mobile full-screen stack order wrong (Discard on top) | media-query CSS in `.mat-dialog-actions` / slot — reverse flex direction so primary is top |
 | Guard not firing on tab close | use `beforeunload` + Angular `CanDeactivate` in tandem (browser still prompts independently) |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-UNSAVED-001-unsaved-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-unsaved-changes-dialog/admin-unsaved-changes-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-unsaved-changes-dialog/admin-unsaved-changes-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-unsaved-changes-dialog/admin-unsaved-changes-dialog-mobile.png`

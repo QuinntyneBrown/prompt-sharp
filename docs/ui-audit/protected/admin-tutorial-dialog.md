@@ -283,3 +283,13 @@ For every failed check above:
 | Close (X) not appearing on mobile | `.close-btn` `display: inline-flex` inside the 600 px media query |
 | Backdrop list not mounted behind the dialog | `admin-tutorial-list-page.html` — render the dialog as a child so the list stays in the DOM tree |
 | Color token drift | `frontend/projects/tokens/_colors.scss` and `_md-sys.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-TUTORIAL-DIALOG-001-tutorial-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-tutorial-dialog/admin-tutorial-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-tutorial-dialog/admin-tutorial-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-tutorial-dialog/admin-tutorial-dialog-mobile.png`

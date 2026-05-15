@@ -359,3 +359,13 @@ For every failed check above:
 | Checkbox group missing third option | confirm three `<label>` rows with `Publish` / `Update` / `Delete` in `audit-filter-rail.html` |
 | Filter changes require an Apply button | wire signals so any filter change re-fetches immediately |
 | Color token drift | `frontend/projects/tokens/_md3-tokens.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-AUDIT-001-audit-log-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-audit-log/admin-audit-log-desktop.png`; `docs/ui-audit/screenshots/admin-audit-log/admin-audit-log-tablet.png`; `docs/ui-audit/screenshots/admin-audit-log/admin-audit-log-mobile.png`

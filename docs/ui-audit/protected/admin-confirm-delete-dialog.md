@@ -185,3 +185,13 @@ For every failed check:
 | Delete fires twice if double-clicked | set the button `disabled` while the DELETE is in-flight in the component TS |
 | Affected row not highlighted on the underlying list | `admin-tutorial-list-page.ts` — pass `deletingId` into the table and apply `.highlight` on match |
 | Esc/scrim-click doesn't dismiss | ensure no `scrim-click-action=""` / `escape-key-action=""` attributes on `md-dialog` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-CONFIRM-DELETE-001-delete-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-confirm-delete-dialog/admin-confirm-delete-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-confirm-delete-dialog/admin-confirm-delete-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-confirm-delete-dialog/admin-confirm-delete-dialog-mobile.png`

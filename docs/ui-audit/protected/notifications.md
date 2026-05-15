@@ -231,3 +231,13 @@ For every failed check above:
 | `Undo` action missing on with-action / two-line variants | Slot `<md-text-button slot="action">Undo</md-text-button>` inside the snackbar element |
 | Card background wrong | `.snack-card` background must be `var(--md-sys-color-surface-container)` (`#0F1A30`) |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-NOTIFICATIONS-001-notifications-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/notifications/notifications-desktop.png`; `docs/ui-audit/screenshots/notifications/notifications-tablet.png`; `docs/ui-audit/screenshots/notifications/notifications-mobile.png`

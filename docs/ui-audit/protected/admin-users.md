@@ -256,3 +256,13 @@ For every failed check above:
 | Row menu missing | wire `(click)` on `md-icon-button[more_vert]` to an action menu service |
 | Table not horizontally scrollable on mobile | wrap in `.table-wrap { overflow-x: auto }` and set `min-width: 860px` on `.data-table` |
 | Color token drift | `frontend/projects/tokens/_md3-tokens.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-USERS-001-users-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-users/admin-users-desktop.png`; `docs/ui-audit/screenshots/admin-users/admin-users-tablet.png`; `docs/ui-audit/screenshots/admin-users/admin-users-mobile.png`

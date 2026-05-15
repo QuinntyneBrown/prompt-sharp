@@ -187,3 +187,13 @@ Log every failure in [`bugs/admin-category-dialog.md`](../../bugs/admin-category
 | Selected swatch has no visible ring | `.swatch.selected` SCSS — add 2 px primary-color outline |
 | Active icon doesn't fill | bind `[class.filled]` and apply `font-variation-settings: 'FILL' 1` |
 | Primary button label says `Save changes` instead of `Save` in Edit mode | `admin-category-dialog.ts` — switch label by `mode` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-CATEGORY-DIALOG-001-category-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-category-dialog/admin-category-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-category-dialog/admin-category-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-category-dialog/admin-category-dialog-mobile.png`

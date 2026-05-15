@@ -444,3 +444,13 @@ For every failed check above:
 | Save-state readout rendering prose ("Saved 38s ago") | refactor to `key = value` mono format in `tutorial-metadata-panel.html` |
 | Top bar `Publish…` opens wrong dialog | route to `admin-publish-dialog` component (see `admin-publish-dialog.html` skeleton) |
 | Color token drift | `frontend/projects/tokens/_md3-tokens.scss` (or wherever `:root` MD3 tokens live globally) |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-TUTORIAL-EDITOR-001-editor-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-tutorial-editor/admin-tutorial-editor-desktop.png`; `docs/ui-audit/screenshots/admin-tutorial-editor/admin-tutorial-editor-tablet.png`; `docs/ui-audit/screenshots/admin-tutorial-editor/admin-tutorial-editor-mobile.png`

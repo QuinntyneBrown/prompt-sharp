@@ -174,3 +174,13 @@ Log every failure in [`bugs/admin-media-upload-dialog.md`](../../bugs/admin-medi
 | Close button labeled `Cancel` | template — must read `Close` |
 | Uploads cancel when dialog closes | service must outlive the dialog (host upload state in an app-level service, not the dialog component) |
 | Upload rows lay out wrong | use grid `1fr auto auto` so filename column flex-grows |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-MEDIA-UPLOAD-001-media-upload-dialog-composition.md`
+- **Verification:** `npx ng build components --configuration development`; `npx ng build domain --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-media-upload-dialog/admin-media-upload-dialog-desktop.png`; `docs/ui-audit/screenshots/admin-media-upload-dialog/admin-media-upload-dialog-tablet.png`; `docs/ui-audit/screenshots/admin-media-upload-dialog/admin-media-upload-dialog-mobile.png`

@@ -327,3 +327,13 @@ For every failed check above:
 | FAB duplicated per route | Move to `admin-shell` template |
 | Horizontal scroll missing on narrow viewports | Ensure `.table-wrap { overflow-x: auto; }` and table has `min-width: 900px` |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/ADMIN-TUTORIAL-LIST-001-tutorial-list-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/admin-tutorial-list/admin-tutorial-list-desktop.png`; `docs/ui-audit/screenshots/admin-tutorial-list/admin-tutorial-list-tablet.png`; `docs/ui-audit/screenshots/admin-tutorial-list/admin-tutorial-list-mobile.png`
