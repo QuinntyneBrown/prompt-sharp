@@ -1,4 +1,23 @@
-<div class="filter-rail">
-  <!-- FilterRail scaffold -->
-  <ng-content></ng-content>
-</div>
+<aside class="filter-rail">
+  <section class="filter-rail__group">
+    <h3 class="filter-rail__heading">Categories</h3>
+    <div class="filter-rail__chips">
+      @for (c of categories(); track c.slug) {
+        <lib-chip [selected]="isCategorySelected(c.slug)" (click)="toggleCategory(c.slug)">
+          {{ c.label }}
+        </lib-chip>
+      }
+    </div>
+  </section>
+  <lib-rule></lib-rule>
+  <section class="filter-rail__group">
+    <h3 class="filter-rail__heading">Tags</h3>
+    <div class="filter-rail__chips">
+      @for (t of tags(); track t.slug) {
+        <lib-chip [selected]="isTagSelected(t.slug)" (click)="toggleTag(t.slug)">
+          {{ t.label }}
+        </lib-chip>
+      }
+    </div>
+  </section>
+</aside>

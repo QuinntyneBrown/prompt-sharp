@@ -1,6 +1,7 @@
-<div class="media-card">
-  <!-- MediaCard scaffold -->
-  <span class="filename">{{ filename() }}</span>
-  <span class="thumbnailUrl">{{ thumbnailUrl() }}</span>
-  <ng-content></ng-content>
-</div>
+<article class="media-card">
+  <lib-thumbnail [src]="thumbnailUrl()" [alt]="filename()"></lib-thumbnail>
+  <div class="media-card__footer">
+    <span class="media-card__name">{{ filename() }}</span>
+    <lib-checkbox (checkedChange)="selectedChanged.emit($event)"></lib-checkbox>
+  </div>
+</article>

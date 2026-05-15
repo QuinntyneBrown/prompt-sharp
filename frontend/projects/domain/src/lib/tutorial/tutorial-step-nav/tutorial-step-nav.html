@@ -1,4 +1,4 @@
-<div class="tutorial-step-nav">
-  <!-- TutorialStepNav scaffold -->
-  <ng-content></ng-content>
-</div>
+<nav class="tutorial-step-nav" aria-label="Steps">
+  <lib-button variant="ghost" (click)="previous.emit()">Previous</lib-button>
+  <lib-button variant="solid" (click)="next.emit()">Next</lib-button>
+</nav>

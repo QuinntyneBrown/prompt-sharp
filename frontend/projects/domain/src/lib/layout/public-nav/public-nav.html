@@ -1,5 +1,20 @@
-<div class="public-nav">
-  <!-- PublicNav scaffold -->
-  <span class="activeRoute">{{ activeRoute() }}</span>
-  <ng-content></ng-content>
-</div>
+<nav class="public-nav" aria-label="Primary">
+  <a class="public-nav__brand" href="/" aria-label="PromptSharp home">
+    <lib-wordmark size="md" variant="inline"></lib-wordmark>
+  </a>
+  <ul class="public-nav__links">
+    <li>
+      <lib-nav-item label="Catalog" href="/catalog" [active]="activeRoute() === 'catalog'"></lib-nav-item>
+    </li>
+    <li>
+      <lib-nav-item label="About" href="/about" [active]="activeRoute() === 'about'"></lib-nav-item>
+    </li>
+  </ul>
+  <div class="public-nav__actions">
+    @if (signedIn()) {
+      <lib-button variant="ghost" (click)="signOut.emit()">Sign out</lib-button>
+    } @else {
+      <lib-button variant="solid" (click)="signIn.emit()">Sign in</lib-button>
+    }
+  </div>
+</nav>

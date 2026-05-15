@@ -1,7 +1,17 @@
-<div class="tutorial-card">
-  <!-- TutorialCard scaffold -->
-  <span class="title">{{ title() }}</span>
-  <span class="slug">{{ slug() }}</span>
-  <span class="summary">{{ summary() }}</span>
-  <ng-content></ng-content>
-</div>
+<article class="tutorial-card" (click)="selected.emit()">
+  @if (categoryName(); as cat) {
+    <lib-eyebrow [showDot]="true">{{ cat }}</lib-eyebrow>
+  }
+  <h3 class="tutorial-card__title">{{ title() }}</h3>
+  @if (summary(); as text) {
+    <p class="tutorial-card__summary">{{ text }}</p>
+  }
+  <footer class="tutorial-card__meta">
+    @if (difficulty(); as d) {
+      <lib-difficulty-badge [level]="d"></lib-difficulty-badge>
+    }
+    @if (estimatedMinutes(); as mins) {
+      <lib-mono>{{ mins }} min</lib-mono>
+    }
+  </footer>
+</article>

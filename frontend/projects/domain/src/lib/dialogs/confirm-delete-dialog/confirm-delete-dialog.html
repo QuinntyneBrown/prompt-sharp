@@ -1,5 +1,12 @@
-<div class="confirm-delete-dialog">
-  <!-- ConfirmDeleteDialog scaffold -->
-  <span class="itemName">{{ itemName() }}</span>
+<lib-dialog-shell
+  [open]="open()"
+  headline="Delete?"
+  [supportingText]="itemName() ? 'This will permanently remove ' + itemName() + '.' : 'This action cannot be undone.'"
+  (closed)="cancelled.emit()"
+>
   <ng-content></ng-content>
-</div>
+  <div dialog-actions>
+    <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
+    <lib-button variant="solid" (click)="confirmed.emit()">Delete</lib-button>
+  </div>
+</lib-dialog-shell>

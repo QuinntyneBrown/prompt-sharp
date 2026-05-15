@@ -1,5 +1,69 @@
-<div class="admin-nav-rail">
-  <!-- AdminNavRail scaffold -->
-  <span class="activeRoute">{{ activeRoute() }}</span>
-  <ng-content></ng-content>
-</div>
+<aside class="admin-nav-rail" [attr.data-collapsed]="collapsed() || null">
+  <div class="admin-nav-rail__brand">
+    <lib-wordmark size="sm" variant="inline"></lib-wordmark>
+    <lib-icon-button
+      icon="menu"
+      label="Toggle navigation"
+      size="sm"
+      (clicked)="collapseToggled.emit()"
+    ></lib-icon-button>
+  </div>
+  <nav>
+    <ul>
+      <li>
+        <lib-nav-item
+          icon="dashboard"
+          label="Dashboard"
+          href="/admin"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'dashboard'"
+        ></lib-nav-item>
+      </li>
+      <li>
+        <lib-nav-item
+          icon="article"
+          label="Tutorials"
+          href="/admin/tutorials"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'tutorials'"
+        ></lib-nav-item>
+      </li>
+      <li>
+        <lib-nav-item
+          icon="label"
+          label="Taxonomy"
+          href="/admin/taxonomy"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'taxonomy'"
+        ></lib-nav-item>
+      </li>
+      <li>
+        <lib-nav-item
+          icon="image"
+          label="Media"
+          href="/admin/media"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'media'"
+        ></lib-nav-item>
+      </li>
+      <li>
+        <lib-nav-item
+          icon="group"
+          label="Users"
+          href="/admin/users"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'users'"
+        ></lib-nav-item>
+      </li>
+      <li>
+        <lib-nav-item
+          icon="history"
+          label="Audit log"
+          href="/admin/audit"
+          [collapsed]="collapsed()"
+          [active]="activeRoute() === 'audit'"
+        ></lib-nav-item>
+      </li>
+    </ul>
+  </nav>
+</aside>

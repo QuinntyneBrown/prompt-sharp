@@ -1,6 +1,6 @@
-<div class="tutorial-code-block">
-  <!-- TutorialCodeBlock scaffold -->
-  <span class="language">{{ language() }}</span>
-  <span class="code">{{ code() }}</span>
-  <ng-content></ng-content>
-</div>
+<figure class="tutorial-code-block">
+  <pre><code [attr.data-language]="language()">{{ code() }}</code></pre>
+  @if (language(); as lang) {
+    <lib-code-caption>{{ lang }}</lib-code-caption>
+  }
+</figure>

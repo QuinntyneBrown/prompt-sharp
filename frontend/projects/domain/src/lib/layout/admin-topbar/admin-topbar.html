@@ -1,5 +1,13 @@
-<div class="admin-topbar">
-  <!-- AdminTopbar scaffold -->
-  <span class="currentUserName">{{ currentUserName() }}</span>
-  <ng-content></ng-content>
-</div>
+<header class="admin-topbar">
+  <div class="admin-topbar__status">
+    <lib-status-dot tone="success"></lib-status-dot>
+    <span>Live</span>
+  </div>
+  <div class="admin-topbar__actions">
+    <lib-icon-button icon="notifications" label="Notifications" size="sm"></lib-icon-button>
+    @if (currentUserName(); as name) {
+      <lib-avatar [name]="name" size="sm"></lib-avatar>
+    }
+    <lib-button variant="ghost" (click)="signOut.emit()">Sign out</lib-button>
+  </div>
+</header>

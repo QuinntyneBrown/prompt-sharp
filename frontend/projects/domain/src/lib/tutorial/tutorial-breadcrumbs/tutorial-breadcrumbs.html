@@ -1,4 +1,5 @@
-<div class="tutorial-breadcrumbs">
-  <!-- TutorialBreadcrumbs scaffold -->
-  <ng-content></ng-content>
-</div>
+<nav class="tutorial-breadcrumbs" aria-label="Breadcrumb">
+  @for (c of crumbs() ?? []; track c.label; let last = $last) {
+    <lib-breadcrumb [label]="c.label" [href]="c.href" [current]="last"></lib-breadcrumb>
+  }
+</nav>

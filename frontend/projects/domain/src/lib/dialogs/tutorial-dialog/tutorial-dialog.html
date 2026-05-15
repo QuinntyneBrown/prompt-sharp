@@ -1,4 +1,11 @@
-<div class="tutorial-dialog">
-  <!-- TutorialDialog scaffold -->
+<lib-dialog-shell
+  [open]="open()"
+  headline="Tutorial"
+  (closed)="cancelled.emit()"
+>
   <ng-content></ng-content>
-</div>
+  <div dialog-actions>
+    <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
+    <lib-button variant="solid" (click)="submitted.emit({})">Save</lib-button>
+  </div>
+</lib-dialog-shell>

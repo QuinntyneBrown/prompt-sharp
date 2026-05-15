@@ -1,4 +1,5 @@
 <div class="admin-filter-chips">
-  <!-- AdminFilterChips scaffold -->
-  <ng-content></ng-content>
+  @for (option of options(); track option) {
+    <lib-chip [selected]="isSelected(option)" (click)="toggle(option)">{{ option }}</lib-chip>
+  }
 </div>

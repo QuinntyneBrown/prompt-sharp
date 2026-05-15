@@ -1,4 +1,4 @@
 <div class="admin-row-actions">
-  <!-- AdminRowActions scaffold -->
-  <ng-content></ng-content>
+  <lib-icon-button icon="edit" label="Edit" size="sm" (clicked)="edit.emit()"></lib-icon-button>
+  <lib-icon-button icon="delete" label="Delete" size="sm" (clicked)="remove.emit()"></lib-icon-button>
 </div>

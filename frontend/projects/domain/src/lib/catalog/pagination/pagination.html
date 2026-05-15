@@ -1,4 +1,21 @@
-<div class="pagination">
-  <!-- Pagination scaffold -->
-  <ng-content></ng-content>
-</div>
+<nav class="pagination" aria-label="Pagination">
+  <lib-pagination-button
+    label="Prev"
+    ariaLabel="Previous page"
+    [disabled]="page() <= 1"
+    (selected)="select(page() - 1)"
+  ></lib-pagination-button>
+  @for (p of pages(); track p) {
+    <lib-pagination-button
+      [label]="p"
+      [active]="p === page()"
+      (selected)="select(p)"
+    ></lib-pagination-button>
+  }
+  <lib-pagination-button
+    label="Next"
+    ariaLabel="Next page"
+    [disabled]="page() >= pageCount()"
+    (selected)="select(page() + 1)"
+  ></lib-pagination-button>
+</nav>

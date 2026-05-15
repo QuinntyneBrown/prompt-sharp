@@ -1,8 +1,9 @@
 import { Injectable, signal } from '@angular/core';
+import { SnackbarTone } from 'components';
 
 export interface NotificationMessage {
   readonly id: string;
-  readonly tone: 'info' | 'success' | 'warning' | 'danger';
+  readonly tone: SnackbarTone;
   readonly text: string;
 }
 

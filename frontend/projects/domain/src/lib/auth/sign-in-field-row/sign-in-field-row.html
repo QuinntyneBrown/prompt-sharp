@@ -1,5 +1,8 @@
 <div class="sign-in-field-row">
-  <!-- SignInFieldRow scaffold -->
-  <span class="label">{{ label() }}</span>
-  <ng-content></ng-content>
+  <lib-text-field
+    [label]="label()"
+    [type]="kind() === 'password' ? 'password' : 'text'"
+    [value]="value()"
+    (valueChange)="valueChange.emit($event)"
+  ></lib-text-field>
 </div>

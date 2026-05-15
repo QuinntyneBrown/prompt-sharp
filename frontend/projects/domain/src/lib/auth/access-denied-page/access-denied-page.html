@@ -1,4 +1,5 @@
-<div class="access-denied-page">
-  <!-- AccessDeniedPage scaffold -->
-  <ng-content></ng-content>
-</div>
+<lib-empty-state icon="block" display="Access denied" description="You don't have permission to view this page.">
+  <div empty-state-actions>
+    <lib-button variant="solid"><a href="/">Back home</a></lib-button>
+  </div>
+</lib-empty-state>

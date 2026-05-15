@@ -1,4 +1,10 @@
-<div class="notification-snackbar-host">
-  <!-- NotificationSnackbarHost scaffold -->
-  <ng-content></ng-content>
+<div class="notification-snackbar-host" aria-live="polite">
+  @for (m of center.messages(); track m.id) {
+    <lib-snackbar
+      [message]="m.text"
+      [tone]="m.tone"
+      [open]="true"
+      (dismissed)="dismiss(m.id)"
+    ></lib-snackbar>
+  }
 </div>

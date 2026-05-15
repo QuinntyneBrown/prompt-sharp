@@ -1,4 +1,10 @@
-<div class="sign-out-dialog">
-  <!-- SignOutDialog scaffold -->
-  <ng-content></ng-content>
-</div>
+<lib-dialog-shell
+  [open]="open()"
+  headline="Sign out?"
+  (closed)="cancelled.emit()"
+>
+  <div dialog-actions>
+    <lib-button variant="ghost" (click)="cancelled.emit()">Stay signed in</lib-button>
+    <lib-button variant="solid" (click)="confirmed.emit()">Sign out</lib-button>
+  </div>
+</lib-dialog-shell>

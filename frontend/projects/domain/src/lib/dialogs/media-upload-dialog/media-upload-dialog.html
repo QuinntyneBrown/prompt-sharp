@@ -1,4 +1,10 @@
-<div class="media-upload-dialog">
-  <!-- MediaUploadDialog scaffold -->
-  <ng-content></ng-content>
-</div>
+<lib-dialog-shell
+  [open]="open()"
+  headline="Upload media"
+  (closed)="cancelled.emit()"
+>
+  <lib-drop-zone (filesSelected)="onFiles($event)"></lib-drop-zone>
+  <div dialog-actions>
+    <lib-button variant="ghost" (click)="cancelled.emit()">Cancel</lib-button>
+  </div>
+</lib-dialog-shell>

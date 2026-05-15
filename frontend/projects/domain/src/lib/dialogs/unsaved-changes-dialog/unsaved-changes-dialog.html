@@ -1,4 +1,11 @@
-<div class="unsaved-changes-dialog">
-  <!-- UnsavedChangesDialog scaffold -->
-  <ng-content></ng-content>
-</div>
+<lib-dialog-shell
+  [open]="open()"
+  headline="Unsaved changes"
+  supportingText="Discard your edits and leave?"
+  (closed)="cancelled.emit()"
+>
+  <div dialog-actions>
+    <lib-button variant="ghost" (click)="cancelled.emit()">Keep editing</lib-button>
+    <lib-button variant="solid" (click)="discarded.emit()">Discard</lib-button>
+  </div>
+</lib-dialog-shell>
