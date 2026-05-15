@@ -33,3 +33,8 @@
     font-variation-settings: "wdth" 90, "wght" 500;
   }
 }
+
+:host([data-variant='foot']) .mark {
+  font-variation-settings: #{t.$fvs-condensed};
+  letter-spacing: -0.05em;
+}
