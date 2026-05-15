@@ -2,6 +2,12 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { routes } from './routes';
 
+export interface UploadedMedia {
+  fileName: string;
+  url: string;
+  contentType: string;
+}
+
 export class MediaLibraryPage extends BasePage {
   constructor(page: Page) {
     super(page, routes.mediaLibrary, /media library|media/i);
@@ -24,14 +30,16 @@ export class MediaLibraryPage extends BasePage {
     );
   }
 
-  async upload(filePath: string): Promise<void> {
+  async upload(filePath: string): Promise<UploadedMedia> {
     await this.openUploadDialog();
     const uploadResponse = this.page.waitForResponse(
       (response) => response.request().method() === 'POST' && response.url().includes('/api/v1/admin/media'),
     );
     await this.page.getByLabel(/upload file/i).setInputFiles(filePath);
     await expect(this.page.getByRole('progressbar', { name: /upload progress/i })).toBeVisible();
-    expect((await uploadResponse).ok()).toBe(true);
+    const response = await uploadResponse;
+    expect(response.ok()).toBe(true);
+    return (await response.json()) as UploadedMedia;
   }
 
   async openUploadDialog(): Promise<void> {

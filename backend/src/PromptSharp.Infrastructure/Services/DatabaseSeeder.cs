@@ -16,8 +16,29 @@ namespace PromptSharp.Infrastructure.Services;
 public sealed class DatabaseSeeder(
     PromptSharpDbContext dbContext,
     IOptions<AppSettingsOptions> options,
+    IHostEnvironment hostEnvironment,
     TimeProvider timeProvider) : IDatabaseSeeder
 {
+    private const string SeedDiagramUrl = "/media/promptsharp-diagram.svg";
+    private const string SeedDiagramSvg = """
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">PromptSharp architecture diagram</title>
+  <desc id="desc">Frontend, API, and SQL Server flow for PromptSharp tutorials.</desc>
+  <rect width="640" height="360" rx="24" fill="#f8fafc"/>
+  <rect x="56" y="96" width="144" height="96" rx="16" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <rect x="248" y="96" width="144" height="96" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <rect x="440" y="96" width="144" height="96" rx="16" fill="#fef3c7" stroke="#d97706" stroke-width="4"/>
+  <text x="128" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#1e3a8a">Angular</text>
+  <text x="320" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#14532d">ASP.NET API</text>
+  <text x="512" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#78350f">SQL Server</text>
+  <path d="M204 144h40" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
+  <path d="M236 132l14 12-14 12" fill="none" stroke="#334155" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M396 144h40" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
+  <path d="M428 132l14 12-14 12" fill="none" stroke="#334155" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="320" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#334155">Real HTTP requests persist tutorial work.</text>
+</svg>
+""";
+
     public async Task SeedAsync(CancellationToken cancellationToken = default)
     {
         foreach (var roleName in RoleNames.All)
@@ -162,13 +183,14 @@ public sealed class DatabaseSeeder(
             cancellationToken);
 
         await EnsureMedia(
-            "/media/promptsharp-diagram.svg",
+            SeedDiagramUrl,
             "promptsharp-diagram.svg",
             "image/svg+xml",
-            512,
+            Encoding.UTF8.GetByteCount(SeedDiagramSvg),
             author.Id,
             now,
             cancellationToken);
+        await EnsureSeedMediaFile(SeedDiagramUrl, SeedDiagramSvg, cancellationToken);
 
         foreach (var tutorial in new[] { cleanArchitectureTutorial, blazorTutorial, azureTutorial })
         {
@@ -376,5 +398,31 @@ public sealed class DatabaseSeeder(
         media = Media.Create(url, fileName, contentType, sizeBytes, uploadedById, uploadedAt);
         dbContext.Media.Add(media);
         return media;
+    }
+
+    private async Task EnsureSeedMediaFile(string url, string content, CancellationToken cancellationToken)
+    {
+        if (!url.StartsWith("/media/", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var root = Path.IsPathRooted(options.Value.Media.LocalRoot)
+            ? options.Value.Media.LocalRoot
+            : Path.Combine(hostEnvironment.ContentRootPath, options.Value.Media.LocalRoot);
+        Directory.CreateDirectory(root);
+
+        var fileName = Path.GetFileName(url);
+        var path = Path.GetFullPath(Path.Combine(root, fileName));
+        var fullRoot = Path.GetFullPath(root);
+        if (!path.StartsWith(fullRoot, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("Seed media path escaped the configured media root.");
+        }
+
+        if (!File.Exists(path))
+        {
+            await File.WriteAllTextAsync(path, content, Encoding.UTF8, cancellationToken);
+        }
     }
 }

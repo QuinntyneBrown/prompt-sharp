@@ -1,12 +1,24 @@
 import { execFile } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import { promisify } from 'node:util';
 import { test, expect } from '../fixtures/page-fixtures';
 import { mediaAsset, tutorial, users } from '../fixtures/test-data';
 
 const execFileAsync = promisify(execFile);
+const apiBaseUrl = process.env.PLAYWRIGHT_API_BASE_URL ?? 'http://127.0.0.1:5000';
 const sqlConnection =
   process.env.PROMPTSHARP_SQL_CONNECTION ??
   'Server=.\\SQLEXPRESS;Database=PromptSharp;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False';
+const localMediaRoot = path.resolve(
+  process.cwd(),
+  '..',
+  'backend',
+  'src',
+  'PromptSharp.Api',
+  'App_Data',
+  'media',
+);
 
 test.describe('SQL Express database verification', () => {
   test.use({ storageState: '.auth/admin.json' });
@@ -67,12 +79,16 @@ test.describe('SQL Express database verification', () => {
     await mediaLibraryPage.goto();
     await mediaLibraryPage.expectLoaded();
     await mediaLibraryPage.delayNextUpload(250);
-    await mediaLibraryPage.upload(mediaAsset.path);
+    const uploadedMedia = await mediaLibraryPage.upload(mediaAsset.path);
     await expect(page.getByRole('status')).toContainText(/uploaded/i);
     await expectSqlCount(
       `SELECT COUNT(1) AS Count FROM Media WHERE FileName = '${escapeSql(mediaAsset.fileName)}'`,
       1,
     );
+    const mediaResponse = await page.request.get(new URL(uploadedMedia.url, apiBaseUrl).toString());
+    expect(mediaResponse.ok()).toBe(true);
+    expect(mediaResponse.headers()['content-type']).toContain('image/svg+xml');
+    expect(fs.existsSync(path.join(localMediaRoot, path.basename(uploadedMedia.url)))).toBe(true);
 
     await expectSqlCount(
       `SELECT COUNT(1) AS Count

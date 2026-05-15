@@ -83758,3 +83758,171 @@ ORDER BY [m].[UploadedAt] DESC
 [05:24:07 INF] Executed action PromptSharp.Api.Controllers.AdminMediaController.Get (PromptSharp.Api) in 4.5775ms
 [05:24:07 INF] Executed endpoint 'PromptSharp.Api.Controllers.AdminMediaController.Get (PromptSharp.Api)'
 [05:24:07 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/admin/media - 200 null application/json; charset=utf-8 43.083ms
+[05:25:44 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/featured - null null
+[05:25:44 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/editors-pick - null null
+[05:25:44 INF] CORS policy execution successful.
+[05:25:44 INF] CORS policy execution successful.
+[05:25:44 INF] No cached response available for this request.
+[05:25:44 INF] No cached response available for this request.
+[05:25:44 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/categories - null null
+[05:25:44 INF] Executing endpoint 'PromptSharp.Api.Controllers.TutorialsController.GetFeatured (PromptSharp.Api)'
+[05:25:44 INF] Executing endpoint 'PromptSharp.Api.Controllers.TutorialsController.GetEditorsPick (PromptSharp.Api)'
+[05:25:44 INF] CORS policy execution successful.
+[05:25:44 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials?page=1&pageSize=12 - null null
+[05:25:44 INF] Route matched with {action = "GetFeatured", controller = "Tutorials"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IReadOnlyList`1[PromptSharp.Application.TutorialListItemDto]] GetFeatured(System.Threading.CancellationToken) on controller PromptSharp.Api.Controllers.TutorialsController (PromptSharp.Api).
+[05:25:44 INF] Route matched with {action = "GetEditorsPick", controller = "Tutorials"}. Executing controller action with signature System.Threading.Tasks.Task`1[PromptSharp.Application.TutorialListItemDto] GetEditorsPick(System.Threading.CancellationToken) on controller PromptSharp.Api.Controllers.TutorialsController (PromptSharp.Api).
+[05:25:44 INF] No cached response available for this request.
+[05:25:44 INF] CORS policy execution successful.
+[05:25:44 INF] Executing endpoint 'PromptSharp.Api.Controllers.CategoriesController.GetCategories (PromptSharp.Api)'
+[05:25:44 INF] No cached response available for this request.
+[05:25:44 INF] Route matched with {action = "GetCategories", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IReadOnlyList`1[PromptSharp.Application.CategoryDto]] GetCategories(System.Threading.CancellationToken) on controller PromptSharp.Api.Controllers.CategoriesController (PromptSharp.Api).
+[05:25:44 INF] Executing endpoint 'PromptSharp.Api.Controllers.TutorialsController.GetTutorials (PromptSharp.Api)'
+[05:25:44 INF] Route matched with {action = "GetTutorials", controller = "Tutorials"}. Executing controller action with signature System.Threading.Tasks.Task`1[PromptSharp.Application.PagedResult`1[PromptSharp.Application.TutorialListItemDto]] GetTutorials(System.String, System.String, System.String, System.Nullable`1[PromptSharp.Domain.DifficultyLevel], Int32, Int32, System.String, System.Threading.CancellationToken) on controller PromptSharp.Api.Controllers.TutorialsController (PromptSharp.Api).
+[05:25:44 INF] Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Tutorials] AS [t]
+WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[IsPublished] = CAST(1 AS bit)
+[05:25:44 INF] Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Slug], [c].[Name], [c].[Order], (
+    SELECT COUNT(*)
+    FROM [Tutorials] AS [t]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[IsPublished] = CAST(1 AS bit) AND [t].[CategoryId] = [c].[Id])
+FROM [Categories] AS [c]
+ORDER BY [c].[Order], [c].[Name]
+[05:25:44 INF] Handled GetCategoriesQuery for anonymous in 15ms
+[05:25:44 INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[PromptSharp.Application.CategoryDto, PromptSharp.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[05:25:44 INF] Executed action PromptSharp.Api.Controllers.CategoriesController.GetCategories (PromptSharp.Api) in 20.4014ms
+[05:25:44 INF] Executed endpoint 'PromptSharp.Api.Controllers.CategoriesController.GetCategories (PromptSharp.Api)'
+[05:25:44 INF] The response has been cached.
+[05:25:44 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/categories - 200 null application/json; charset=utf-8 26.1036ms
+[05:25:44 INF] Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [s].[Id], [s].[AuthorId], [s].[CategoryId], [s].[CreatedAt], [s].[DifficultyLevel], [s].[EstimatedMinutes], [s].[IsDeleted], [s].[IsEditorsPick], [s].[IsFeatured], [s].[IsPublished], [s].[RowVersion], [s].[Slug], [s].[Summary], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[Name], [s].[Order], [s].[RowVersion0], [s].[Slug0], [s0].[TutorialId], [s0].[TagId], [s0].[Id], [s0].[Name], [s0].[RowVersion], [s0].[Slug], [s0].[Id0], [s1].[Id], [s1].[BodyMarkdown], [s1].[CodeLanguage], [s1].[CodeSnippet], [s1].[ImageMediaId], [s1].[Order], [s1].[Title], [s1].[TutorialId], [s1].[Id0]
+FROM (
+    SELECT TOP(2) [t].[Id], [t].[AuthorId], [t].[CategoryId], [t].[CreatedAt], [t].[DifficultyLevel], [t].[EstimatedMinutes], [t].[IsDeleted], [t].[IsEditorsPick], [t].[IsFeatured], [t].[IsPublished], [t].[RowVersion], [t].[Slug], [t].[Summary], [t].[Title], [t].[UpdatedAt], [c].[Id] AS [Id0], [c].[Name], [c].[Order], [c].[RowVersion] AS [RowVersion0], [c].[Slug] AS [Slug0]
+    FROM [Tutorials] AS [t]
+    INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[IsPublished] = CAST(1 AS bit) AND [t].[IsEditorsPick] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [t0].[TutorialId], [t0].[TagId], [t3].[Id], [t3].[Name], [t3].[RowVersion], [t3].[Slug], [t2].[Id] AS [Id0]
+    FROM [TutorialTags] AS [t0]
+    INNER JOIN (
+        SELECT [t1].[Id], [t1].[IsDeleted]
+        FROM [Tutorials] AS [t1]
+        WHERE [t1].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t2] ON [t0].[TutorialId] = [t2].[Id]
+    INNER JOIN [Tags] AS [t3] ON [t0].[TagId] = [t3].[Id]
+    WHERE [t2].[IsDeleted] = CAST(0 AS bit)
+) AS [s0] ON [s].[Id] = [s0].[TutorialId]
+LEFT JOIN (
+    SELECT [t4].[Id], [t4].[BodyMarkdown], [t4].[CodeLanguage], [t4].[CodeSnippet], [t4].[ImageMediaId], [t4].[Order], [t4].[Title], [t4].[TutorialId], [t6].[Id] AS [Id0]
+    FROM [TutorialSteps] AS [t4]
+    INNER JOIN (
+        SELECT [t5].[Id], [t5].[IsDeleted]
+        FROM [Tutorials] AS [t5]
+        WHERE [t5].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t6] ON [t4].[TutorialId] = [t6].[Id]
+    WHERE [t6].[IsDeleted] = CAST(0 AS bit)
+) AS [s1] ON [s].[Id] = [s1].[TutorialId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[TutorialId], [s0].[TagId], [s0].[Id0], [s0].[Id], [s1].[Id]
+[05:25:44 INF] Executed DbCommand (34ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t0].[Id], [t0].[AuthorId], [t0].[CategoryId], [t0].[CreatedAt], [t0].[DifficultyLevel], [t0].[EstimatedMinutes], [t0].[IsDeleted], [t0].[IsEditorsPick], [t0].[IsFeatured], [t0].[IsPublished], [t0].[RowVersion], [t0].[Slug], [t0].[Summary], [t0].[Title], [t0].[UpdatedAt], [c].[Id], [c].[Name], [c].[Order], [c].[RowVersion], [c].[Slug], [s].[TutorialId], [s].[TagId], [s].[Id], [s].[Name], [s].[RowVersion], [s].[Slug], [s].[Id0], [s0].[Id], [s0].[BodyMarkdown], [s0].[CodeLanguage], [s0].[CodeSnippet], [s0].[ImageMediaId], [s0].[Order], [s0].[Title], [s0].[TutorialId], [s0].[Id0]
+FROM (
+    SELECT TOP(@__p_0) [t].[Id], [t].[AuthorId], [t].[CategoryId], [t].[CreatedAt], [t].[DifficultyLevel], [t].[EstimatedMinutes], [t].[IsDeleted], [t].[IsEditorsPick], [t].[IsFeatured], [t].[IsPublished], [t].[RowVersion], [t].[Slug], [t].[Summary], [t].[Title], [t].[UpdatedAt]
+    FROM [Tutorials] AS [t]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[IsPublished] = CAST(1 AS bit) AND [t].[IsFeatured] = CAST(1 AS bit)
+    ORDER BY [t].[UpdatedAt] DESC
+) AS [t0]
+INNER JOIN [Categories] AS [c] ON [t0].[CategoryId] = [c].[Id]
+LEFT JOIN (
+    SELECT [t1].[TutorialId], [t1].[TagId], [t4].[Id], [t4].[Name], [t4].[RowVersion], [t4].[Slug], [t3].[Id] AS [Id0]
+    FROM [TutorialTags] AS [t1]
+    INNER JOIN (
+        SELECT [t2].[Id], [t2].[IsDeleted]
+        FROM [Tutorials] AS [t2]
+        WHERE [t2].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t3] ON [t1].[TutorialId] = [t3].[Id]
+    INNER JOIN [Tags] AS [t4] ON [t1].[TagId] = [t4].[Id]
+    WHERE [t3].[IsDeleted] = CAST(0 AS bit)
+) AS [s] ON [t0].[Id] = [s].[TutorialId]
+LEFT JOIN (
+    SELECT [t5].[Id], [t5].[BodyMarkdown], [t5].[CodeLanguage], [t5].[CodeSnippet], [t5].[ImageMediaId], [t5].[Order], [t5].[Title], [t5].[TutorialId], [t7].[Id] AS [Id0]
+    FROM [TutorialSteps] AS [t5]
+    INNER JOIN (
+        SELECT [t6].[Id], [t6].[IsDeleted]
+        FROM [Tutorials] AS [t6]
+        WHERE [t6].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t7] ON [t5].[TutorialId] = [t7].[Id]
+    WHERE [t7].[IsDeleted] = CAST(0 AS bit)
+) AS [s0] ON [t0].[Id] = [s0].[TutorialId]
+ORDER BY [t0].[UpdatedAt] DESC, [t0].[Id], [c].[Id], [s].[TutorialId], [s].[TagId], [s].[Id0], [s].[Id], [s0].[Id]
+[05:25:44 INF] Handled GetEditorsPickQuery for anonymous in 36ms
+[05:25:44 INF] Executed DbCommand (26ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t0].[Id], [t0].[AuthorId], [t0].[CategoryId], [t0].[CreatedAt], [t0].[DifficultyLevel], [t0].[EstimatedMinutes], [t0].[IsDeleted], [t0].[IsEditorsPick], [t0].[IsFeatured], [t0].[IsPublished], [t0].[RowVersion], [t0].[Slug], [t0].[Summary], [t0].[Title], [t0].[UpdatedAt], [c].[Id], [c].[Name], [c].[Order], [c].[RowVersion], [c].[Slug], [s].[TutorialId], [s].[TagId], [s].[Id], [s].[Name], [s].[RowVersion], [s].[Slug], [s].[Id0], [s0].[Id], [s0].[BodyMarkdown], [s0].[CodeLanguage], [s0].[CodeSnippet], [s0].[ImageMediaId], [s0].[Order], [s0].[Title], [s0].[TutorialId], [s0].[Id0]
+FROM (
+    SELECT [t].[Id], [t].[AuthorId], [t].[CategoryId], [t].[CreatedAt], [t].[DifficultyLevel], [t].[EstimatedMinutes], [t].[IsDeleted], [t].[IsEditorsPick], [t].[IsFeatured], [t].[IsPublished], [t].[RowVersion], [t].[Slug], [t].[Summary], [t].[Title], [t].[UpdatedAt]
+    FROM [Tutorials] AS [t]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[IsPublished] = CAST(1 AS bit)
+    ORDER BY [t].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t0]
+INNER JOIN [Categories] AS [c] ON [t0].[CategoryId] = [c].[Id]
+LEFT JOIN (
+    SELECT [t1].[TutorialId], [t1].[TagId], [t4].[Id], [t4].[Name], [t4].[RowVersion], [t4].[Slug], [t3].[Id] AS [Id0]
+    FROM [TutorialTags] AS [t1]
+    INNER JOIN (
+        SELECT [t2].[Id], [t2].[IsDeleted]
+        FROM [Tutorials] AS [t2]
+        WHERE [t2].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t3] ON [t1].[TutorialId] = [t3].[Id]
+    INNER JOIN [Tags] AS [t4] ON [t1].[TagId] = [t4].[Id]
+    WHERE [t3].[IsDeleted] = CAST(0 AS bit)
+) AS [s] ON [t0].[Id] = [s].[TutorialId]
+LEFT JOIN (
+    SELECT [t5].[Id], [t5].[BodyMarkdown], [t5].[CodeLanguage], [t5].[CodeSnippet], [t5].[ImageMediaId], [t5].[Order], [t5].[Title], [t5].[TutorialId], [t7].[Id] AS [Id0]
+    FROM [TutorialSteps] AS [t5]
+    INNER JOIN (
+        SELECT [t6].[Id], [t6].[IsDeleted]
+        FROM [Tutorials] AS [t6]
+        WHERE [t6].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t7] ON [t5].[TutorialId] = [t7].[Id]
+    WHERE [t7].[IsDeleted] = CAST(0 AS bit)
+) AS [s0] ON [t0].[Id] = [s0].[TutorialId]
+ORDER BY [t0].[CreatedAt] DESC, [t0].[Id], [c].[Id], [s].[TutorialId], [s].[TagId], [s].[Id0], [s].[Id], [s0].[Id]
+[05:25:44 INF] Executing ObjectResult, writing value of type 'PromptSharp.Application.TutorialListItemDto'.
+[05:25:44 INF] Handled GetFeaturedTutorialsQuery for anonymous in 38ms
+[05:25:44 INF] Executing ObjectResult, writing value of type 'PromptSharp.Application.TutorialListItemDto[]'.
+[05:25:44 INF] Executed action PromptSharp.Api.Controllers.TutorialsController.GetEditorsPick (PromptSharp.Api) in 40.6916ms
+[05:25:44 INF] Executed action PromptSharp.Api.Controllers.TutorialsController.GetFeatured (PromptSharp.Api) in 41.0647ms
+[05:25:44 INF] Executed endpoint 'PromptSharp.Api.Controllers.TutorialsController.GetEditorsPick (PromptSharp.Api)'
+[05:25:44 INF] Handled GetTutorialsQuery for anonymous in 39ms
+[05:25:44 INF] Executed endpoint 'PromptSharp.Api.Controllers.TutorialsController.GetFeatured (PromptSharp.Api)'
+[05:25:44 INF] The response has been cached.
+[05:25:44 INF] Executing ObjectResult, writing value of type 'PromptSharp.Application.PagedResult`1[[PromptSharp.Application.TutorialListItemDto, PromptSharp.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[05:25:44 INF] The response has been cached.
+[05:25:44 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/editors-pick - 200 null application/json; charset=utf-8 45.741ms
+[05:25:44 INF] Executed action PromptSharp.Api.Controllers.TutorialsController.GetTutorials (PromptSharp.Api) in 40.7048ms
+[05:25:44 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/featured - 200 null application/json; charset=utf-8 46.3158ms
+[05:25:44 INF] Executed endpoint 'PromptSharp.Api.Controllers.TutorialsController.GetTutorials (PromptSharp.Api)'
+[05:25:44 INF] The response has been cached.
+[05:25:44 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials?page=1&pageSize=12 - 200 null application/json; charset=utf-8 44.7687ms
+[05:25:59 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/featured - null null
+[05:25:59 INF] CORS policy execution successful.
+[05:25:59 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/categories - null null
+[05:25:59 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/editors-pick - null null
+[05:25:59 INF] CORS policy execution successful.
+[05:25:59 INF] CORS policy execution successful.
+[05:25:59 INF] Serving response from cache.
+[05:25:59 INF] Serving response from cache.
+[05:25:59 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/categories - 200 null application/json; charset=utf-8 5.0366ms
+[05:25:59 INF] Serving response from cache.
+[05:25:59 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials?page=1&pageSize=12 - null null
+[05:25:59 INF] CORS policy execution successful.
+[05:25:59 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/featured - 200 null application/json; charset=utf-8 23.7094ms
+[05:25:59 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials/editors-pick - 200 null application/json; charset=utf-8 7.8399ms
+[05:25:59 INF] Serving response from cache.
+[05:25:59 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials?page=1&pageSize=12 - 200 null application/json; charset=utf-8 16.7839ms
+[05:26:12 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials?page=1&pageSize=24 - null null
+[05:26:12 INF] CORS policy execution successful.
+[05:26:12 INF] Serving response from cache.
+[05:26:12 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/api/v1/tutorials?page=1&pageSize=24 - 200 null application/json; charset=utf-8 3.2495ms

@@ -1,0 +1,285 @@
+Using launch settings from src\PromptSharp.Api\Properties\launchSettings.json...
+Building...
+[05:26:39 INF] Executed DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[05:26:39 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+[05:26:39 INF] Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+[05:26:39 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+[05:26:39 INF] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[05:26:39 INF] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[05:26:39 INF] Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+[05:26:39 INF] No migrations were applied. The database is already up to date.
+[05:26:39 INF] Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+[05:26:39 INF] Executed DbCommand (16ms) [Parameters=[@__roleName_0='?' (Size = 64)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Roles] AS [r]
+        WHERE [r].[Name] = @__roleName_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+[05:26:39 INF] Executed DbCommand (1ms) [Parameters=[@__roleName_0='?' (Size = 64)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Roles] AS [r]
+        WHERE [r].[Name] = @__roleName_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+[05:26:39 INF] Executed DbCommand (0ms) [Parameters=[@__roleName_0='?' (Size = 64)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Roles] AS [r]
+        WHERE [r].[Name] = @__roleName_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+[05:26:39 INF] Executed DbCommand (5ms) [Parameters=[@__email_0='?' (Size = 320)], CommandType='Text', CommandTimeout='30']
+SELECT [u1].[Id], [u1].[AvatarUrl], [u1].[CreatedAt], [u1].[DisplayName], [u1].[Email], [u1].[LastSeenAt], [u1].[Sub], [u0].[UserId], [u0].[RoleId]
+FROM (
+    SELECT TOP(2) [u].[Id], [u].[AvatarUrl], [u].[CreatedAt], [u].[DisplayName], [u].[Email], [u].[LastSeenAt], [u].[Sub]
+    FROM [Users] AS [u]
+    WHERE [u].[Email] = @__email_0
+) AS [u1]
+LEFT JOIN [UserRoles] AS [u0] ON [u1].[Id] = [u0].[UserId]
+ORDER BY [u1].[Id], [u0].[UserId]
+[05:26:39 INF] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[Id]
+FROM [Roles] AS [r]
+WHERE [r].[Name] IN (N'Admin', N'Editor', N'User')
+[05:26:39 INF] Executed DbCommand (3ms) [Parameters=[@__subject_0='?' (Size = 300)], CommandType='Text', CommandTimeout='30']
+SELECT [u1].[Id], [u1].[AvatarUrl], [u1].[CreatedAt], [u1].[DisplayName], [u1].[Email], [u1].[LastSeenAt], [u1].[Sub], [u0].[UserId], [u0].[RoleId]
+FROM (
+    SELECT TOP(2) [u].[Id], [u].[AvatarUrl], [u].[CreatedAt], [u].[DisplayName], [u].[Email], [u].[LastSeenAt], [u].[Sub]
+    FROM [Users] AS [u]
+    WHERE [u].[Sub] = @__subject_0
+) AS [u1]
+LEFT JOIN [UserRoles] AS [u0] ON [u1].[Id] = [u0].[UserId]
+ORDER BY [u1].[Id], [u0].[UserId]
+[05:26:40 INF] Executed DbCommand (6ms) [Parameters=[@__roleNames_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SELECT [r].[Id]
+FROM [Roles] AS [r]
+WHERE [r].[Name] IN (
+    SELECT [r0].[value]
+    FROM OPENJSON(@__roleNames_0) WITH ([value] nvarchar(64) '$') AS [r0]
+)
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__subject_0='?' (Size = 300)], CommandType='Text', CommandTimeout='30']
+SELECT [u1].[Id], [u1].[AvatarUrl], [u1].[CreatedAt], [u1].[DisplayName], [u1].[Email], [u1].[LastSeenAt], [u1].[Sub], [u0].[UserId], [u0].[RoleId]
+FROM (
+    SELECT TOP(2) [u].[Id], [u].[AvatarUrl], [u].[CreatedAt], [u].[DisplayName], [u].[Email], [u].[LastSeenAt], [u].[Sub]
+    FROM [Users] AS [u]
+    WHERE [u].[Sub] = @__subject_0
+) AS [u1]
+LEFT JOIN [UserRoles] AS [u0] ON [u1].[Id] = [u0].[UserId]
+ORDER BY [u1].[Id], [u0].[UserId]
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__roleNames_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SELECT [r].[Id]
+FROM [Roles] AS [r]
+WHERE [r].[Name] IN (
+    SELECT [r0].[value]
+    FROM OPENJSON(@__roleNames_0) WITH ([value] nvarchar(64) '$') AS [r0]
+)
+[05:26:40 INF] Executed DbCommand (0ms) [Parameters=[@__subject_0='?' (Size = 300)], CommandType='Text', CommandTimeout='30']
+SELECT [u1].[Id], [u1].[AvatarUrl], [u1].[CreatedAt], [u1].[DisplayName], [u1].[Email], [u1].[LastSeenAt], [u1].[Sub], [u0].[UserId], [u0].[RoleId]
+FROM (
+    SELECT TOP(2) [u].[Id], [u].[AvatarUrl], [u].[CreatedAt], [u].[DisplayName], [u].[Email], [u].[LastSeenAt], [u].[Sub]
+    FROM [Users] AS [u]
+    WHERE [u].[Sub] = @__subject_0
+) AS [u1]
+LEFT JOIN [UserRoles] AS [u0] ON [u1].[Id] = [u0].[UserId]
+ORDER BY [u1].[Id], [u0].[UserId]
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__roleNames_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SELECT [r].[Id]
+FROM [Roles] AS [r]
+WHERE [r].[Name] IN (
+    SELECT [r0].[value]
+    FROM OPENJSON(@__roleNames_0) WITH ([value] nvarchar(64) '$') AS [r0]
+)
+[05:26:40 INF] Executed DbCommand (4ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [c].[Id], [c].[Name], [c].[Order], [c].[RowVersion], [c].[Slug]
+FROM [Categories] AS [c]
+WHERE [c].[Slug] = @__slug_0
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [c].[Id], [c].[Name], [c].[Order], [c].[RowVersion], [c].[Slug]
+FROM [Categories] AS [c]
+WHERE [c].[Slug] = @__slug_0
+[05:26:40 INF] Executed DbCommand (0ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [c].[Id], [c].[Name], [c].[Order], [c].[RowVersion], [c].[Slug]
+FROM [Categories] AS [c]
+WHERE [c].[Slug] = @__slug_0
+[05:26:40 INF] Executed DbCommand (3ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [t].[Id], [t].[Name], [t].[RowVersion], [t].[Slug]
+FROM [Tags] AS [t]
+WHERE [t].[Slug] = @__slug_0
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [t].[Id], [t].[Name], [t].[RowVersion], [t].[Slug]
+FROM [Tags] AS [t]
+WHERE [t].[Slug] = @__slug_0
+[05:26:40 INF] Executed DbCommand (0ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [t].[Id], [t].[Name], [t].[RowVersion], [t].[Slug]
+FROM [Tags] AS [t]
+WHERE [t].[Slug] = @__slug_0
+[05:26:40 INF] Executed DbCommand (8ms) [Parameters=[@p1='?' (DbType = Guid), @p0='?' (DbType = DateTimeOffset), @p3='?' (DbType = Guid), @p2='?' (DbType = DateTimeOffset), @p5='?' (DbType = Guid), @p4='?' (DbType = DateTimeOffset)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [LastSeenAt] = @p0
+OUTPUT 1
+WHERE [Id] = @p1;
+UPDATE [Users] SET [LastSeenAt] = @p2
+OUTPUT 1
+WHERE [Id] = @p3;
+UPDATE [Users] SET [LastSeenAt] = @p4
+OUTPUT 1
+WHERE [Id] = @p5;
+[05:26:40 WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+[05:26:40 INF] Executed DbCommand (17ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT [t6].[Id], [t6].[AuthorId], [t6].[CategoryId], [t6].[CreatedAt], [t6].[DifficultyLevel], [t6].[EstimatedMinutes], [t6].[IsDeleted], [t6].[IsEditorsPick], [t6].[IsFeatured], [t6].[IsPublished], [t6].[RowVersion], [t6].[Slug], [t6].[Summary], [t6].[Title], [t6].[UpdatedAt], [s].[Id], [s].[BodyMarkdown], [s].[CodeLanguage], [s].[CodeSnippet], [s].[ImageMediaId], [s].[Order], [s].[Title], [s].[TutorialId], [s].[Id0], [s0].[TutorialId], [s0].[TagId], [s0].[Id]
+FROM (
+    SELECT TOP(2) [t].[Id], [t].[AuthorId], [t].[CategoryId], [t].[CreatedAt], [t].[DifficultyLevel], [t].[EstimatedMinutes], [t].[IsDeleted], [t].[IsEditorsPick], [t].[IsFeatured], [t].[IsPublished], [t].[RowVersion], [t].[Slug], [t].[Summary], [t].[Title], [t].[UpdatedAt]
+    FROM [Tutorials] AS [t]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[Slug] = @__slug_0
+) AS [t6]
+LEFT JOIN (
+    SELECT [t0].[Id], [t0].[BodyMarkdown], [t0].[CodeLanguage], [t0].[CodeSnippet], [t0].[ImageMediaId], [t0].[Order], [t0].[Title], [t0].[TutorialId], [t2].[Id] AS [Id0]
+    FROM [TutorialSteps] AS [t0]
+    INNER JOIN (
+        SELECT [t1].[Id], [t1].[IsDeleted]
+        FROM [Tutorials] AS [t1]
+        WHERE [t1].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t2] ON [t0].[TutorialId] = [t2].[Id]
+    WHERE [t2].[IsDeleted] = CAST(0 AS bit)
+) AS [s] ON [t6].[Id] = [s].[TutorialId]
+LEFT JOIN (
+    SELECT [t3].[TutorialId], [t3].[TagId], [t5].[Id]
+    FROM [TutorialTags] AS [t3]
+    INNER JOIN (
+        SELECT [t4].[Id], [t4].[IsDeleted]
+        FROM [Tutorials] AS [t4]
+        WHERE [t4].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t5] ON [t3].[TutorialId] = [t5].[Id]
+    WHERE [t5].[IsDeleted] = CAST(0 AS bit)
+) AS [s0] ON [t6].[Id] = [s0].[TutorialId]
+ORDER BY [t6].[Id], [s].[Id], [s].[Id0], [s0].[TutorialId], [s0].[TagId]
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT [t6].[Id], [t6].[AuthorId], [t6].[CategoryId], [t6].[CreatedAt], [t6].[DifficultyLevel], [t6].[EstimatedMinutes], [t6].[IsDeleted], [t6].[IsEditorsPick], [t6].[IsFeatured], [t6].[IsPublished], [t6].[RowVersion], [t6].[Slug], [t6].[Summary], [t6].[Title], [t6].[UpdatedAt], [s].[Id], [s].[BodyMarkdown], [s].[CodeLanguage], [s].[CodeSnippet], [s].[ImageMediaId], [s].[Order], [s].[Title], [s].[TutorialId], [s].[Id0], [s0].[TutorialId], [s0].[TagId], [s0].[Id]
+FROM (
+    SELECT TOP(2) [t].[Id], [t].[AuthorId], [t].[CategoryId], [t].[CreatedAt], [t].[DifficultyLevel], [t].[EstimatedMinutes], [t].[IsDeleted], [t].[IsEditorsPick], [t].[IsFeatured], [t].[IsPublished], [t].[RowVersion], [t].[Slug], [t].[Summary], [t].[Title], [t].[UpdatedAt]
+    FROM [Tutorials] AS [t]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[Slug] = @__slug_0
+) AS [t6]
+LEFT JOIN (
+    SELECT [t0].[Id], [t0].[BodyMarkdown], [t0].[CodeLanguage], [t0].[CodeSnippet], [t0].[ImageMediaId], [t0].[Order], [t0].[Title], [t0].[TutorialId], [t2].[Id] AS [Id0]
+    FROM [TutorialSteps] AS [t0]
+    INNER JOIN (
+        SELECT [t1].[Id], [t1].[IsDeleted]
+        FROM [Tutorials] AS [t1]
+        WHERE [t1].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t2] ON [t0].[TutorialId] = [t2].[Id]
+    WHERE [t2].[IsDeleted] = CAST(0 AS bit)
+) AS [s] ON [t6].[Id] = [s].[TutorialId]
+LEFT JOIN (
+    SELECT [t3].[TutorialId], [t3].[TagId], [t5].[Id]
+    FROM [TutorialTags] AS [t3]
+    INNER JOIN (
+        SELECT [t4].[Id], [t4].[IsDeleted]
+        FROM [Tutorials] AS [t4]
+        WHERE [t4].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t5] ON [t3].[TutorialId] = [t5].[Id]
+    WHERE [t5].[IsDeleted] = CAST(0 AS bit)
+) AS [s0] ON [t6].[Id] = [s0].[TutorialId]
+ORDER BY [t6].[Id], [s].[Id], [s].[Id0], [s0].[TutorialId], [s0].[TagId]
+[05:26:40 INF] Executed DbCommand (1ms) [Parameters=[@__slug_0='?' (Size = 160)], CommandType='Text', CommandTimeout='30']
+SELECT [t6].[Id], [t6].[AuthorId], [t6].[CategoryId], [t6].[CreatedAt], [t6].[DifficultyLevel], [t6].[EstimatedMinutes], [t6].[IsDeleted], [t6].[IsEditorsPick], [t6].[IsFeatured], [t6].[IsPublished], [t6].[RowVersion], [t6].[Slug], [t6].[Summary], [t6].[Title], [t6].[UpdatedAt], [s].[Id], [s].[BodyMarkdown], [s].[CodeLanguage], [s].[CodeSnippet], [s].[ImageMediaId], [s].[Order], [s].[Title], [s].[TutorialId], [s].[Id0], [s0].[TutorialId], [s0].[TagId], [s0].[Id]
+FROM (
+    SELECT TOP(2) [t].[Id], [t].[AuthorId], [t].[CategoryId], [t].[CreatedAt], [t].[DifficultyLevel], [t].[EstimatedMinutes], [t].[IsDeleted], [t].[IsEditorsPick], [t].[IsFeatured], [t].[IsPublished], [t].[RowVersion], [t].[Slug], [t].[Summary], [t].[Title], [t].[UpdatedAt]
+    FROM [Tutorials] AS [t]
+    WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t].[Slug] = @__slug_0
+) AS [t6]
+LEFT JOIN (
+    SELECT [t0].[Id], [t0].[BodyMarkdown], [t0].[CodeLanguage], [t0].[CodeSnippet], [t0].[ImageMediaId], [t0].[Order], [t0].[Title], [t0].[TutorialId], [t2].[Id] AS [Id0]
+    FROM [TutorialSteps] AS [t0]
+    INNER JOIN (
+        SELECT [t1].[Id], [t1].[IsDeleted]
+        FROM [Tutorials] AS [t1]
+        WHERE [t1].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t2] ON [t0].[TutorialId] = [t2].[Id]
+    WHERE [t2].[IsDeleted] = CAST(0 AS bit)
+) AS [s] ON [t6].[Id] = [s].[TutorialId]
+LEFT JOIN (
+    SELECT [t3].[TutorialId], [t3].[TagId], [t5].[Id]
+    FROM [TutorialTags] AS [t3]
+    INNER JOIN (
+        SELECT [t4].[Id], [t4].[IsDeleted]
+        FROM [Tutorials] AS [t4]
+        WHERE [t4].[IsDeleted] = CAST(0 AS bit)
+    ) AS [t5] ON [t3].[TutorialId] = [t5].[Id]
+    WHERE [t5].[IsDeleted] = CAST(0 AS bit)
+) AS [s0] ON [t6].[Id] = [s0].[TutorialId]
+ORDER BY [t6].[Id], [s].[Id], [s].[Id0], [s0].[TutorialId], [s0].[TagId]
+[05:26:40 INF] Executed DbCommand (4ms) [Parameters=[@__fileName_0='?' (Size = 260), @__url_1='?' (Size = 1024)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [m].[Id], [m].[ContentType], [m].[FileName], [m].[SizeBytes], [m].[UploadedAt], [m].[UploadedById], [m].[Url]
+FROM [Media] AS [m]
+WHERE [m].[FileName] = @__fileName_0 AND [m].[Url] = @__url_1
+ORDER BY [m].[UploadedAt]
+[05:26:40 INF] Executed DbCommand (16ms) [Parameters=[@__actor_0='?' (Size = 320), @__action_1='?' (Size = 120), @__targetId_2='?' (Size = 120)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AuditEvents] AS [a]
+        WHERE [a].[Actor] = @__actor_0 AND [a].[Action] = @__action_1 AND [a].[TargetId] = @__targetId_2) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+[05:26:40 INF] Executed DbCommand (7ms) [Parameters=[@__learner_Id_0='?' (DbType = Guid), @__cleanArchitectureTutorial_Id_1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Bookmarks] AS [b]
+        INNER JOIN (
+            SELECT [t].[Id], [t].[IsDeleted]
+            FROM [Tutorials] AS [t]
+            WHERE [t].[IsDeleted] = CAST(0 AS bit)
+        ) AS [t0] ON [b].[TutorialId] = [t0].[Id]
+        WHERE [t0].[IsDeleted] = CAST(0 AS bit) AND [b].[UserId] = @__learner_Id_0 AND [b].[TutorialId] = @__cleanArchitectureTutorial_Id_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+[05:26:40 INF] Executed DbCommand (8ms) [Parameters=[@__learner_Id_0='?' (DbType = Guid), @__cleanArchitectureTutorial_Id_1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TutorialProgress] AS [t]
+        INNER JOIN (
+            SELECT [t0].[Id], [t0].[IsDeleted]
+            FROM [Tutorials] AS [t0]
+            WHERE [t0].[IsDeleted] = CAST(0 AS bit)
+        ) AS [t1] ON [t].[TutorialId] = [t1].[Id]
+        WHERE [t1].[IsDeleted] = CAST(0 AS bit) AND [t].[UserId] = @__learner_Id_0 AND [t].[TutorialId] = @__cleanArchitectureTutorial_Id_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+[05:26:40 INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTimeOffset)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Bookmarks] ([TutorialId], [UserId], [CreatedAt])
+VALUES (@p0, @p1, @p2);
+[05:26:40 INF] User profile is available. Using 'C:\Users\quinn\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+[05:26:40 INF] Now listening on: http://127.0.0.1:5000
+[05:26:40 INF] Application started. Press Ctrl+C to shut down.
+[05:26:40 INF] Hosting environment: Development
+[05:26:40 INF] Content root path: C:\projects\prompt-sharp\backend\src\PromptSharp.Api
