@@ -11,7 +11,7 @@
     <p>Results for "{{ query() }}"</p>
   }
   @if (loading()) {
-    <p class="state state--loading">Loading…</p>
+    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
@@ -22,12 +22,14 @@
     <p class="search-page__count">{{ page.totalCount }} matches</p>
     <section data-testid="search-results">
       @for (tutorial of page.items; track tutorial.id) {
-        <article data-testid="tutorial-card">
-          <h2>
-            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
-          </h2>
-          <p>{{ tutorial.summary }}</p>
-        </article>
+        <ps-tutorial-card
+          [title]="tutorial.title"
+          [slug]="tutorial.slug"
+          [summary]="tutorial.summary"
+          [categoryName]="tutorial.categoryName"
+          [difficulty]="tutorial.difficultyLevel"
+          [estimatedMinutes]="tutorial.estimatedMinutes"
+        ></ps-tutorial-card>
       }
     </section>
   }

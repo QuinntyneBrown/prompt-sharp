@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Bookmark, PromptSharpMeApi, User } from 'api';
-import { Button } from 'components';
+import { Button, SpinnerDot } from 'components';
 import { SignOutDialog } from '../../dialogs/sign-out-dialog/sign-out-dialog';
 
 @Component({
@@ -8,7 +8,7 @@ import { SignOutDialog } from '../../dialogs/sign-out-dialog/sign-out-dialog';
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, SignOutDialog],
+  imports: [Button, SignOutDialog, SpinnerDot],
 })
 export class ProfilePage implements OnInit {
   private readonly meApi = inject(PromptSharpMeApi);

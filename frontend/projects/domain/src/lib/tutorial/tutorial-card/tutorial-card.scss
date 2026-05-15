@@ -5,3 +5,13 @@
 .tutorial-card {
   display: block;
 }
+
+.tutorial-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.tutorial-card__actions:empty {
+  display: none;
+}

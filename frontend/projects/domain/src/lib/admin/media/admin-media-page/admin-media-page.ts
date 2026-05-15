@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Media, PromptSharpAdminMediaApi } from 'api';
-import { Button, Checkbox, SearchField } from 'components';
+import { Button, Checkbox, SearchField, SpinnerDot } from 'components';
 import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
 import { MediaUploadDialog } from '../../../dialogs/media-upload-dialog/media-upload-dialog';
 import { MediaSelectionBar } from '../media-selection-bar/media-selection-bar';
@@ -10,7 +10,7 @@ import { MediaSelectionBar } from '../media-selection-bar/media-selection-bar';
   templateUrl: './admin-media-page.html',
   styleUrl: './admin-media-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, Checkbox, ConfirmDeleteDialog, MediaSelectionBar, MediaUploadDialog, SearchField],
+  imports: [Button, Checkbox, ConfirmDeleteDialog, MediaSelectionBar, MediaUploadDialog, SearchField, SpinnerDot],
 })
 export class AdminMediaPage implements OnInit {
   private readonly mediaApi = inject(PromptSharpAdminMediaApi);

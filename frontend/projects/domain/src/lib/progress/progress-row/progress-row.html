@@ -1,4 +1,9 @@
 <div class="progress-row">
-  <span class="title">{{ title() }}</span>
-  <ng-content></ng-content>
+  <div class="progress-row__meter">
+    <lib-meter [value]="percent()" [label]="title()"></lib-meter>
+    <span class="progress-row__percent">{{ percent() }}%</span>
+  </div>
+  <div class="progress-row__content">
+    <ng-content></ng-content>
+  </div>
 </div>

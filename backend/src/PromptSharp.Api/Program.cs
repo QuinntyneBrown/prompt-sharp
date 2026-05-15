@@ -141,7 +141,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 var avatarUrl = principal.FindFirstValue("picture");
 
                 var sender = context.HttpContext.RequestServices.GetRequiredService<ISender>();
-                await sender.Send(new EnsureUserExistsCommand(subject, email, displayName, avatarUrl), context.HttpContext.RequestAborted);
+                await sender.Send(new EnsureUserExistsCommand(subject, email, displayName, avatarUrl), CancellationToken.None);
             }
         };
     });

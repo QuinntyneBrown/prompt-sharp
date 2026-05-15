@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Category, PromptSharpCategoriesApi, PromptSharpTutorialsApi, TutorialListItem } from 'api';
-import { Button } from 'components';
+import { Button, SpinnerDot } from 'components';
+import { TutorialCard } from '../../tutorial/tutorial-card/tutorial-card';
 import { HomeHero } from '../home-hero/home-hero';
 import { MarqueeStrip } from '../marquee-strip/marquee-strip';
 
@@ -9,7 +10,7 @@ import { MarqueeStrip } from '../marquee-strip/marquee-strip';
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, HomeHero, MarqueeStrip],
+  imports: [Button, HomeHero, MarqueeStrip, SpinnerDot, TutorialCard],
 })
 export class HomePage implements OnInit {
   private readonly tutorialsApi = inject(PromptSharpTutorialsApi);

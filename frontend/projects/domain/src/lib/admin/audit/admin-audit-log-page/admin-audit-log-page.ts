@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { AuditEvent, PromptSharpAdminAuditLogApi } from 'api';
-import { Button, SearchField, SelectField, SelectFieldOption } from 'components';
+import { Button, SearchField, SelectField, SelectFieldOption, SpinnerDot } from 'components';
 
 @Component({
   selector: 'ps-admin-audit-log-page',
   templateUrl: './admin-audit-log-page.html',
   styleUrl: './admin-audit-log-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, SearchField, SelectField],
+  imports: [Button, SearchField, SelectField, SpinnerDot],
 })
 export class AdminAuditLogPage implements OnInit {
   private readonly auditLogApi = inject(PromptSharpAdminAuditLogApi);

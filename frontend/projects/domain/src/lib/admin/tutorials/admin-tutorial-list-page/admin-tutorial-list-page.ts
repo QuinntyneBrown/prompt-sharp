@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category, PagedResult, PromptSharpAdminCategoriesApi, PromptSharpAdminTutorialsApi, TutorialListItem } from 'api';
-import { Button, SearchField, SelectField, SelectFieldOption } from 'components';
+import { Button, SearchField, SelectField, SelectFieldOption, SpinnerDot } from 'components';
 import { AdminTutorialDialog, AdminTutorialDialogSubmit } from '../admin-tutorial-dialog/admin-tutorial-dialog';
 import { ConfirmDeleteDialog } from '../../../dialogs/confirm-delete-dialog/confirm-delete-dialog';
 import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
@@ -11,7 +11,7 @@ import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
   templateUrl: './admin-tutorial-list-page.html',
   styleUrl: './admin-tutorial-list-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AdminTutorialDialog, Button, ConfirmDeleteDialog, PublishDialog, SearchField, SelectField],
+  imports: [AdminTutorialDialog, Button, ConfirmDeleteDialog, PublishDialog, SearchField, SelectField, SpinnerDot],
 })
 export class AdminTutorialListPage implements OnInit {
   private readonly router = inject(Router);

@@ -1,7 +1,7 @@
 <div class="admin-media-page">
   <h1>Media library</h1>
   @if (loading()) {
-    <p class="state state--loading">Loading…</p>
+    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>

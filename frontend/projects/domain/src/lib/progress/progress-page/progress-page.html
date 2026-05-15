@@ -1,7 +1,7 @@
 <div class="progress-page">
   <h1>Progress and bookmarks</h1>
   @if (loading()) {
-    <p class="state state--loading">Loading…</p>
+    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
@@ -11,20 +11,42 @@
   <section data-testid="in-progress-tutorials" aria-label="In-progress tutorials">
     <p class="progress-page__section-title">In progress</p>
     @for (bookmark of bookmarks(); track bookmark.tutorial.id) {
-      <article data-testid="tutorial-card">
-        <h3>{{ bookmark.tutorial.title }}</h3>
-        <a [href]="'/tutorials/' + bookmark.tutorial.slug">Resume</a>
-      </article>
+      <ps-progress-row
+        [title]="bookmark.tutorial.title + ' progress'"
+        [percent]="progressPercent(bookmark)"
+      >
+        <ps-tutorial-card
+          [title]="bookmark.tutorial.title"
+          [slug]="bookmark.tutorial.slug"
+          [summary]="bookmark.tutorial.summary"
+          [categoryName]="bookmark.tutorial.categoryName"
+          [difficulty]="bookmark.tutorial.difficultyLevel"
+          [estimatedMinutes]="bookmark.tutorial.estimatedMinutes"
+        >
+          <a [href]="'/tutorials/' + bookmark.tutorial.slug">Resume</a>
+        </ps-tutorial-card>
+      </ps-progress-row>
     }
   </section>
   <section data-testid="bookmarked-tutorials" aria-label="Bookmarked tutorials">
     <p class="progress-page__section-title">Bookmarks</p>
     @for (bookmark of bookmarks(); track bookmark.tutorial.id) {
-      <article data-testid="tutorial-card">
-        <h3>{{ bookmark.tutorial.title }}</h3>
-        <a [href]="'/tutorials/' + bookmark.tutorial.slug">Open tutorial</a>
-        <lib-button type="button" variant="danger" (click)="removeBookmark(bookmark.tutorial.id)">Remove bookmark</lib-button>
-      </article>
+      <ps-progress-row
+        [title]="bookmark.tutorial.title + ' progress'"
+        [percent]="progressPercent(bookmark)"
+      >
+        <ps-tutorial-card
+          [title]="bookmark.tutorial.title"
+          [slug]="bookmark.tutorial.slug"
+          [summary]="bookmark.tutorial.summary"
+          [categoryName]="bookmark.tutorial.categoryName"
+          [difficulty]="bookmark.tutorial.difficultyLevel"
+          [estimatedMinutes]="bookmark.tutorial.estimatedMinutes"
+        >
+          <a [href]="'/tutorials/' + bookmark.tutorial.slug">Open tutorial</a>
+          <lib-button type="button" variant="danger" (click)="removeBookmark(bookmark.tutorial.id)">Remove bookmark</lib-button>
+        </ps-tutorial-card>
+      </ps-progress-row>
     }
   </section>
   @if (status(); as message) {

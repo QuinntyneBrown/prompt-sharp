@@ -3,7 +3,7 @@
   <ps-home-hero></ps-home-hero>
 
   @if (loading()) {
-    <p class="state state--loading">Loading…</p>
+    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
@@ -15,12 +15,14 @@
     <section data-testid="featured-tutorials" aria-label="Featured tutorials">
       <h2>Featured tutorials</h2>
       @for (tutorial of featured(); track tutorial.id) {
-        <article data-testid="tutorial-card">
-          <h3>
-            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
-          </h3>
-          <p>{{ tutorial.summary }}</p>
-        </article>
+        <ps-tutorial-card
+          [title]="tutorial.title"
+          [slug]="tutorial.slug"
+          [summary]="tutorial.summary"
+          [categoryName]="tutorial.categoryName"
+          [difficulty]="tutorial.difficultyLevel"
+          [estimatedMinutes]="tutorial.estimatedMinutes"
+        ></ps-tutorial-card>
       }
     </section>
 
@@ -43,12 +45,14 @@
     <section data-testid="latest-tutorials" aria-label="Latest tutorials">
       <h2>Latest tutorials</h2>
       @for (tutorial of latest(); track tutorial.id) {
-        <article data-testid="tutorial-card">
-          <h3>
-            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
-          </h3>
-          <p>{{ tutorial.summary }}</p>
-        </article>
+        <ps-tutorial-card
+          [title]="tutorial.title"
+          [slug]="tutorial.slug"
+          [summary]="tutorial.summary"
+          [categoryName]="tutorial.categoryName"
+          [difficulty]="tutorial.difficultyLevel"
+          [estimatedMinutes]="tutorial.estimatedMinutes"
+        ></ps-tutorial-card>
       }
     </section>
 

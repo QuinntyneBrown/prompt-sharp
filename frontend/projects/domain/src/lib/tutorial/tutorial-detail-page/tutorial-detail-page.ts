@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from 'api';
 import { PromptSharpMeApi, PromptSharpTutorialsApi, TutorialDetail, TutorialProgress } from 'api';
-import { Button } from 'components';
+import { Button, SpinnerDot } from 'components';
 
 @Component({
   selector: 'ps-tutorial-detail-page',
   templateUrl: './tutorial-detail-page.html',
   styleUrl: './tutorial-detail-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button],
+  imports: [Button, SpinnerDot],
 })
 export class TutorialDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

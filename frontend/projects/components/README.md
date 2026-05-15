@@ -7,24 +7,32 @@ Angular atom library for Prompt/Sharp public, auth, and admin surfaces. Componen
 Typography and metadata:
 
 - `DisplayText` for hero/page display copy.
-- `Eyebrow`, `Mono`, `LabelValue`, `Breadcrumb`, and `CodeCaption` for labels, ids, metadata, and code captions.
+- `Eyebrow`, `Mono`, `Breadcrumb`, and `CodeCaption` for labels, ids, metadata, and code captions.
 - `Wordmark` for inline and foot wordmarks.
 
 Status and data markers:
 
-- `Badge`, `Chip`, `DifficultyBadge`, `StatusDot`, `Avatar`, `Meter`, `Swatch`, `Stat`, and the `Skeleton*` placeholders.
+- `Chip`, `DifficultyBadge`, `StatusDot`, `Avatar`, `Meter`, `Stat`, and `SpinnerDot`.
 
 Actions and navigation:
 
-- `Button`, `IconButton`, `Fab`, `PaginationButton`, and `NavItem`.
+- `Button`, `IconButton`, `PaginationButton`, and `NavItem`.
 
 Form and controls:
 
-- `TextField`, `TextArea`, `SelectField`, `Checkbox`, `Radio`, `Switch`, `SegmentedControl`, `Tabs`, and `SearchField`.
+- `TextField`, `TextArea`, `SelectField`, `Checkbox`, `Tabs`, and `SearchField`.
 
 Feedback, overlay, media, and surface:
 
-- `DialogShell`, `Snackbar`, `Banner`, `EmptyState`, `SpinnerDot`, `Thumbnail`, `Surface`, and `DropZone`.
+- `DialogShell`, `Snackbar`, `Banner`, `EmptyState`, `Thumbnail`, and `DropZone`.
+
+## Public Surface Decisions
+
+The frontend audit on 2026-05-15 found several complete atoms exported without any app or domain consumer. The library now keeps the public API to components that are actually used by `domain` or `promp-sharp`.
+
+- Adopted: `SpinnerDot` is used for loading states across domain screens.
+- Kept internal: `SkeletonTile` remains a private `Thumbnail` implementation detail and is no longer exported.
+- Removed from the public surface and source tree until there is a real consumer: `Badge`, `Fab`, `Glyph`, `LabelValue`, `Radio`, `SegmentedControl`, `SkeletonCircle`, `SkeletonLine`, `Surface`, `Swatch`, and `Switch`.
 
 ## Examples
 
@@ -56,14 +64,14 @@ Feedback, overlay, media, and surface:
 
 | Skeleton group | Atom coverage |
 | --- | --- |
-| Public nav/home/catalog/category/search | `wordmark`, `button`, `chip`, `eyebrow`, `skeleton-*`, `stat`, `display-text`, `surface`, `pagination-button`, `search-field` |
-| Tutorial detail | `breadcrumb`, `display-text`, `chip`, `difficulty-badge`, `skeleton-*`, `code-caption`, `button`, `surface`, `nav-item` |
-| Auth/error/access pages | `wordmark`, `display-text`, `button`, `empty-state`, `spinner-dot`, `text-field`, `skeleton-*` |
-| Profile/progress | `avatar`, `label-value`, `badge`, `status-dot`, `meter`, `skeleton-line`, `surface`, `button` |
-| Admin shell/table screens | `nav-item`, `icon-button`, `button`, `fab`, `chip`, `badge`, `status-dot`, `avatar`, `checkbox`, `text-field`, `tabs`, `surface`, `rule` |
-| Admin tutorial editor | `text-field`, `text-area`, `select-field`, `segmented-control`, `chip`, `icon-button`, `skeleton-*`, `code-caption`, `surface`, `button` |
-| Admin media/upload | `thumbnail`, `drop-zone`, `meter`, `icon-button`, `button`, `chip`, `surface`, `skeleton-tile` |
-| Admin dialogs | `dialog-shell`, `button`, `icon-button`, `text-field`, `text-area`, `select-field`, `radio`, `switch`, `swatch`, `badge`, `label-value` |
+| Public nav/home/catalog/category/search | `wordmark`, `button`, `chip`, `eyebrow`, `stat`, `display-text`, `pagination-button`, `search-field`, `spinner-dot` |
+| Tutorial detail | `breadcrumb`, `display-text`, `chip`, `difficulty-badge`, `code-caption`, `button`, `nav-item`, `spinner-dot` |
+| Auth/error/access pages | `wordmark`, `display-text`, `button`, `empty-state`, `spinner-dot`, `text-field` |
+| Profile/progress | `avatar`, `status-dot`, `meter`, `button`, `spinner-dot` |
+| Admin shell/table screens | `nav-item`, `icon-button`, `button`, `chip`, `status-dot`, `avatar`, `checkbox`, `text-field`, `tabs`, `rule`, `spinner-dot` |
+| Admin tutorial editor | `text-field`, `text-area`, `select-field`, `chip`, `icon-button`, `code-caption`, `button`, `spinner-dot` |
+| Admin media/upload | `thumbnail`, `drop-zone`, `meter`, `icon-button`, `button`, `chip`, `spinner-dot` |
+| Admin dialogs | `dialog-shell`, `button`, `icon-button`, `text-field`, `text-area`, `select-field` |
 | Notifications gallery | `snackbar`, `banner`, `button`, `icon-button`, `status-dot` |
 
 ## Validation
@@ -77,7 +85,7 @@ npx ng test components --watch=false
 
 Manual gates:
 
-- Every atom is exported from `projects/components/src/public-api.ts`.
+- Every exported atom has at least one domain or app consumer, except atoms documented as internal dependencies.
 - Interactive atoms expose keyboard/focus states and an accessible name path.
 - Atom styles stay token-driven and avoid page-specific widths, margins, and copy.
 - Public and admin differences are handled by variants, tones, and slots rather than duplicate components.

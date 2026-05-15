@@ -1,7 +1,7 @@
 <div class="catalog-page">
   <h1>Tutorial catalog</h1>
   @if (loading()) {
-    <p class="state state--loading">Loading…</p>
+    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
@@ -36,12 +36,14 @@
     <p class="catalog-page__count">{{ page.totalCount }} tutorials</p>
     <section data-testid="tutorial-results" [attr.data-view]="viewMode()">
       @for (tutorial of page.items; track tutorial.id) {
-        <article data-testid="tutorial-card">
-          <h2>
-            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
-          </h2>
-          <p>{{ tutorial.summary }}</p>
-        </article>
+        <ps-tutorial-card
+          [title]="tutorial.title"
+          [slug]="tutorial.slug"
+          [summary]="tutorial.summary"
+          [categoryName]="tutorial.categoryName"
+          [difficulty]="tutorial.difficultyLevel"
+          [estimatedMinutes]="tutorial.estimatedMinutes"
+        ></ps-tutorial-card>
       }
     </section>
   }

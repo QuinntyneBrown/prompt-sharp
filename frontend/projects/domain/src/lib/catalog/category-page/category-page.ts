@@ -7,14 +7,15 @@ import {
   PromptSharpTagsApi,
   TutorialListItem,
 } from 'api';
-import { Button, SelectField, SelectFieldOption } from 'components';
+import { Button, SelectField, SelectFieldOption, SpinnerDot } from 'components';
+import { TutorialCard } from '../../tutorial/tutorial-card/tutorial-card';
 
 @Component({
   selector: 'ps-category-page',
   templateUrl: './category-page.html',
   styleUrl: './category-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, SelectField],
+  imports: [Button, SelectField, SpinnerDot, TutorialCard],
 })
 export class CategoryPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

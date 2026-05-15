@@ -14,7 +14,7 @@ import {
   TutorialStepUpsert,
   TutorialUpsert,
 } from 'api';
-import { Button, DropZone, SelectField, SelectFieldOption, TextArea, TextField } from 'components';
+import { Button, DropZone, SelectField, SelectFieldOption, SpinnerDot, TextArea, TextField } from 'components';
 import { Observable, switchMap } from 'rxjs';
 import { PublishDialog } from '../../../dialogs/publish-dialog/publish-dialog';
 import { UnsavedChangesDialog } from '../../../dialogs/unsaved-changes-dialog/unsaved-changes-dialog';
@@ -24,7 +24,7 @@ import { UnsavedChangesDialog } from '../../../dialogs/unsaved-changes-dialog/un
   templateUrl: './admin-tutorial-editor-page.html',
   styleUrl: './admin-tutorial-editor-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, DropZone, PublishDialog, SelectField, TextArea, TextField, UnsavedChangesDialog],
+  imports: [Button, DropZone, PublishDialog, SelectField, SpinnerDot, TextArea, TextField, UnsavedChangesDialog],
 })
 export class AdminTutorialEditorPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

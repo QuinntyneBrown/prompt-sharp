@@ -17,7 +17,7 @@ public static class DependencyInjection
         services.AddDbContext<PromptSharpDbContext>(options =>
         {
             var connectionString = configuration.GetConnectionString("PromptSharpDb");
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer(connectionString, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
         });
 
         services.AddScoped<IPromptSharpDbContext>(provider => provider.GetRequiredService<PromptSharpDbContext>());

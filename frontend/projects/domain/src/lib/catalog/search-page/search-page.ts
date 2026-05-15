@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PagedResult, PromptSharpTutorialsApi, TutorialListItem } from 'api';
-import { Button, SearchField } from 'components';
+import { Button, SearchField, SpinnerDot } from 'components';
+import { TutorialCard } from '../../tutorial/tutorial-card/tutorial-card';
 
 @Component({
   selector: 'ps-search-page',
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, SearchField],
+  imports: [Button, SearchField, SpinnerDot, TutorialCard],
 })
 export class SearchPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

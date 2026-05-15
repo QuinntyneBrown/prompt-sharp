@@ -4,7 +4,7 @@
     <lib-button type="button" variant="solid" (click)="openCreateDialog()">New tutorial</lib-button>
   </header>
   @if (loading()) {
-    <p class="state state--loading">Loading…</p>
+    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
   } @else if (error(); as message) {
     <div class="state state--error">
       <p>{{ message }}</p>
