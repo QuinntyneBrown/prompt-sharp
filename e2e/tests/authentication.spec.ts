@@ -116,6 +116,27 @@ test.describe('role-specific auth states', () => {
   });
 });
 
+test.describe('generated rejected auth states', () => {
+  test('expired storage state redirects through the session-expired flow', async ({ browser }) => {
+    const context = await browser.newContext({ storageState: '.auth/expired.json' });
+    const page = await context.newPage();
+    await page.goto(routes.adminDashboard);
+    await expect(page).toHaveURL(/\/sign-in/);
+    await expect(page).toHaveURL(/reason=expired/);
+    await expect(page.getByRole('dialog', { name: /session expired/i })).toBeVisible();
+    await context.close();
+  });
+
+  test('invalid-token storage state is rejected by protected routes', async ({ browser }) => {
+    const context = await browser.newContext({ storageState: '.auth/invalid.json' });
+    const page = await context.newPage();
+    await page.goto(routes.adminDashboard);
+    await expect(page).toHaveURL(/\/sign-in/);
+    await expect(page).toHaveURL(/reason=expired/);
+    await context.close();
+  });
+});
+
 function signJwt(payload: Record<string, unknown>): string {
   const signingKey = 'development-only-signing-key-change-with-user-secrets';
   const header = base64Url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));

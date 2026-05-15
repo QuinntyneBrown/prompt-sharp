@@ -32,6 +32,7 @@ const routeCases: VisualCase[] = [
   { name: 'access-denied', skeleton: 'access-denied.html', path: routes.accessDenied },
   { name: 'profile', skeleton: 'profile.html', path: routes.profile },
   { name: 'progress', skeleton: 'progress.html', path: routes.progressBookmarks },
+  { name: 'notifications', skeleton: 'notifications.html', path: '/notifications' },
   { name: 'admin-dashboard', skeleton: 'admin-dashboard.html', path: routes.adminDashboard },
   { name: 'admin-tutorial-list', skeleton: 'admin-tutorial-list.html', path: routes.adminTutorialList },
   { name: 'admin-tutorial-editor-new', skeleton: 'admin-tutorial-editor.html', path: routes.tutorialEditorNew },

@@ -70,6 +70,9 @@ test.describe('screen contract', () => {
 
     await progressBookmarksPage.goto();
     await progressBookmarksPage.expectLoaded();
+
+    await page.goto('/notifications');
+    await expect(page.getByRole('heading', { name: /notifications/i, level: 1 })).toBeVisible();
   });
 
   test('admin screens expose their primary headings', async ({

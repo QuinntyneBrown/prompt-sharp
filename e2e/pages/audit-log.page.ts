@@ -26,6 +26,7 @@ export class AuditLogPage extends BasePage {
 
   async expectEntries(): Promise<void> {
     await expect(this.auditTable()).toBeVisible();
-    await expect(this.auditTable().getByRole('row').nth(1)).toBeVisible({ timeout: 15_000 });
+    await expect(this.page.getByText(/loading/i)).toBeHidden({ timeout: 30_000 });
+    await expect(this.auditTable().getByRole('row').nth(1)).toBeVisible({ timeout: 30_000 });
   }
 }

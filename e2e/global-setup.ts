@@ -6,7 +6,8 @@ import type { FullConfig } from '@playwright/test';
 const signingKey = 'development-only-signing-key-change-with-user-secrets';
 const apiURL = process.env.PLAYWRIGHT_API_BASE_URL ?? 'http://127.0.0.1:5000';
 
-type AuthStateName = 'learner' | 'editor' | 'admin';
+type AuthStateName = 'learner' | 'editor' | 'admin' | 'expired' | 'invalid';
+type RuntimeAuthStateName = 'learner' | 'editor' | 'admin';
 
 type AuthPayload = {
   sub: string;
@@ -53,12 +54,19 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
       name: 'Ada Admin',
       role: ['User', 'Editor', 'Admin'],
     },
-  } satisfies Record<AuthStateName, AuthPayload>;
+  } satisfies Record<RuntimeAuthStateName, AuthPayload>;
 
-  const tokens = {} as Record<AuthStateName, string>;
-  for (const [name, payload] of Object.entries(identities) as Array<[AuthStateName, AuthPayload]>) {
+  const tokens = {} as Record<RuntimeAuthStateName, string>;
+  for (const [name, payload] of Object.entries(identities) as Array<[RuntimeAuthStateName, AuthPayload]>) {
     tokens[name] = await writeStorageState(authDir, baseURL, name, payload);
   }
+  await writeStorageState(authDir, baseURL, 'expired', {
+    sub: 'seed:admin',
+    email: 'ada.admin@example.com',
+    name: 'Ada Admin',
+    role: ['User', 'Editor', 'Admin'],
+  }, -60);
+  await writeRawStorageState(authDir, baseURL, 'invalid', 'invalid.jwt.signature');
 
   await ensureE2eData(tokens);
 }
@@ -68,14 +76,25 @@ async function writeStorageState(
   baseURL: string,
   name: AuthStateName,
   payload: AuthPayload,
+  expiresInSeconds = 60 * 60 * 6,
 ): Promise<string> {
   const token = signJwt({
     iss: 'prompt-sharp-dev',
     aud: 'prompt-sharp-api',
     ...payload,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 6,
+    exp: Math.floor(Date.now() / 1000) + expiresInSeconds,
   });
 
+  await writeRawStorageState(authDir, baseURL, name, token);
+  return token;
+}
+
+async function writeRawStorageState(
+  authDir: string,
+  baseURL: string,
+  name: AuthStateName,
+  token: string,
+): Promise<void> {
   await fs.writeFile(
     path.join(authDir, `${name}.json`),
     JSON.stringify(
@@ -97,11 +116,9 @@ async function writeStorageState(
       2,
     ),
   );
-
-  return token;
 }
 
-async function ensureE2eData(tokens: Record<AuthStateName, string>): Promise<void> {
+async function ensureE2eData(tokens: Record<RuntimeAuthStateName, string>): Promise<void> {
   await waitForApi();
 
   await Promise.all([
@@ -113,10 +130,18 @@ async function ensureE2eData(tokens: Record<AuthStateName, string>): Promise<voi
   const dotnet = await ensureCategory(tokens.admin, { slug: 'dotnet', name: '.NET', order: 1 });
   const blazor = await ensureCategory(tokens.admin, { slug: 'blazor', name: 'Blazor', order: 2 });
   const azureCategory = await ensureCategory(tokens.admin, { slug: 'azure', name: 'Azure', order: 3 });
+  const ai = await ensureCategory(tokens.admin, { slug: 'ai', name: 'AI', order: 4 });
 
   const azure = await ensureTag(tokens.admin, { slug: 'azure', name: 'Azure' });
   const cleanArchitecture = await ensureTag(tokens.admin, { slug: 'clean-architecture', name: 'Clean Architecture' });
   const containerApps = await ensureTag(tokens.admin, { slug: 'container-apps', name: 'Container Apps' });
+  const csharp = await ensureTag(tokens.admin, { slug: 'csharp', name: 'C#' });
+  const aspnetCore = await ensureTag(tokens.admin, { slug: 'aspnet-core', name: 'ASP.NET Core' });
+  const sqlServer = await ensureTag(tokens.admin, { slug: 'sql-server', name: 'SQL Server' });
+  const openai = await ensureTag(tokens.admin, { slug: 'openai', name: 'OpenAI' });
+  const security = await ensureTag(tokens.admin, { slug: 'security', name: 'Security' });
+  const svgMedia = await ensureMedia(tokens.admin, 'promptsharp-diagram.svg');
+  await ensurePngMedia(tokens.admin);
 
   const cleanArchitectureTutorial = await ensureTutorial(tokens.admin, {
     slug: 'build-dotnet-api-with-clean-architecture',
@@ -134,7 +159,7 @@ async function ensureE2eData(tokens: Record<AuthStateName, string>): Promise<voi
         bodyMarkdown: 'Create separate API, Application, Domain, and Infrastructure projects.',
         codeSnippet: 'dotnet new sln --name PromptSharp',
         codeLanguage: 'Bash',
-        imageMediaId: null,
+        imageMediaId: svgMedia.id,
       },
       {
         title: 'Add the first endpoint',
@@ -188,8 +213,128 @@ async function ensureE2eData(tokens: Record<AuthStateName, string>): Promise<voi
     ],
   });
 
+  await ensureTutorial(tokens.admin, {
+    slug: 'build-a-dotnet-api',
+    title: 'Build a .NET API',
+    summary: 'Create a complete ASP.NET Core API backed by SQL Server and clean architecture.',
+    difficultyLevel: 'intermediate',
+    estimatedMinutes: 50,
+    categoryId: dotnet.id,
+    tagIds: [csharp.id, aspnetCore.id, sqlServer.id],
+    featured: false,
+    editorsPick: false,
+    steps: [
+      {
+        title: 'Create the solution',
+        bodyMarkdown: 'Start with a layered solution and a test project.',
+        codeSnippet: 'dotnet new sln --name PromptSharp.Api',
+        codeLanguage: 'Bash',
+        imageMediaId: svgMedia.id,
+      },
+      {
+        title: 'Add the API project',
+        bodyMarkdown: 'Create an ASP.NET Core Web API and wire dependency injection.',
+        codeSnippet: 'dotnet new webapi -n PromptSharp.Api',
+        codeLanguage: 'Bash',
+        imageMediaId: null,
+      },
+      {
+        title: 'Connect SQL Server',
+        bodyMarkdown: 'Add EF Core and configure SQL Server persistence.',
+        codeSnippet: 'builder.Services.AddDbContext<AppDbContext>();',
+        codeLanguage: 'CSharp',
+        imageMediaId: null,
+      },
+      {
+        title: 'Add validation',
+        bodyMarkdown: 'Validate commands before they reach persistence.',
+        codeSnippet: 'RuleFor(command => command.Title).NotEmpty();',
+        codeLanguage: 'CSharp',
+        imageMediaId: null,
+      },
+    ],
+  });
+
+  await ensureTutorial(tokens.admin, {
+    slug: 'deploy-to-azure',
+    title: 'Deploy to Azure',
+    summary: 'Publish a monitored application to Azure with managed configuration.',
+    difficultyLevel: 'beginner',
+    estimatedMinutes: 35,
+    categoryId: azureCategory.id,
+    tagIds: [azure.id, sqlServer.id],
+    featured: true,
+    editorsPick: false,
+    steps: [
+      {
+        title: 'Prepare the deployment',
+        bodyMarkdown: 'Configure environment variables and health checks.',
+        codeSnippet: 'az webapp config appsettings set',
+        codeLanguage: 'Bash',
+        imageMediaId: null,
+      },
+      {
+        title: 'Deploy the API',
+        bodyMarkdown: 'Push the application to the Azure host.',
+        codeSnippet: 'az webapp deploy',
+        codeLanguage: 'Bash',
+        imageMediaId: null,
+      },
+    ],
+  });
+
+  await ensureTutorial(tokens.admin, {
+    slug: 'secure-blazor-app',
+    title: 'Secure a Blazor App',
+    summary: 'Protect a Blazor application with role-aware navigation and API authorization.',
+    difficultyLevel: 'advanced',
+    estimatedMinutes: 55,
+    categoryId: blazor.id,
+    tagIds: [security.id, aspnetCore.id],
+    featured: false,
+    editorsPick: true,
+    steps: [
+      {
+        title: 'Add authentication',
+        bodyMarkdown: 'Configure authentication state and protected routes.',
+        codeSnippet: 'builder.Services.AddAuthorizationCore();',
+        codeLanguage: 'CSharp',
+        imageMediaId: null,
+      },
+      {
+        title: 'Protect API calls',
+        bodyMarkdown: 'Send bearer tokens and handle forbidden responses.',
+        codeSnippet: 'request.Headers.Authorization = authHeader;',
+        codeLanguage: 'CSharp',
+        imageMediaId: null,
+      },
+    ],
+  });
+
+  await ensureTutorial(tokens.admin, {
+    slug: 'draft-openai-workflow',
+    title: 'Draft OpenAI Workflow',
+    summary: 'Draft an AI-assisted workflow that is intentionally unpublished for admin testing.',
+    difficultyLevel: 'beginner',
+    estimatedMinutes: 25,
+    categoryId: ai.id,
+    tagIds: [openai.id, security.id],
+    featured: false,
+    editorsPick: false,
+    published: false,
+    steps: [
+      {
+        title: 'Sketch the workflow',
+        bodyMarkdown: 'Document the prompts, safety checks, and persistence points.',
+        codeSnippet: 'const workflow = createWorkflow();',
+        codeLanguage: 'TypeScript',
+        imageMediaId: null,
+      },
+    ],
+  });
+
   await ensureLearnerState(tokens.learner, cleanArchitectureTutorial);
-  await ensureMedia(tokens.admin);
+  await ensureInvitation(tokens.admin, 'casey.pending@example.com');
 }
 
 async function waitForApi(): Promise<void> {
@@ -243,6 +388,7 @@ async function ensureTutorial(
     tagIds: string[];
     featured: boolean;
     editorsPick: boolean;
+    published?: boolean;
     steps: Array<{
       title: string;
       bodyMarkdown: string;
@@ -272,7 +418,7 @@ async function ensureTutorial(
   if (tutorial.stepCount !== input.steps.length) {
     tutorial = await apiJson<TutorialDetail>(`api/v1/admin/tutorials/${tutorial.id}/steps`, token, 'PUT', input.steps);
   }
-  if (!tutorial.isPublished) {
+  if (input.published !== false && !tutorial.isPublished) {
     tutorial = await apiJson<TutorialDetail>(`api/v1/admin/tutorials/${tutorial.id}/publish`, token, 'POST', null);
   }
   if (input.featured && !tutorial.isFeatured) {
@@ -296,18 +442,40 @@ async function ensureLearnerState(token: string, tutorial: TutorialDetail): Prom
   }
 }
 
-async function ensureMedia(token: string): Promise<void> {
+async function ensureMedia(token: string, fileName = 'promptsharp-diagram.svg'): Promise<Media> {
   const media = await apiGet<Media[]>('api/v1/admin/media', token);
-  if (media.some((item) => item.fileName === 'promptsharp-diagram.svg')) {
-    return;
+  const existing = media.find((item) => item.fileName === fileName);
+  if (existing) {
+    return existing;
   }
 
-  const filePath = path.resolve(process.cwd(), 'fixtures', 'files', 'promptsharp-diagram.svg');
+  const filePath = path.resolve(process.cwd(), 'fixtures', 'files', fileName);
   const content = await fs.readFile(filePath);
   const form = new FormData();
-  form.append('file', new Blob([content], { type: 'image/svg+xml' }), 'promptsharp-diagram.svg');
+  form.append('file', new Blob([content], { type: 'image/svg+xml' }), fileName);
 
-  await apiFetch<Media>('api/v1/admin/media', token, { method: 'POST', body: form });
+  return apiFetch<Media>('api/v1/admin/media', token, { method: 'POST', body: form });
+}
+
+async function ensurePngMedia(token: string): Promise<Media> {
+  const media = await apiGet<Media[]>('api/v1/admin/media', token);
+  const existing = media.find((item) => item.fileName === 'promptsharp-pixel.png');
+  if (existing) {
+    return existing;
+  }
+
+  const form = new FormData();
+  form.append(
+    'file',
+    new Blob([Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])], { type: 'image/png' }),
+    'promptsharp-pixel.png',
+  );
+
+  return apiFetch<Media>('api/v1/admin/media', token, { method: 'POST', body: form });
+}
+
+async function ensureInvitation(token: string, email: string): Promise<void> {
+  await apiJson('api/v1/admin/users/invitations', token, 'POST', { email, roles: ['User'] });
 }
 
 async function apiGet<T>(pathAndQuery: string, token: string): Promise<T> {
