@@ -1,0 +1,35 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
+  font-family: t.$font-sans;
+  font-size: t.$font-size-md;
+}
+
+.track {
+  display: inline-flex;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border-radius: t.$border-radius-pill;
+  border: t.$border-width solid t.$color-rule;
+  background: t.$color-rule-soft;
+  cursor: pointer;
+
+  &:disabled { cursor: not-allowed; opacity: 0.5; }
+}
+
+.thumb {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: t.$color-ink-dim;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+:host([data-checked]) .track { background: t.$color-accent; border-color: t.$color-accent; }
+:host([data-checked]) .thumb { background: t.$color-bg; transform: translateX(16px); }

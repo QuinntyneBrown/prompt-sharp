@@ -1,0 +1,13 @@
+<div class="admin-tutorial-editor-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  @if (tutorial(); as t) {
+    <h1>{{ t.title }}</h1>
+  }
+</div>

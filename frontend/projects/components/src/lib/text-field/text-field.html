@@ -1,0 +1,32 @@
+@if (label(); as label) {
+  <label class="label">{{ label }}@if (required()) { <span class="req" aria-hidden="true">*</span> }</label>
+}
+<span class="field">
+  <span class="prefix">
+    @if (prefix(); as text) {
+      <span>{{ text }}</span>
+    }
+    <ng-content select="[field-prefix]"></ng-content>
+  </span>
+  <input
+    class="input"
+    [type]="type()"
+    [value]="value()"
+    [placeholder]="placeholder()"
+    [attr.name]="name()"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+    [required]="required()"
+    [attr.aria-invalid]="error() ? true : null"
+    (input)="onInput($event)"
+  />
+  <span class="suffix">
+    @if (suffix(); as text) {
+      <span>{{ text }}</span>
+    }
+    <ng-content select="[field-suffix]"></ng-content>
+  </span>
+</span>
+@if (error(); as err) {
+  <span class="error" role="alert">{{ err }}</span>
+}

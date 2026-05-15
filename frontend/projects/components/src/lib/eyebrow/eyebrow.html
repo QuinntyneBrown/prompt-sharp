@@ -2,6 +2,11 @@
   @if (showDot()) {
     <span class="dot" aria-hidden="true"></span>
   }
-  <span class="leading"><ng-content select="[eyebrow-icon]"></ng-content></span>
+  <span class="leading">
+    @if (icon(); as iconName) {
+      <span class="material-symbols-outlined" aria-hidden="true">{{ iconName }}</span>
+    }
+    <ng-content select="[eyebrow-icon]"></ng-content>
+  </span>
   <ng-content></ng-content>
 </span>

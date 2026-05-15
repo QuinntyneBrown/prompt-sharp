@@ -23,4 +23,6 @@ export class Button {
   readonly loading = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);
   readonly ariaLabel = input<string | null>(null);
+  readonly iconStart = input<string | null>(null);
+  readonly iconEnd = input<string | null>(null);
 }

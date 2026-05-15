@@ -1,0 +1,5 @@
+@if (!current() && href(); as href) {
+  <a class="crumb" [attr.href]="href">{{ label() }}</a>
+} @else {
+  <span class="crumb">{{ label() }}</span>
+}

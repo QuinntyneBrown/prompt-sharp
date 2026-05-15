@@ -8,7 +8,17 @@
   @if (loading()) {
     <span class="spinner" aria-hidden="true"></span>
   }
-  <span class="icon-start"><ng-content select="[icon-start]"></ng-content></span>
+  <span class="icon-start">
+    @if (iconStart(); as icon) {
+      <span class="material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
+    }
+    <ng-content select="[icon-start]"></ng-content>
+  </span>
   <span class="content"><ng-content></ng-content></span>
-  <span class="icon-end"><ng-content select="[icon-end]"></ng-content></span>
+  <span class="icon-end">
+    @if (iconEnd(); as icon) {
+      <span class="material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
+    }
+    <ng-content select="[icon-end]"></ng-content>
+  </span>
 </button>

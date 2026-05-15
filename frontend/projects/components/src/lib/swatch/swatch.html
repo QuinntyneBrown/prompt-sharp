@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="swatch"
+  [style.background]="color()"
+  [attr.aria-label]="label() ?? color()"
+  [attr.aria-pressed]="selected()"
+  [disabled]="disabled()"
+  (click)="onClick()"
+></button>

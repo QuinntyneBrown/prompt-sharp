@@ -1,0 +1,40 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 t.$space-3;
+  border: t.$border-width solid t.$color-rule;
+  background: transparent;
+  color: t.$color-ink-dim;
+  cursor: pointer;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono;
+  line-height: 1;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    border-color: t.$color-accent;
+    color: t.$color-ink;
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+:host([data-active]) .button {
+  background: t.$color-accent;
+  border-color: t.$color-accent;
+  color: t.$color-bg;
+  font-weight: 700;
+}

@@ -7,7 +7,7 @@
 .mark {
   font-family: t.$font-sans;
   font-variation-settings: #{t.$fvs-condensed-heavy};
-  letter-spacing: t.$tracking-tight;
+  letter-spacing: 0;
   line-height: t.$line-height-tight;
   color: t.$color-ink;
   display: inline-flex;
@@ -27,7 +27,7 @@
   .mark {
     font-size: 64px;
     font-variation-settings: #{t.$fvs-condensed};
-    letter-spacing: -0.05em;
+    letter-spacing: 0;
   }
   .slash {
     font-variation-settings: "wdth" 90, "wght" 500;
@@ -36,5 +36,5 @@
 
 :host([data-variant='foot']) .mark {
   font-variation-settings: #{t.$fvs-condensed};
-  letter-spacing: -0.05em;
+  letter-spacing: 0;
 }

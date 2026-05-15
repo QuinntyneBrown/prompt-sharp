@@ -1,0 +1,17 @@
+<div class="home-page">
+  <ps-home-hero></ps-home-hero>
+
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  } @else {
+    <ps-featured-tutorials></ps-featured-tutorials>
+    <ps-latest-tutorials></ps-latest-tutorials>
+    <ps-tutorial-tracks></ps-tutorial-tracks>
+    <ps-marquee-strip></ps-marquee-strip>
+  }
+</div>

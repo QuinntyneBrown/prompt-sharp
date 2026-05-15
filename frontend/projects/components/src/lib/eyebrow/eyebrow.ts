@@ -13,4 +13,5 @@ import { EyebrowTone } from './eyebrow-tone';
 export class Eyebrow {
   readonly showDot = input<boolean>(false);
   readonly tone = input<EyebrowTone>('default');
+  readonly icon = input<string | null>(null);
 }

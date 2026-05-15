@@ -1,0 +1,26 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.row {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
+  cursor: pointer;
+  font-family: t.$font-sans;
+  font-size: t.$font-size-md;
+  color: t.$color-ink;
+}
+
+.box {
+  width: 16px;
+  height: 16px;
+  accent-color: t.$color-accent;
+  cursor: inherit;
+
+  &:disabled { cursor: not-allowed; opacity: 0.5; }
+}
+
+:host([data-disabled]) .row { cursor: not-allowed; color: t.$color-hush; }

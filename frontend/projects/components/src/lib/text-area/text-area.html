@@ -1,0 +1,17 @@
+@if (label(); as label) {
+  <label class="label">{{ label }}</label>
+}
+<textarea
+  class="field"
+  [value]="value()"
+  [placeholder]="placeholder()"
+  [rows]="rows()"
+  [attr.name]="name()"
+  [disabled]="disabled()"
+  [readonly]="readonly()"
+  [attr.aria-invalid]="error() ? true : null"
+  (input)="onInput($event)"
+></textarea>
+@if (error(); as err) {
+  <span class="error" role="alert">{{ err }}</span>
+}

@@ -1,0 +1,55 @@
+@use 'tokens' as t;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+  font-family: t.$font-sans;
+}
+
+.label {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  letter-spacing: t.$tracking-eyebrow;
+  text-transform: uppercase;
+  color: t.$color-muted;
+}
+
+.req { color: t.$color-accent; margin-left: 2px; }
+
+.field {
+  display: inline-flex;
+  align-items: center;
+  background: t.$color-bg;
+  border: t.$border-width solid t.$color-rule;
+  padding: t.$space-2 t.$space-3;
+
+  .prefix:empty, .suffix:empty { display: none; }
+  .prefix { margin-right: t.$space-2; }
+  .suffix { margin-left: t.$space-2; }
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  color: t.$color-ink;
+  font-family: inherit;
+  font-size: t.$font-size-md;
+  line-height: t.$line-height-base;
+  outline: none;
+
+  &::placeholder { color: t.$color-hush; }
+  &:disabled { cursor: not-allowed; opacity: 0.5; }
+}
+
+.error {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  color: #FFB4AB;
+}
+
+:host([data-error]) .field { border-color: #FFB4AB; }
+:host([data-disabled]) { opacity: 0.7; }
+
+:host .field:focus-within { border-color: t.$color-accent; }

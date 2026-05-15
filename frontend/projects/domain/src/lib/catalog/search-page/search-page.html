@@ -1,0 +1,14 @@
+<div class="search-page">
+  <h1 class="search-page__title">Results for "{{ query() }}"</h1>
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  @if (results(); as page) {
+    <p class="search-page__count">{{ page.totalCount }} matches</p>
+  }
+</div>

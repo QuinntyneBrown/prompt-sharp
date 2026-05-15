@@ -36,6 +36,22 @@
   }
 }
 
+.icon-start,
+.icon-end {
+  display: inline-flex;
+  align-items: center;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+}
+
 :host([data-full-width]) .btn { flex: 1; justify-content: center; }
 
 :host([data-size='sm']) .btn {

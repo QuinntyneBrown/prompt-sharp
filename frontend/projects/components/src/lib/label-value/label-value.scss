@@ -1,0 +1,28 @@
+@use 'tokens' as t;
+
+:host {
+  display: grid;
+  gap: t.$space-1 t.$space-4;
+  align-items: baseline;
+}
+
+:host([data-orientation='horizontal']) {
+  grid-template-columns: max-content 1fr;
+}
+
+:host([data-orientation='vertical']) {
+  grid-template-columns: 1fr;
+}
+
+.label {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  letter-spacing: t.$tracking-eyebrow;
+  text-transform: uppercase;
+  color: t.$color-muted;
+}
+
+.value {
+  color: t.$color-ink;
+  font-size: t.$font-size-md;
+}

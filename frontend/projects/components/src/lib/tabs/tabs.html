@@ -1,0 +1,15 @@
+<div class="row" [attr.aria-label]="ariaLabel()">
+  @for (tab of tabs(); track tab.value; let i = $index) {
+    <button
+      type="button"
+      class="tab"
+      role="tab"
+      [class.active]="tab.value === selected()"
+      [attr.aria-selected]="tab.value === selected()"
+      [attr.tabindex]="tab.value === selected() ? 0 : -1"
+      [disabled]="tab.disabled ?? false"
+      (click)="onSelect(tab)"
+      (keydown)="onKeydown($event, i)"
+    >{{ tab.label }}</button>
+  }
+</div>

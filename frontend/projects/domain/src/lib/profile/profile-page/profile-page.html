@@ -1,0 +1,14 @@
+<div class="profile-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  @if (user(); as u) {
+    <h1>{{ u.email }}</h1>
+    <p>{{ bookmarks().length }} bookmarks</p>
+  }
+</div>

@@ -1,0 +1,33 @@
+@use 'tokens' as t;
+
+:host {
+  position: relative;
+  display: block;
+  width: 100%;
+  background: t.$color-surface;
+  overflow: hidden;
+  border: t.$border-width solid t.$color-rule;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+:host([data-selected]) {
+  outline: 2px solid t.$color-accent;
+  outline-offset: -2px;
+}

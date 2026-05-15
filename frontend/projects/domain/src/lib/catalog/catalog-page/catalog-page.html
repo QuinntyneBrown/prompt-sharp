@@ -1,0 +1,13 @@
+<div class="catalog-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  @if (tutorials(); as page) {
+    <p class="catalog-page__count">{{ page.totalCount }} tutorials</p>
+  }
+</div>

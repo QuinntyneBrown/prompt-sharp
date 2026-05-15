@@ -1,0 +1,14 @@
+<button
+  type="button"
+  class="button"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-current]="active() ? 'page' : null"
+  (click)="onClick()"
+>
+  @if (label() !== null) {
+    <span>{{ label() }}</span>
+  } @else {
+    <ng-content></ng-content>
+  }
+</button>

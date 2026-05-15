@@ -5,6 +5,9 @@
 }
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
   font-family: t.$font-mono;
   font-size: t.$font-size-mono-sm;
   font-weight: 500;
@@ -15,12 +18,26 @@
   .leading:empty { display: none; }
 }
 
+.leading {
+  display: inline-flex;
+  align-items: center;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+}
+
 .dot {
   display: inline-block;
   width: 6px;
   height: 6px;
   background: t.$color-accent;
-  margin-right: t.$space-2 + 2px;
   vertical-align: middle;
 }
 

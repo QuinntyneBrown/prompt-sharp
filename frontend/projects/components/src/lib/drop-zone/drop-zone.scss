@@ -1,0 +1,65 @@
+@use 'tokens' as t;
+
+:host {
+  display: block;
+  font-family: t.$font-sans;
+}
+
+.zone {
+  display: grid;
+  justify-items: center;
+  gap: t.$space-2;
+  padding: t.$space-8 t.$space-4;
+  border: t.$border-width dashed t.$color-rule;
+  background: t.$color-surface;
+  color: t.$color-ink;
+  cursor: pointer;
+  text-align: center;
+
+  &:focus-within {
+    border-color: t.$color-accent;
+    outline: 2px solid t.$color-accent;
+    outline-offset: 2px;
+  }
+}
+
+:host([data-drag-active]) .zone {
+  border-color: t.$color-accent;
+  background: t.$color-surface-2;
+}
+
+:host([data-disabled]) .zone {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.icon {
+  color: t.$color-accent;
+  font-family: 'Material Symbols Outlined';
+  font-size: 32px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+}
+
+.label {
+  font-size: t.$font-size-lg;
+  font-variation-settings: #{t.$fvs-card-title};
+  line-height: t.$line-height-snug;
+}
+
+.description {
+  color: t.$color-ink-dim;
+  font-size: t.$font-size-sm;
+  line-height: t.$line-height-base;
+}

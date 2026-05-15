@@ -1,0 +1,10 @@
+<button
+  type="button"
+  class="button"
+  [disabled]="disabled()"
+  [attr.aria-label]="label()"
+  [attr.aria-pressed]="pressed() === null ? null : pressed()"
+  (click)="onClick($event)"
+>
+  <span class="material-symbols-outlined" aria-hidden="true">{{ icon() }}</span>
+</button>

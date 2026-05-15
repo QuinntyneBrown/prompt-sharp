@@ -1,0 +1,26 @@
+<div class="admin-taxonomy-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  <section class="admin-taxonomy-page__categories">
+    <h2>Categories</h2>
+    <ul>
+      @for (c of categories(); track c.id) {
+        <li>{{ c.name }}</li>
+      }
+    </ul>
+  </section>
+  <section class="admin-taxonomy-page__tags">
+    <h2>Tags</h2>
+    <ul>
+      @for (t of tags(); track t.id) {
+        <li>{{ t.name }}</li>
+      }
+    </ul>
+  </section>
+</div>

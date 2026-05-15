@@ -1,0 +1,20 @@
+<section class="empty">
+  <div class="icon-wrap">
+    <ng-content select="[empty-state-icon]"></ng-content>
+    @if (icon(); as iconName) {
+      <span class="material-symbols-outlined icon" aria-hidden="true">{{ iconName }}</span>
+    }
+  </div>
+
+  @if (display(); as title) {
+    <h2 class="title">{{ title }}</h2>
+  }
+
+  @if (description(); as text) {
+    <p class="description">{{ text }}</p>
+  }
+
+  <div class="actions">
+    <ng-content select="[empty-state-actions]"></ng-content>
+  </div>
+</section>

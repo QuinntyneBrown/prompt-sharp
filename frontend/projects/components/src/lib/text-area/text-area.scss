@@ -1,0 +1,40 @@
+@use 'tokens' as t;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+  font-family: t.$font-sans;
+}
+
+.label {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  letter-spacing: t.$tracking-eyebrow;
+  text-transform: uppercase;
+  color: t.$color-muted;
+}
+
+.field {
+  width: 100%;
+  background: t.$color-bg;
+  border: t.$border-width solid t.$color-rule;
+  color: t.$color-ink;
+  font-family: inherit;
+  font-size: t.$font-size-md;
+  line-height: t.$line-height-base;
+  padding: t.$space-3;
+  resize: vertical;
+
+  &::placeholder { color: t.$color-hush; }
+  &:focus { outline: none; border-color: t.$color-accent; }
+  &:disabled { cursor: not-allowed; opacity: 0.5; }
+}
+
+.error {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  color: #FFB4AB;
+}
+
+:host([data-error]) .field { border-color: #FFB4AB; }

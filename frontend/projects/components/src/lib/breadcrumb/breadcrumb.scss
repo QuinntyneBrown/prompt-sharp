@@ -1,0 +1,18 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-block;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-sm;
+  letter-spacing: t.$tracking-mono;
+  color: t.$color-ink-dim;
+}
+
+.crumb {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.crumb:hover { color: t.$color-ink; }
+
+:host([data-current]) .crumb { color: t.$color-ink; }

@@ -2,7 +2,7 @@
  * Public API Surface of components
  */
 
-// Atoms
+// Wave 1 atoms
 export * from './lib/button/button';
 export * from './lib/button/button-variant';
 export * from './lib/button/button-type';
@@ -37,3 +37,63 @@ export * from './lib/skeleton-tile/skeleton-tile';
 export * from './lib/skeleton-tile/skeleton-radius';
 export * from './lib/skeleton-circle/skeleton-circle';
 export * from './lib/skeleton-circle/skeleton-circle-size';
+
+// Wave 2 atoms
+export * from './lib/display-text/display-text';
+export * from './lib/display-text/display-text-level';
+export * from './lib/display-text/display-text-tone';
+export * from './lib/label-value/label-value';
+export * from './lib/label-value/label-value-orientation';
+export * from './lib/breadcrumb/breadcrumb';
+export * from './lib/code-caption/code-caption';
+export * from './lib/badge/badge';
+export * from './lib/badge/badge-tone';
+export * from './lib/badge/badge-size';
+export * from './lib/status-dot/status-dot';
+export * from './lib/status-dot/status-dot-tone';
+export * from './lib/avatar/avatar';
+export * from './lib/avatar/avatar-size';
+export * from './lib/avatar/avatar-status';
+export * from './lib/meter/meter';
+export * from './lib/meter/meter-tone';
+export * from './lib/swatch/swatch';
+export * from './lib/thumbnail/thumbnail';
+export * from './lib/surface/surface';
+export * from './lib/surface/surface-tone';
+export * from './lib/surface/surface-padding';
+export * from './lib/surface/surface-radius';
+export * from './lib/spinner-dot/spinner-dot';
+export * from './lib/spinner-dot/spinner-dot-size';
+export * from './lib/spinner-dot/spinner-dot-tone';
+
+// Wave 3 atoms
+export * from './lib/text-field/text-field';
+export * from './lib/text-field/text-field-type';
+export * from './lib/text-area/text-area';
+export * from './lib/select-field/select-field';
+export * from './lib/select-field/select-field-option';
+export * from './lib/checkbox/checkbox';
+export * from './lib/radio/radio';
+export * from './lib/switch/switch';
+export * from './lib/segmented-control/segmented-control';
+export * from './lib/segmented-control/segmented-control-density';
+export * from './lib/segmented-control/segmented-control-option';
+export * from './lib/tabs/tabs';
+export * from './lib/tabs/tabs-tab';
+export * from './lib/search-field/search-field';
+
+// Wave 4 atoms
+export * from './lib/icon-button/icon-button';
+export * from './lib/icon-button/icon-button-size';
+export * from './lib/icon-button/icon-button-variant';
+export * from './lib/fab/fab';
+export * from './lib/fab/fab-variant';
+export * from './lib/pagination-button/pagination-button';
+export * from './lib/nav-item/nav-item';
+export * from './lib/dialog-shell/dialog-shell';
+export * from './lib/snackbar/snackbar';
+export * from './lib/snackbar/snackbar-tone';
+export * from './lib/banner/banner';
+export * from './lib/banner/banner-tone';
+export * from './lib/empty-state/empty-state';
+export * from './lib/drop-zone/drop-zone';

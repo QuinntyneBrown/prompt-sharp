@@ -1,0 +1,15 @@
+<div class="admin-media-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  <ul class="admin-media-page__grid">
+    @for (m of media(); track m.id) {
+      <li>{{ m.fileName }}</li>
+    }
+  </ul>
+</div>

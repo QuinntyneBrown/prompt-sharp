@@ -1,0 +1,11 @@
+<div class="banner" [attr.role]="tone() === 'danger' ? 'alert' : 'status'">
+  @if (icon(); as iconName) {
+    <span class="material-symbols-outlined icon" aria-hidden="true">{{ iconName }}</span>
+  }
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+  <div class="actions">
+    <ng-content select="[banner-actions]"></ng-content>
+  </div>
+</div>

@@ -33,4 +33,15 @@ describe('Button', () => {
     expect(button.type).toBe('submit');
     expect(button.getAttribute('aria-label')).toBe('Save changes');
   });
+
+  it('renders icon inputs', () => {
+    const fixture = TestBed.createComponent(Button);
+    fixture.componentRef.setInput('iconStart', 'save');
+    fixture.componentRef.setInput('iconEnd', 'arrow_forward');
+    fixture.detectChanges();
+
+    const icons = fixture.nativeElement.querySelectorAll('.material-symbols-outlined') as NodeListOf<HTMLElement>;
+    expect(icons[0].textContent?.trim()).toBe('save');
+    expect(icons[1].textContent?.trim()).toBe('arrow_forward');
+  });
 });

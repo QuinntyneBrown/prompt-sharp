@@ -1,0 +1,20 @@
+<div class="admin-tutorial-list-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  @if (tutorials(); as page) {
+    <table>
+      <thead><tr><th>Title</th><th>Status</th></tr></thead>
+      <tbody>
+        @for (t of page.items; track t.id) {
+          <tr><td>{{ t.title }}</td><td>{{ t.isPublished ? 'Published' : 'Draft' }}</td></tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

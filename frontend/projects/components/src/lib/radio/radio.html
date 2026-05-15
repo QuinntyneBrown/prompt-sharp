@@ -1,0 +1,14 @@
+<label class="row">
+  <input
+    type="radio"
+    class="dot"
+    [name]="name()"
+    [value]="value()"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (change)="onChange($event)"
+  />
+  @if (label(); as label) {
+    <span class="label">{{ label }}</span>
+  }
+</label>

@@ -1,3 +1,62 @@
 import { Routes } from '@angular/router';
+import {
+  AboutPage,
+  AccessDeniedPage,
+  AdminAuditLogPage,
+  AdminDashboardPage,
+  AdminMediaPage,
+  AdminShell,
+  AdminTaxonomyPage,
+  AdminTutorialEditorPage,
+  AdminTutorialListPage,
+  AdminUsersPage,
+  CatalogPage,
+  CategoryPage,
+  ErrorPage,
+  HomePage,
+  NotificationsGalleryPage,
+  OauthCallbackPage,
+  OauthConsentPage,
+  ProfilePage,
+  ProgressPage,
+  PublicShell,
+  SearchPage,
+  SignInPage,
+  TutorialDetailPage,
+} from 'domain';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    component: PublicShell,
+    children: [
+      { path: '', component: HomePage },
+      { path: 'catalog', component: CatalogPage },
+      { path: 'category/:slug', component: CategoryPage },
+      { path: 'search', component: SearchPage },
+      { path: 'tutorials/:slug', component: TutorialDetailPage },
+      { path: 'about', component: AboutPage },
+      { path: 'profile', component: ProfilePage },
+      { path: 'progress', component: ProgressPage },
+      { path: 'signin', component: SignInPage },
+      { path: 'oauth/callback', component: OauthCallbackPage },
+      { path: 'oauth/consent', component: OauthConsentPage },
+      { path: 'access-denied', component: AccessDeniedPage },
+      { path: 'notifications', component: NotificationsGalleryPage },
+    ],
+  },
+  {
+    path: 'admin',
+    component: AdminShell,
+    children: [
+      { path: '', component: AdminDashboardPage },
+      { path: 'tutorials', component: AdminTutorialListPage },
+      { path: 'tutorials/:id', component: AdminTutorialEditorPage },
+      { path: 'taxonomy', component: AdminTaxonomyPage },
+      { path: 'media', component: AdminMediaPage },
+      { path: 'users', component: AdminUsersPage },
+      { path: 'audit', component: AdminAuditLogPage },
+    ],
+  },
+  { path: '**', component: ErrorPage },
+];

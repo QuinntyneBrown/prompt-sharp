@@ -1,0 +1,34 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.group {
+  display: inline-flex;
+  border: t.$border-width solid t.$color-rule;
+}
+
+.segment {
+  background: transparent;
+  border: 0;
+  border-right: t.$border-width solid t.$color-rule;
+  color: t.$color-ink-dim;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-sm;
+  letter-spacing: t.$tracking-label;
+  text-transform: uppercase;
+  padding: t.$space-2 t.$space-4;
+  cursor: pointer;
+  line-height: t.$line-height-tight;
+
+  &:last-child { border-right: 0; }
+  &:hover:not(:disabled) { color: t.$color-ink; }
+  &.selected { background: t.$color-accent; color: t.$color-bg; }
+  &:disabled { cursor: not-allowed; opacity: 0.5; }
+}
+
+:host([data-density='compact']) .segment {
+  padding: t.$space-1 t.$space-3;
+  font-size: t.$font-size-mono-xs;
+}

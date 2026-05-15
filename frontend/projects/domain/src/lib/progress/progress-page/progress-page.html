@@ -1,0 +1,15 @@
+<div class="progress-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  <ul class="progress-page__list">
+    @for (b of bookmarks(); track b.tutorial.id) {
+      <li>{{ b.tutorial.title }}</li>
+    }
+  </ul>
+</div>

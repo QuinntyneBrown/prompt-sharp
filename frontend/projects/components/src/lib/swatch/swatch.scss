@@ -1,0 +1,27 @@
+@use 'tokens' as t;
+
+:host {
+  display: inline-flex;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border: 2px solid transparent;
+  outline: 1px solid t.$color-rule;
+  outline-offset: -1px;
+  cursor: pointer;
+  padding: 0;
+  border-radius: t.$border-radius-sm;
+  background-clip: padding-box;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+:host([data-selected]) .swatch {
+  border-color: t.$color-accent;
+  outline-color: t.$color-accent;
+}

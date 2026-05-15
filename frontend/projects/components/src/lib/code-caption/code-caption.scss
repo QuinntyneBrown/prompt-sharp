@@ -1,0 +1,27 @@
+@use 'tokens' as t;
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$space-2;
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-sm;
+  color: t.$color-ink-dim;
+  letter-spacing: t.$tracking-mono;
+}
+
+.caption {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-2;
+}
+
+.lang {
+  color: t.$color-accent;
+  letter-spacing: t.$tracking-label;
+  text-transform: uppercase;
+  font-size: t.$font-size-mono-xs;
+}
+
+.action:empty { display: none; }

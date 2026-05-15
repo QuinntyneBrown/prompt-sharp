@@ -1,0 +1,16 @@
+<div class="tutorial-detail-page">
+      @if (loading()) {
+        <p class="state state--loading">Loading…</p>
+      } @else if (error(); as message) {
+        <div class="state state--error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="load()">Retry</button>
+        </div>
+      }
+  @if (tutorial(); as t) {
+    <header class="tutorial-detail-page__hero">
+      <h1>{{ t.title }}</h1>
+      <p>{{ t.summary }}</p>
+    </header>
+  }
+</div>

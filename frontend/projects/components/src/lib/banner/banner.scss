@@ -1,0 +1,43 @@
+@use 'tokens' as t;
+
+:host {
+  display: block;
+  font-family: t.$font-sans;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: t.$space-3;
+  padding: t.$space-4;
+  border: t.$border-width solid t.$color-rule;
+  background: t.$color-surface;
+  color: t.$color-ink;
+}
+
+.content {
+  flex: 1;
+  font-size: t.$font-size-md;
+  line-height: t.$line-height-base;
+}
+
+.actions:empty {
+  display: none;
+}
+
+.icon {
+  color: t.$color-accent;
+  font-family: 'Material Symbols Outlined';
+  font-size: 22px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+}
+
+:host([data-tone='success']) .banner { border-color: t.$color-accent-2; }
+:host([data-tone='warning']) .banner { border-color: t.$color-gold; }
+:host([data-tone='danger']) .banner { border-color: var(--ps-danger, #ffb4ab); }
+:host([data-tone='info']) .banner { border-color: t.$color-accent-2; }
+:host([data-tone='accent']) .banner { border-color: t.$color-accent; }

@@ -3,10 +3,23 @@
 
 :host {
   display: block;
+  position: relative;
   width: 100%;
+  overflow: hidden;
   @include s.shimmer;
 }
 
 :host([data-radius='sm']) { border-radius: t.$border-radius-sm; }
 :host([data-radius='md']) { border-radius: t.$border-radius-sm * 2; }
 :host([data-radius='lg']) { border-radius: t.$border-radius-sm * 4; }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.overlay:empty {
+  display: none;
+}

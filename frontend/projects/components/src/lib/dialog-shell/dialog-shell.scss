@@ -1,0 +1,70 @@
+@use 'tokens' as t;
+
+:host {
+  display: contents;
+  font-family: t.$font-sans;
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgb(0 0 15 / 70%);
+}
+
+.dialog {
+  position: fixed;
+  z-index: 901;
+  inset: 50% auto auto 50%;
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  transform: translate(-50%, -50%);
+  border: t.$border-width solid t.$color-rule;
+  background: t.$color-bg;
+  color: t.$color-ink;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+}
+
+.dialog[hidden] {
+  display: none;
+}
+
+.header,
+.body,
+.actions {
+  padding: t.$space-5;
+}
+
+.header {
+  display: grid;
+  gap: t.$space-2;
+  border-bottom: t.$border-width solid t.$color-rule-soft;
+}
+
+.title {
+  margin: 0;
+  font-size: t.$font-size-xl;
+  font-variation-settings: #{t.$fvs-card-title};
+  line-height: t.$line-height-snug;
+}
+
+.supporting {
+  margin: 0;
+  color: t.$color-ink-dim;
+  font-size: t.$font-size-md;
+  line-height: t.$line-height-base;
+}
+
+.body {
+  display: grid;
+  gap: t.$space-4;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: t.$space-2;
+  border-top: t.$border-width solid t.$color-rule-soft;
+}

@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="fab"
+  [disabled]="disabled()"
+  [attr.aria-label]="extended() ? null : label()"
+  (click)="onClick($event)"
+>
+  <span class="material-symbols-outlined" aria-hidden="true">{{ icon() }}</span>
+  @if (extended()) {
+    <span class="label">{{ label() }}</span>
+  }
+</button>

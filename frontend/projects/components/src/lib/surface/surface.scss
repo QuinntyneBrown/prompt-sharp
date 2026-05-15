@@ -1,0 +1,21 @@
+@use 'tokens' as t;
+
+:host {
+  display: block;
+  background: transparent;
+  color: t.$color-ink;
+}
+
+:host([data-tone='surface']) { background: t.$color-surface; }
+:host([data-tone='surface-2']) { background: t.$color-surface-2; }
+:host([data-tone='inverse']) { background: t.$color-bg; }
+
+:host([data-bordered]) { border: t.$border-width solid t.$color-rule; }
+
+:host([data-radius='sm']) { border-radius: t.$border-radius-sm; }
+:host([data-radius='md']) { border-radius: t.$border-radius-sm * 2; }
+:host([data-radius='lg']) { border-radius: t.$border-radius-sm * 4; }
+
+:host([data-padding='sm']) { padding: t.$space-3; }
+:host([data-padding='md']) { padding: t.$space-5; }
+:host([data-padding='lg']) { padding: t.$space-8; }
