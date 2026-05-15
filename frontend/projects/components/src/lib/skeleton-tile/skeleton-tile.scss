@@ -1,3 +1,4 @@
+@use 'tokens' as t;
 @use '../skeleton/shimmer' as s;
 
 :host {
@@ -5,3 +6,7 @@
   width: 100%;
   @include s.shimmer;
 }
+
+:host([data-radius='sm']) { border-radius: t.$border-radius-sm; }
+:host([data-radius='md']) { border-radius: t.$border-radius-sm * 2; }
+:host([data-radius='lg']) { border-radius: t.$border-radius-sm * 4; }
