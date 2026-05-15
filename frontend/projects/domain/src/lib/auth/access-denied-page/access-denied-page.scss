@@ -2,6 +2,6 @@
   display: block;
 }
 
-.access-denied-page {
-  display: block;
+.access-denied-page .ps-display em {
+  color: var(--md-sys-color-error, #ffb4ab);
 }

@@ -246,3 +246,15 @@ For every failed check above:
 | Card has rounded corners | Remove any `border-radius` on `.panel` / `.center-card` |
 | Background gradients missing | `frontend/projects/promp-sharp/src/styles.scss` body::before block |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Bug log:** `docs/bugs/OAUTH-CB-001-oauth-callback-composition.md`
+- **Screenshots:**
+  - `docs/ui-audit/screenshots/oauth-callback/oauth-callback-desktop.png`
+  - `docs/ui-audit/screenshots/oauth-callback/oauth-callback-tablet.png`
+  - `docs/ui-audit/screenshots/oauth-callback/oauth-callback-mobile.png`

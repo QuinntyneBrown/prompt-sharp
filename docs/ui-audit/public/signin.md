@@ -373,3 +373,15 @@ For every failed check above:
 | Legal divider uses main rule color | Use `var(--rule-soft)` (`#001A36`) not `var(--rule)` |
 | Foot is the full home footer | `auth/sign-in-footer/sign-in-footer.html` — render the minimal 3-link foot only |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Bug log:** `docs/bugs/SIGNIN-001-sign-in-composition.md`
+- **Screenshots:**
+  - `docs/ui-audit/screenshots/signin/signin-desktop.png`
+  - `docs/ui-audit/screenshots/signin/signin-tablet.png`
+  - `docs/ui-audit/screenshots/signin/signin-mobile.png`

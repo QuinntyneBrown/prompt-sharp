@@ -2,6 +2,10 @@
   display: block;
 }
 
-.error-page {
-  display: block;
+.error-page__shell {
+  position: relative;
+  z-index: 1;
+  width: min(100%, var(--ps-max-width, 1440px));
+  padding: 0 var(--ps-gutter, 32px);
+  margin: 0 auto;
 }

@@ -1,26 +1,26 @@
-<div class="oauth-consent-page">
-  <lib-dialog-shell
-    [open]="true"
-    headline="OAuth consent"
-    supportingText="Review the provider permissions before continuing."
-  >
-    <div class="oauth-consent-page__brand">Prompt<span>/</span>Sharp</div>
-    <h1>Prompt/Sharp wants to access your Microsoft account</h1>
-    <p class="oauth-consent-page__identity">Signed in as alex.learner@example.com</p>
-    <dl class="oauth-consent-page__scopes">
+<section class="ps-center-stage oauth-consent-page">
+  <article class="ps-panel ps-center-card">
+    <div class="ps-foot-mark oauth-consent-page__mark">Prompt<em>/</em>Sharp</div>
+    <h1 class="ps-display ps-consent-heading">Prompt/Sharp wants to access your Microsoft account</h1>
+    <div class="ps-mono">Signed in as quinntyne@example.com</div>
+    <div class="ps-rule ps-rule--spaced" aria-hidden="true"></div>
+
+    <div class="ps-skeleton-stack">
       @for (scope of scopes; track scope.label) {
-        <div>
-          <dt>{{ scope.label }}</dt>
-          <dd>{{ scope.description }}</dd>
+        <div class="ps-label-value">
+          <span class="label">Scope</span>
+          <span class="oauth-consent-page__scope">{{ scope.description }}</span>
         </div>
       }
-    </dl>
+    </div>
+
     @if (status(); as message) {
       <p role="status">{{ message }}</p>
     }
-    <div dialog-actions>
-      <lib-button type="button" variant="ghost" (click)="deny()">Deny</lib-button>
-      <lib-button type="button" variant="solid" (click)="allow()">Allow</lib-button>
+
+    <div class="ps-cta-row">
+      <button type="button" class="ps-btn ps-btn--solid" (click)="allow()">Allow</button>
+      <button type="button" class="ps-btn ps-btn--ghost" (click)="deny()">Deny</button>
     </div>
-  </lib-dialog-shell>
-</div>
+  </article>
+</section>

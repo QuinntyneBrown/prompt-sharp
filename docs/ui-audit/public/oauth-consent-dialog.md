@@ -212,3 +212,15 @@ For every failed check above:
 | Spinner / loading indicator visible | This is the decision state — remove any pending indicators (those belong on `/auth/callback`) |
 | 720 px: scope rows still 2-column | Apply the global `.label-value { grid-template-columns: 1fr; gap: 6px; }` 720 px rule |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Bug log:** `docs/bugs/OAUTH-CONSENT-001-oauth-consent-composition.md`
+- **Screenshots:**
+  - `docs/ui-audit/screenshots/oauth-consent-dialog/oauth-consent-dialog-desktop.png`
+  - `docs/ui-audit/screenshots/oauth-consent-dialog/oauth-consent-dialog-tablet.png`
+  - `docs/ui-audit/screenshots/oauth-consent-dialog/oauth-consent-dialog-mobile.png`

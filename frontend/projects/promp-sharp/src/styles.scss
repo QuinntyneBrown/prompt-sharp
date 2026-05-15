@@ -251,6 +251,122 @@ tbody tr:hover {
   gap: 8px;
 }
 
+.ps-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--ps-ink-dim);
+  font-family: var(--ps-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.ps-center-stage {
+  display: grid;
+  min-height: calc(100vh - 95px);
+  padding: 72px var(--ps-gutter);
+  place-items: center;
+}
+
+.ps-center-card {
+  width: min(100%, 540px);
+}
+
+.ps-giant {
+  margin: 0 0 24px;
+  font-size: clamp(72px, 15vw, 180px);
+}
+
+.ps-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.ps-kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--ps-rule);
+  color: var(--ps-accent);
+  background: var(--ps-bg);
+  font-family: var(--ps-font-mono);
+}
+
+.ps-marquee {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--ps-rule);
+}
+
+.ps-marquee__strip {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  width: max-content;
+  color: var(--ps-ink-dim);
+  font-family: var(--ps-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: ps-marquee-scroll 40s linear infinite;
+}
+
+.ps-marquee__dot {
+  color: var(--ps-accent);
+}
+
+.ps-foot-mark {
+  margin-bottom: 18px;
+  color: var(--ps-ink);
+  font-family: var(--ps-font-sans);
+  font-size: 64px;
+  font-variation-settings: 'wdth' 80, 'wght' 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.ps-foot-mark em {
+  color: var(--ps-accent);
+  font-style: italic;
+  font-variation-settings: 'wdth' 90, 'wght' 500;
+}
+
+.ps-auth-heading {
+  margin: 20px 0;
+  font-size: clamp(40px, 6vw, 76px);
+}
+
+.ps-consent-heading {
+  margin: 0 0 18px;
+  font-size: clamp(34px, 5vw, 58px);
+}
+
+.ps-auth-tile {
+  aspect-ratio: 16 / 10;
+  min-height: 80px;
+}
+
+.ps-rule--spaced {
+  margin: 22px 0;
+}
+
+.ps-spin-dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ps-rule);
+  border-top-color: var(--ps-accent);
+  border-radius: 50%;
+  animation: ps-spin 1s linear infinite;
+}
+
+@keyframes ps-spin {
+  to { transform: rotate(360deg); }
+}
+
 .ps-label-value {
   display: grid;
   grid-template-columns: 160px 1fr;
@@ -304,6 +420,7 @@ tbody tr:hover {
 .ps-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 12px 22px;
   border: 1px solid var(--ps-rule);
@@ -314,6 +431,7 @@ tbody tr:hover {
   font-weight: 500;
   letter-spacing: 0.1em;
   line-height: 1;
+  min-height: 42px;
   text-decoration: none;
   text-transform: uppercase;
   cursor: pointer;
@@ -324,6 +442,15 @@ tbody tr:hover {
   color: var(--ps-bg);
   background: var(--ps-accent);
   font-weight: 600;
+}
+
+.ps-btn--ghost {
+  color: var(--ps-ink-dim);
+}
+
+.ps-btn--danger {
+  border-color: var(--md-sys-color-error, #ffb4ab);
+  color: var(--md-sys-color-error, #ffb4ab);
 }
 
 .ps-btn .arr {
@@ -499,6 +626,7 @@ tbody tr:hover {
   font-family: var(--ps-font-mono);
   font-size: 10px;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .ps-chip--accent {
@@ -1210,6 +1338,129 @@ tbody tr:hover {
   font-weight: 600;
 }
 
+.ps-tight-section {
+  padding: 24px 0;
+}
+
+.ps-tutorial-meta {
+  gap: 8px;
+}
+
+.ps-byline {
+  margin-top: 18px;
+}
+
+.ps-tutorial-tile {
+  aspect-ratio: 16 / 10;
+  min-height: 80px;
+}
+
+.ps-detail-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding: 40px 0 72px;
+  border-bottom: 1px solid var(--ps-rule);
+}
+
+.ps-toc {
+  position: sticky;
+  top: 104px;
+  padding-left: 18px;
+  border-left: 1px solid var(--ps-rule);
+}
+
+.ps-toc ol {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+
+.ps-toc li {
+  display: flex;
+  gap: 10px;
+  color: var(--ps-ink-dim);
+  font-family: var(--ps-font-mono);
+  font-size: 12px;
+}
+
+.ps-toc b {
+  color: var(--ps-accent);
+  font-weight: 600;
+}
+
+.ps-tutorial-body {
+  display: block;
+}
+
+.ps-code-block {
+  position: relative;
+  padding: 18px;
+  margin: 22px 0;
+  border: 1px solid var(--ps-rule);
+  background: var(--ps-surface-2);
+}
+
+.ps-code-copy {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}
+
+.ps-code-caption {
+  margin-bottom: 16px;
+  color: var(--ps-accent-2);
+}
+
+.ps-step-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ps-sect-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: end;
+  padding: 56px 0 28px;
+}
+
+.ps-sect-head h2 {
+  margin: 0;
+  font-family: var(--ps-font-sans);
+  font-size: clamp(34px, 4.4vw, 56px);
+  font-variation-settings: 'wdth' 78, 'wght' 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.ps-sect-head h2 em {
+  color: var(--ps-accent);
+  font-style: italic;
+  font-variation-settings: 'wdth' 88, 'wght' 500;
+}
+
+.ps-lead-col {
+  max-width: 36ch;
+  color: var(--ps-ink-dim);
+  font-size: 14px;
+}
+
+.ps-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ps-card-grid .ps-catalog-card h3 {
+  font-variation-settings: 'wdth' 100, 'wght' 400;
+}
+
 .ps-diff {
   padding: 3px 8px;
   border: 1px solid currentColor;
@@ -1351,8 +1602,13 @@ tbody tr:hover {
 
 @media (max-width: 1100px) {
   .ps-hero-grid,
-  .ps-two-col {
+  .ps-two-col,
+  .ps-detail-layout {
     grid-template-columns: 1fr;
+  }
+
+  .ps-toc {
+    position: static;
   }
 
   .ps-home__hero {
@@ -1377,6 +1633,10 @@ tbody tr:hover {
 
 @media (max-width: 1200px) {
   .ps-catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ps-card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -1462,6 +1722,20 @@ tbody tr:hover {
 
   .ps-catalog-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ps-card-grid,
+  .ps-sect-head {
+    grid-template-columns: 1fr;
+  }
+
+  .ps-sect-head {
+    gap: 16px;
+  }
+
+  .ps-step-nav {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .ps-pagination {

@@ -376,3 +376,15 @@ For every failed check above:
 | Related section heading missing italic-orange accent | `related-tutorials.html` |
 | Background gradients missing | `frontend/projects/promp-sharp/src/styles.scss` body::before |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Bug log:** `docs/bugs/TUTORIAL-001-tutorial-detail-composition.md`
+- **Screenshots:**
+  - `docs/ui-audit/screenshots/tutorial-detail/tutorial-detail-desktop.png`
+  - `docs/ui-audit/screenshots/tutorial-detail/tutorial-detail-tablet.png`
+  - `docs/ui-audit/screenshots/tutorial-detail/tutorial-detail-mobile.png`

@@ -14,9 +14,9 @@ export class OauthConsentPage {
 
   protected readonly status = signal<string | null>(null);
   protected readonly scopes = [
-    { label: 'Profile', description: 'Read your name and account identifier.' },
-    { label: 'Email', description: 'Use your verified email for your Prompt/Sharp profile.' },
-    { label: 'Offline access', description: 'Keep you signed in on this device when allowed by the provider.' },
+    { label: 'User.Read', description: 'Read your profile' },
+    { label: 'Mail.Read', description: 'Read your email' },
+    { label: 'openid profile', description: 'Sign in and read your profile' },
   ];
 
   protected allow(): void {

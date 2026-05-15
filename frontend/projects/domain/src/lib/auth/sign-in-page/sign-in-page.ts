@@ -17,6 +17,7 @@ export class SignInPage implements OnInit {
 
   protected readonly email = signal<string>('');
   protected readonly password = signal<string>('');
+  protected readonly passwordVisible = signal<boolean>(false);
   protected readonly rememberMe = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
   protected readonly sessionExpiredOpen = signal(false);
@@ -34,6 +35,14 @@ export class SignInPage implements OnInit {
   protected submitCredentials(): void {
     this.submitted.emit({ email: this.email(), password: this.password() });
     this.error.set('Invalid credentials. Use a configured OAuth provider to sign in.');
+  }
+
+  protected togglePasswordVisibility(): void {
+    this.passwordVisible.update((visible) => !visible);
+  }
+
+  protected goForgotPassword(): void {
+    this.error.set('Password reset is not configured for this environment.');
   }
 
   protected acknowledgeSessionExpired(): void {

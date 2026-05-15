@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Button, EmptyState } from 'components';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { PublicNav } from '../../layout/public-nav/public-nav';
 
 @Component({
   selector: 'ps-error-page',
   templateUrl: './error-page.html',
   styleUrl: './error-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, EmptyState],
+  imports: [PublicNav],
 })
-export class ErrorPage {}
+export class ErrorPage {
+  protected readonly path = signal<string>(
+    typeof location === 'undefined' ? '/tutorials/missing-step' : location.pathname,
+  );
+}

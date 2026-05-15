@@ -204,3 +204,15 @@ For every failed check above:
 | `--md-sys-color-error` token undefined | Define it in `frontend/projects/tokens/` or use the literal `#FFB4AB` fallback (already in the CSS via `var()` default) |
 | Server returns 200 for RBAC-blocked API calls | Server-side RBAC middleware should return 403 — not a UI fix, but log here for visibility |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Bug log:** `docs/bugs/ACCESS-001-access-denied-composition.md`
+- **Screenshots:**
+  - `docs/ui-audit/screenshots/access-denied/access-denied-desktop.png`
+  - `docs/ui-audit/screenshots/access-denied/access-denied-tablet.png`
+  - `docs/ui-audit/screenshots/access-denied/access-denied-mobile.png`

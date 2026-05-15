@@ -210,3 +210,15 @@ For every failed check above:
 | Server returns HTTP 200 for unmatched URL | Configure SPA fallback to issue 404 for unmatched routes (e.g., Azure Static Web Apps `routes.json` `responseOverrides`) |
 | Background gradients missing | `frontend/projects/promp-sharp/src/styles.scss` body::before block |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Bug log:** `docs/bugs/E404-001-error-page-composition.md`
+- **Screenshots:**
+  - `docs/ui-audit/screenshots/error-404/error-404-desktop.png`
+  - `docs/ui-audit/screenshots/error-404/error-404-tablet.png`
+  - `docs/ui-audit/screenshots/error-404/error-404-mobile.png`

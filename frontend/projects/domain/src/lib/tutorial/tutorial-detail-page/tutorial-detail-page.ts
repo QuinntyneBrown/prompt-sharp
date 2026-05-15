@@ -72,6 +72,11 @@ export class TutorialDetailPage implements OnInit {
     this.status.set('Copied code');
   }
 
+  protected copyStaticCode(filename: string): void {
+    navigator.clipboard?.writeText(filename).catch(() => undefined);
+    this.status.set('Copied code');
+  }
+
   protected completeCurrentStep(): void {
     const tutorial = this.tutorial();
     const step = this.currentStep();
