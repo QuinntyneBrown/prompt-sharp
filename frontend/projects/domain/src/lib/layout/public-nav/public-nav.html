@@ -1,20 +1,23 @@
 <nav class="public-nav" aria-label="Primary">
-  <a class="public-nav__brand" href="/" aria-label="PromptSharp">
-    <lib-wordmark size="md" variant="inline"></lib-wordmark>
+  <a class="public-nav__brand" href="/" aria-label="Prompt/Sharp home">
+    Prompt<span class="slash">/</span>Sharp
   </a>
   <ul class="public-nav__links">
     <li>
-      <lib-nav-item label="Catalog" href="/tutorials" [active]="activeRoute() === 'catalog'"></lib-nav-item>
+      <a href="/tutorials" [class.active]="isActive('tutorials')">Tutorials</a>
     </li>
     <li>
-      <lib-nav-item label="About" href="/about" [active]="activeRoute() === 'about'"></lib-nav-item>
+      <a href="/categories/dotnet" [class.active]="isActive('categories')">Categories</a>
+    </li>
+    <li>
+      <a href="/about" [class.active]="isActive('about')">About</a>
     </li>
   </ul>
   <div class="public-nav__actions">
     @if (signedIn()) {
-      <lib-button variant="ghost" (click)="signOut.emit()">Sign out</lib-button>
+      <button class="public-nav__button" type="button" (click)="signOut.emit()">Sign out</button>
     } @else {
-      <a href="/sign-in">Sign in</a>
+      <a class="public-nav__button" href="/sign-in">Sign in</a>
     }
   </div>
 </nav>

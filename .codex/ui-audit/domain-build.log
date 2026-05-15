@@ -1,0 +1,23 @@
+Building Angular Package
+
+------------------------------------------------------------------------------
+Building entry point 'domain'
+------------------------------------------------------------------------------
+- Compiling with Angular sources in full compilation mode.
+
+✔ Compiling with Angular sources in full compilation mode.
+✔ Generating FESM and DTS bundles
+- Copying assets
+✔ Copying assets
+- Writing package manifest
+✔ Writing package manifest
+✔ Built domain
+
+------------------------------------------------------------------------------
+Built Angular Package
+- from: C:/projects/prompt-sharp/frontend/projects/domain
+- to:   C:/projects/prompt-sharp/frontend/dist/domain
+------------------------------------------------------------------------------
+
+Build at: 2026-05-15T10:34:06.443Z - Time: 7730ms
+

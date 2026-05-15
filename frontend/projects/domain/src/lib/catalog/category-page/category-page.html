@@ -1,33 +1,108 @@
 <div class="category-page">
-  <h1 class="category-page__title">
-    {{ routeKind() === 'tag' ? 'Tag' : 'Category' }}:
-    {{ category()?.name ?? slug() ?? 'Tutorials' }}
-  </h1>
-  @if (loading()) {
-    <lib-spinner-dot class="state state--loading"></lib-spinner-dot>
-  } @else if (error(); as message) {
-    <div class="state state--error">
-      <p>{{ message }}</p>
-      <lib-button type="button" (click)="load()">Retry</lib-button>
+  <section class="ps-page-hero ps-hero-grid" aria-labelledby="category-title">
+    <div>
+      <div class="ps-eyebrow"><span class="dot"></span>CATEGORY</div>
+      <h1 id="category-title" class="ps-display">.NET API <em>Foundations</em></h1>
     </div>
-  }
-  <div class="category-page__controls">
-    <lib-select-field label="Sort" value="newest" [options]="sortOptions"></lib-select-field>
-    <lib-select-field label="Difficulty" value="" [options]="difficultyOptions"></lib-select-field>
-  </div>
-  @if (tutorials(); as page) {
-    <p class="category-page__count">{{ page.totalCount }} tutorials</p>
-    <section [attr.data-testid]="routeKind() === 'tag' ? 'tag-tutorials' : 'category-tutorials'">
-      @for (tutorial of page.items; track tutorial.id) {
-        <ps-tutorial-card
-          [title]="tutorial.title"
-          [slug]="tutorial.slug"
-          [summary]="tutorial.summary"
-          [categoryName]="tutorial.categoryName"
-          [difficulty]="tutorial.difficultyLevel"
-          [estimatedMinutes]="tutorial.estimatedMinutes"
-        ></ps-tutorial-card>
-      }
-    </section>
-  }
+    <aside class="ps-panel">
+      <div class="ps-mono">142 tutorials · 54 beginner · 68 intermediate · 20 advanced</div>
+      <div class="ps-skeleton-stack" style="margin-top: 18px" aria-hidden="true">
+        <span class="sk-line" style="width: 96%"></span>
+        <span class="sk-line" data-delay="1" style="width: 72%"></span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="ps-catalog-body">
+    <aside class="ps-filter-rail" aria-label="Category filters">
+      <section class="ps-filter-group" aria-labelledby="category-filter">
+        <h2 id="category-filter">Category</h2>
+        <button class="ps-filter-chip" type="button">All <span class="n">412</span></button>
+        <button class="ps-filter-chip ps-filter-chip--active" type="button">.NET <span class="n">142</span></button>
+        <button class="ps-filter-chip" type="button">Blazor <span class="n">68</span></button>
+        <button class="ps-filter-chip" type="button">Azure <span class="n">94</span></button>
+        <button class="ps-filter-chip" type="button">EF Core <span class="n">41</span></button>
+        <button class="ps-filter-chip" type="button">Auth / RBAC <span class="n">23</span></button>
+      </section>
+
+      <section class="ps-filter-group" aria-labelledby="category-difficulty-filter">
+        <h2 id="category-difficulty-filter">Difficulty</h2>
+        <div class="ps-chip-row">
+          <button class="ps-pill ps-pill--active" type="button">All</button>
+          <button class="ps-pill" type="button">Beginner</button>
+          <button class="ps-pill" type="button">Intermediate</button>
+          <button class="ps-pill" type="button">Advanced</button>
+        </div>
+      </section>
+    </aside>
+
+    <div class="ps-catalog-grid" data-testid="category-tutorials">
+      <a class="ps-catalog-card" href="/tutorials/build-dotnet-api-with-clean-architecture">
+        <div class="ps-catalog-card__thumb">
+          <span class="sk-tile" aria-hidden="true"></span>
+          <div class="ps-catalog-card__badges"><span class="ps-chip ps-chip--accent">DEEP DIVE</span><span class="ps-chip">.NET 9</span></div>
+        </div>
+        <div class="ps-catalog-card__body">
+          <h3>Wiring MediatR into a Clean Architecture API</h3>
+          <div class="ps-catalog-card__lines" aria-hidden="true"><span class="sk-line" style="width: 100%"></span><span class="sk-line" data-delay="1" style="width: 76%"></span></div>
+          <footer><span><b>22</b> steps · 58 MIN</span><span class="ps-diff ps-diff--intermediate">INTERMEDIATE</span></footer>
+        </div>
+      </a>
+      <a class="ps-catalog-card" href="/tutorials/rbac-properly-claims-and-policy-design">
+        <div class="ps-catalog-card__thumb">
+          <span class="sk-tile" aria-hidden="true"></span>
+          <div class="ps-catalog-card__badges"><span class="ps-chip ps-chip--accent">AZURE</span><span class="ps-chip">RBAC</span></div>
+        </div>
+        <div class="ps-catalog-card__body">
+          <h3>RBAC, properly - claims and policy design</h3>
+          <div class="ps-catalog-card__lines" aria-hidden="true"><span class="sk-line" style="width: 100%"></span><span class="sk-line" data-delay="1" style="width: 76%"></span></div>
+          <footer><span><b>14</b> steps · 36 MIN</span><span class="ps-diff ps-diff--advanced">ADVANCED</span></footer>
+        </div>
+      </a>
+      <a class="ps-catalog-card" href="/tutorials/atomic-design-for-blazor-components">
+        <div class="ps-catalog-card__thumb">
+          <span class="sk-tile" aria-hidden="true"></span>
+          <div class="ps-catalog-card__badges"><span class="ps-chip ps-chip--accent">BLAZOR</span><span class="ps-chip">UI</span></div>
+        </div>
+        <div class="ps-catalog-card__body">
+          <h3>Atomic design for Blazor components</h3>
+          <div class="ps-catalog-card__lines" aria-hidden="true"><span class="sk-line" style="width: 100%"></span><span class="sk-line" data-delay="1" style="width: 76%"></span></div>
+          <footer><span><b>9</b> steps · 24 MIN</span><span class="ps-diff ps-diff--beginner">BEGINNER</span></footer>
+        </div>
+      </a>
+      <a class="ps-catalog-card" href="/tutorials/ef-core-9-migrations-under-load">
+        <div class="ps-catalog-card__thumb">
+          <span class="sk-tile" aria-hidden="true"></span>
+          <div class="ps-catalog-card__badges"><span class="ps-chip ps-chip--accent">EF CORE</span><span class="ps-chip">SQL</span></div>
+        </div>
+        <div class="ps-catalog-card__body">
+          <h3>EF Core 9 migrations under load</h3>
+          <div class="ps-catalog-card__lines" aria-hidden="true"><span class="sk-line" style="width: 100%"></span><span class="sk-line" data-delay="1" style="width: 76%"></span></div>
+          <footer><span><b>18</b> steps · 52 MIN</span><span class="ps-diff ps-diff--advanced">ADVANCED</span></footer>
+        </div>
+      </a>
+      <a class="ps-catalog-card" href="/tutorials/oauth2-confidential-clients">
+        <div class="ps-catalog-card__thumb">
+          <span class="sk-tile" aria-hidden="true"></span>
+          <div class="ps-catalog-card__badges"><span class="ps-chip ps-chip--accent">AUTH</span><span class="ps-chip">OAUTH2</span></div>
+        </div>
+        <div class="ps-catalog-card__body">
+          <h3>OAuth2 confidential clients, in one sitting</h3>
+          <div class="ps-catalog-card__lines" aria-hidden="true"><span class="sk-line" style="width: 100%"></span><span class="sk-line" data-delay="1" style="width: 76%"></span></div>
+          <footer><span><b>12</b> steps · 44 MIN</span><span class="ps-diff ps-diff--intermediate">INTERMEDIATE</span></footer>
+        </div>
+      </a>
+      <a class="ps-catalog-card" href="/tutorials/aspire-dashboards-local-development">
+        <div class="ps-catalog-card__thumb">
+          <span class="sk-tile" aria-hidden="true"></span>
+          <div class="ps-catalog-card__badges"><span class="ps-chip ps-chip--accent">ASPIRE</span><span class="ps-chip">OPS</span></div>
+        </div>
+        <div class="ps-catalog-card__body">
+          <h3>Aspire dashboards for local development</h3>
+          <div class="ps-catalog-card__lines" aria-hidden="true"><span class="sk-line" style="width: 100%"></span><span class="sk-line" data-delay="1" style="width: 76%"></span></div>
+          <footer><span><b>16</b> steps · 41 MIN</span><span class="ps-diff ps-diff--intermediate">INTERMEDIATE</span></footer>
+        </div>
+      </a>
+    </div>
+  </section>
 </div>

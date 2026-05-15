@@ -6,11 +6,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .public-shell__main {
   width: min(100%, var(--ps-max-width, 1440px));
   margin: 0 auto;
-  padding: clamp(32px, 5vw, 72px) var(--ps-gutter, 32px);
-  flex: 1;
+  padding: 0 var(--ps-gutter, 32px);
 }

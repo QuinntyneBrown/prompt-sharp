@@ -412,3 +412,13 @@ For every failed check above:
 | Hairline border matrix on tracks broken | `domain/src/lib/public/category-grid` SCSS — verify `border-top + border-left` on grid, `border-right + border-bottom` on cells |
 | Background gradients missing | `frontend/projects/promp-sharp/src/styles.scss` body::before block |
 | Color token drift | `frontend/projects/tokens/_colors.scss` |
+
+---
+
+## Audit Status
+
+- **Status:** complete
+- **Completed:** 2026-05-15
+- **Resolved bugs:** `docs/bugs/HOME-001-home-page-composition.md`
+- **Verification:** `npx ng build domain --configuration development`; `npm run build -- --configuration development`
+- **Screenshots:** `docs/ui-audit/screenshots/home/home-desktop.png`; `docs/ui-audit/screenshots/home/home-tablet.png`; `docs/ui-audit/screenshots/home/home-mobile.png`

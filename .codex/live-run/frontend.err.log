@@ -89,3 +89,957 @@
         ╵                                         [32m~~~~~~~~[0m
 
 [39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mENOENT: no such file or directory, open 'C:\projects\prompt-sharp\frontend\dist\components\fesm2022\components.mjs'[0m [1m[35m[plugin angular-compiler][0m
+
+    node_modules/@angular/build/src/tools/esbuild/javascript-transformer.js:66:21:
+[37m      66 │         const data = [32m[37mawait (0, promises_1.readFile)(filename);
+         ╵                      [32m^[0m
+
+    at async open (node:internal/fs/promises:642:25)
+    at async readFile (node:internal/fs/promises:1279:14)
+    at async JavaScriptTransformer.transformFile (C:\projects\prompt-sharp\frontend\node_modules\@angular\build\src\tools\esbuild\javascript-transformer.js:66:22)
+    at async C:\projects\prompt-sharp\frontend\node_modules\@angular\build\src\tools\esbuild\angular\compiler-plugin.js:410:38
+    at async C:\projects\prompt-sharp\frontend\node_modules\@angular\build\src\tools\esbuild\load-result-cache.js:21:22
+    at async requestCallbacks.on-load (C:\projects\prompt-sharp\frontend\node_modules\esbuild\lib\main.js:1267:22)
+    at async handleRequest (C:\projects\prompt-sharp\frontend\node_modules\esbuild\lib\main.js:628:11)
+
+  This error came from the "onLoad" callback registered here:
+
+    node_modules/@angular/build/src/tools/esbuild/angular/compiler-plugin.js:400:18:
+[37m      400 │             build.[32monLoad[37m({ filter: /\.[cm]?js$/ }, (0, load_resul...
+          ╵                   [32m~~~~~~[0m
+
+    at setup (C:\projects\prompt-sharp\frontend\node_modules\@angular\build\src\tools\esbuild\angular\compiler-plugin.js:400:19)
+    at async handlePlugins (C:\projects\prompt-sharp\frontend\node_modules\esbuild\lib\main.js:1185:20)
+
+  The plugin "angular-compiler" was triggered by this import
+
+    dist/domain/fesm2022/domain.mjs:4:325:
+[37m      4 │ ...t, DropZone, Tabs, Thumbnail, Banner, Snackbar } from [32m'components'[37m;
+        ╵                                                          [32m~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'api' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.config.ts:3:38:
+[37m      3 │ import { providePromptSharpApi } from [32m'api'[37m;
+        ╵                                       [32m~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.routes.ts:27:7:
+[37m      27 │ } from [32m'domain'[37m;
+         ╵        [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:3:41:
+[37m      3 │ import { NotificationSnackbarHost } from [32m'domain'[37m;
+        ╵                                          [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    projects/promp-sharp/src/app/app.ts:7:26:
+[37m      7 │   imports: [RouterOutlet, [32mNotificationSnackbarHost[37m],
+        ╵                           [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 'domain' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    projects/promp-sharp/src/app/auth-guards.ts:3:40:
+[37m      3 │ import { AdminTutorialEditorPage } from [32m'domain'[37m;
+        ╵                                         [32m~~~~~~~~[0m
+
+[39m[22m

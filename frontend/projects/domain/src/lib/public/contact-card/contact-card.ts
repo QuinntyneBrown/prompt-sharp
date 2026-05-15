@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { PromptSharpContactApi } from 'api';
-import { Button, TextArea, TextField } from 'components';
 
 @Component({
   selector: 'ps-contact-card',
   templateUrl: './contact-card.html',
   styleUrl: './contact-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, TextArea, TextField],
 })
 export class ContactCard {
   private readonly contactApi = inject(PromptSharpContactApi);
