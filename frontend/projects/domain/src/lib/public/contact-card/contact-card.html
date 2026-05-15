@@ -1,4 +1,24 @@
 <div class="contact-card">
-  <!-- ContactCard scaffold -->
-  <ng-content></ng-content>
+  <h1>Contact</h1>
+  <form (submit)="submit(nameInput.value, emailInput.value, messageInput.value); $event.preventDefault()">
+    <label>
+      Name
+      <input #nameInput name="name" type="text" />
+    </label>
+    <label>
+      Email
+      <input #emailInput name="email" type="email" />
+    </label>
+    <label>
+      Message
+      <textarea #messageInput name="message"></textarea>
+    </label>
+    <button type="submit" [disabled]="submitting()">Send message</button>
+  </form>
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
+  }
+  @if (error(); as message) {
+    <p role="alert">{{ message }}</p>
+  }
 </div>

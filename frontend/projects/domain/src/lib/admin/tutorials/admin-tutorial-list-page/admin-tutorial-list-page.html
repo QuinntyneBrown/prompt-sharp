@@ -1,20 +1,54 @@
 <div class="admin-tutorial-list-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1>Tutorials</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
+  <label>
+    Search tutorials
+    <input #searchInput type="text" (keydown.enter)="search(searchInput.value)" />
+  </label>
+  <label>
+    Status
+    <select>
+      <option>All</option>
+      <option>Draft</option>
+      <option>Published</option>
+    </select>
+  </label>
+  @if (pendingDelete(); as tutorial) {
+    <div role="dialog" aria-label="Confirm delete">
+      <p>Delete {{ tutorial.title }}?</p>
+      <button type="button" (click)="confirmDelete()">Confirm delete</button>
+    </div>
+  }
   @if (tutorials(); as page) {
-    <table>
+    <table aria-label="Tutorials">
       <thead><tr><th>Title</th><th>Status</th></tr></thead>
       <tbody>
         @for (t of page.items; track t.id) {
-          <tr><td>{{ t.title }}</td><td>{{ t.isPublished ? 'Published' : 'Draft' }}</td></tr>
+          <tr>
+            <td>{{ t.title }}</td>
+            <td>{{ t.isPublished ? 'Published' : 'Draft' }}</td>
+            <td>
+              <button type="button" (click)="openActions(t)">Actions</button>
+              @if (activeActionsId() === t.id) {
+                <button type="button" (click)="publish(t)">Publish</button>
+                <button type="button" (click)="feature(t)">Feature</button>
+                <button type="button" (click)="editorsPick(t)">Editor's pick</button>
+                <button type="button" (click)="requestDelete(t)">Delete</button>
+              }
+            </td>
+          </tr>
         }
       </tbody>
     </table>
+  }
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
   }
 </div>

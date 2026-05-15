@@ -11,6 +11,7 @@ export class ProgressPage implements OnInit {
   private readonly meApi = inject(PromptSharpMeApi);
 
   protected readonly bookmarks = signal<readonly Bookmark[]>([]);
+  protected readonly status = signal<string | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
 
@@ -30,6 +31,16 @@ export class ProgressPage implements OnInit {
         this.error.set(e.message);
         this.loading.set(false);
       },
+    });
+  }
+
+  protected removeBookmark(tutorialId: string): void {
+    this.meApi.deleteBookmark(tutorialId).subscribe({
+      next: () => {
+        this.bookmarks.update((items) => items.filter((item) => item.tutorial.id !== tutorialId));
+        this.status.set('Bookmark removed');
+      },
+      error: (e: Error) => this.error.set(e.message),
     });
   }
 }

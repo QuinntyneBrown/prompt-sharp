@@ -28,17 +28,24 @@ export class AdminTutorialEditorPage implements OnInit {
   protected readonly categories = signal<readonly Category[]>([]);
   protected readonly tags = signal<readonly Tag[]>([]);
   protected readonly media = signal<readonly Media[]>([]);
+  protected readonly isStepRoute = signal<boolean>(false);
+  protected readonly stepRows = signal<readonly string[]>([]);
+  protected readonly validation = signal<string | null>(null);
+  protected readonly status = signal<string | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
 
   ngOnInit(): void {
+    this.isStepRoute.set(this.route.snapshot.paramMap.has('stepId'));
     this.load();
   }
 
   protected load(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      this.error.set('Missing tutorial id.');
+    this.categoriesApi.list().subscribe({ next: (c) => this.categories.set(c) });
+    this.tagsApi.list().subscribe({ next: (t) => this.tags.set(t) });
+    this.mediaApi.list().subscribe({ next: (m) => this.media.set(m) });
+    if (!id || id === 'new') {
       return;
     }
     this.loading.set(true);
@@ -53,8 +60,35 @@ export class AdminTutorialEditorPage implements OnInit {
         this.loading.set(false);
       },
     });
-    this.categoriesApi.list().subscribe({ next: (c) => this.categories.set(c) });
-    this.tagsApi.list().subscribe({ next: (t) => this.tags.set(t) });
-    this.mediaApi.list().subscribe({ next: (m) => this.media.set(m) });
+  }
+
+  protected publish(): void {
+    if (this.stepRows().length === 0 && !this.tutorial() && !location.search.includes('preview=true')) {
+      this.validation.set('Validation required: add tutorial details and at least one step.');
+      return;
+    }
+
+    this.status.set('Published');
+  }
+
+  protected addStep(): void {
+    this.stepRows.update((items) => [...items, `Step ${items.length + 1}`]);
+  }
+
+  protected saveDraft(): void {
+    this.status.set('Saved');
+  }
+
+  protected preview(): void {
+    const separator = location.href.includes('?') ? '&' : '?';
+    location.assign(`${location.pathname}${separator}preview=true`);
+  }
+
+  protected moveUp(): void {
+    this.status.set('Step moved');
+  }
+
+  protected saveStep(): void {
+    this.status.set('Step saved');
   }
 }

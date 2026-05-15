@@ -1,15 +1,41 @@
 <div class="admin-media-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
-  <ul class="admin-media-page__grid">
+  <h1>Media library</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
+  <label>
+    File
+    <input #fileInput type="file" />
+  </label>
+  <button type="button" (click)="upload(fileInput.files)">Upload</button>
+  <label>
+    Search media
+    <input type="text" />
+  </label>
+  @if (pendingDelete(); as media) {
+    <div role="dialog" aria-label="Confirm delete">
+      <p>Delete {{ media.fileName }}?</p>
+      <button type="button" (click)="confirmDelete()">Confirm</button>
+    </div>
+  }
+  <section data-testid="media-library" class="admin-media-page__grid">
     @for (m of media(); track m.id) {
-      <li>{{ m.fileName }}</li>
+      <article data-testid="media-item">
+        <h2>{{ m.fileName }}</h2>
+        <p>{{ m.url }}</p>
+        <button type="button" (click)="copyUrl(m)">Copy URL</button>
+        @if (!pendingDelete()) {
+          <button type="button" (click)="requestDelete(m)">Delete</button>
+        }
+      </article>
     }
-  </ul>
+  </section>
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
+  }
 </div>

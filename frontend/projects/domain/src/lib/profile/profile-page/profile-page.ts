@@ -34,4 +34,9 @@ export class ProfilePage implements OnInit {
     });
     this.meApi.bookmarks().subscribe({ next: (b) => this.bookmarks.set(b) });
   }
+
+  protected signOut(): void {
+    localStorage.removeItem('prompt-sharp.access-token');
+    location.assign('/sign-in');
+  }
 }

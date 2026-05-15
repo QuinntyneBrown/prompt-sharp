@@ -1,4 +1,5 @@
 <div class="home-page">
+  <h1>Build apps with Prompt Sharp</h1>
   <ps-home-hero></ps-home-hero>
 
   @if (loading()) {
@@ -9,9 +10,48 @@
       <button type="button" (click)="load()">Retry</button>
     </div>
   } @else {
-    <ps-featured-tutorials></ps-featured-tutorials>
-    <ps-latest-tutorials></ps-latest-tutorials>
-    <ps-tutorial-tracks></ps-tutorial-tracks>
+    <a href="/tutorials">Browse tutorials</a>
+
+    <section data-testid="featured-tutorials" aria-label="Featured tutorials">
+      <h2>Featured tutorials</h2>
+      @for (tutorial of featured(); track tutorial.id) {
+        <article data-testid="tutorial-card">
+          <h3>
+            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
+          </h3>
+          <p>{{ tutorial.summary }}</p>
+        </article>
+      }
+    </section>
+
+    @if (editorsPick(); as pick) {
+      <section data-testid="editors-pick" aria-label="Editor's pick">
+        <h2>Editor's pick</h2>
+        <a [href]="'/tutorials/' + pick.slug" aria-label="Editor's pick">
+          {{ pick.title }}
+        </a>
+      </section>
+    }
+
+    <section data-testid="category-list" aria-label="Categories">
+      <h2>Categories</h2>
+      @for (category of categories(); track category.id) {
+        <a [href]="'/categories/' + category.slug">{{ category.name }}</a>
+      }
+    </section>
+
+    <section data-testid="latest-tutorials" aria-label="Latest tutorials">
+      <h2>Latest tutorials</h2>
+      @for (tutorial of latest(); track tutorial.id) {
+        <article data-testid="tutorial-card">
+          <h3>
+            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
+          </h3>
+          <p>{{ tutorial.summary }}</p>
+        </article>
+      }
+    </section>
+
     <ps-marquee-strip></ps-marquee-strip>
   }
 </div>

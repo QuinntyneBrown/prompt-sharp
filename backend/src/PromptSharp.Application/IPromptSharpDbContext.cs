@@ -29,6 +29,8 @@ public interface IPromptSharpDbContext
 
     DbSet<TutorialProgress> TutorialProgress { get; }
 
+    DbSet<ContactSubmission> ContactSubmissions { get; }
+
     DatabaseFacade Database { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

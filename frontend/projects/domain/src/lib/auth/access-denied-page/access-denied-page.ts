@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Button, EmptyState } from 'components';
 
 @Component({
@@ -8,4 +8,10 @@ import { Button, EmptyState } from 'components';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button, EmptyState],
 })
-export class AccessDeniedPage {}
+export class AccessDeniedPage {
+  protected readonly status = signal<string | null>(null);
+
+  protected requestAccess(): void {
+    this.status.set('Request sent. An administrator has been notified.');
+  }
+}

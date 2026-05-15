@@ -1,15 +1,33 @@
 <div class="progress-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
-  <ul class="progress-page__list">
-    @for (b of bookmarks(); track b.tutorial.id) {
-      <li>{{ b.tutorial.title }}</li>
+  <h1>Progress and bookmarks</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
+  <section data-testid="in-progress-tutorials" aria-label="In-progress tutorials">
+    <p class="progress-page__section-title">In progress</p>
+    @for (bookmark of bookmarks(); track bookmark.tutorial.id) {
+      <article data-testid="tutorial-card">
+        <h3>{{ bookmark.tutorial.title }}</h3>
+        <a [href]="'/tutorials/' + bookmark.tutorial.slug">Resume</a>
+      </article>
     }
-  </ul>
+  </section>
+  <section data-testid="bookmarked-tutorials" aria-label="Bookmarked tutorials">
+    <p class="progress-page__section-title">Bookmarks</p>
+    @for (bookmark of bookmarks(); track bookmark.tutorial.id) {
+      <article data-testid="tutorial-card">
+        <h3>{{ bookmark.tutorial.title }}</h3>
+        <a [href]="'/tutorials/' + bookmark.tutorial.slug">Open tutorial</a>
+        <button type="button" (click)="removeBookmark(bookmark.tutorial.id)">Remove bookmark</button>
+      </article>
+    }
+  </section>
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
+  }
 </div>

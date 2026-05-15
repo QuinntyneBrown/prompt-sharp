@@ -1,14 +1,31 @@
 <div class="search-page">
-  <h1 class="search-page__title">Results for "{{ query() }}"</h1>
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1 class="search-page__title">Search results</h1>
+  <label>
+    Search
+    <input #searchBox type="text" [value]="query()" (keydown.enter)="search(searchBox.value)" />
+  </label>
+  @if (query()) {
+    <p>Results for "{{ query() }}"</p>
+  }
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
   @if (results(); as page) {
     <p class="search-page__count">{{ page.totalCount }} matches</p>
+    <section data-testid="search-results">
+      @for (tutorial of page.items; track tutorial.id) {
+        <article data-testid="tutorial-card">
+          <h2>
+            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
+          </h2>
+          <p>{{ tutorial.summary }}</p>
+        </article>
+      }
+    </section>
   }
 </div>

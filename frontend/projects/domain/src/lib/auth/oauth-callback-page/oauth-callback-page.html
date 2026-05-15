@@ -1,4 +1,8 @@
 <div class="oauth-callback-page">
-  <!-- OauthCallbackPage scaffold -->
-  <ng-content></ng-content>
+  <h1>OAuth callback</h1>
+  @if (error(); as message) {
+    <p role="alert">{{ message }}</p>
+  } @else {
+    <p role="status">Finishing sign in</p>
+  }
 </div>

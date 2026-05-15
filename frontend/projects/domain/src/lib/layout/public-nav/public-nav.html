@@ -1,10 +1,10 @@
 <nav class="public-nav" aria-label="Primary">
-  <a class="public-nav__brand" href="/" aria-label="PromptSharp home">
+  <a class="public-nav__brand" href="/" aria-label="PromptSharp">
     <lib-wordmark size="md" variant="inline"></lib-wordmark>
   </a>
   <ul class="public-nav__links">
     <li>
-      <lib-nav-item label="Catalog" href="/catalog" [active]="activeRoute() === 'catalog'"></lib-nav-item>
+      <lib-nav-item label="Catalog" href="/tutorials" [active]="activeRoute() === 'catalog'"></lib-nav-item>
     </li>
     <li>
       <lib-nav-item label="About" href="/about" [active]="activeRoute() === 'about'"></lib-nav-item>
@@ -14,7 +14,7 @@
     @if (signedIn()) {
       <lib-button variant="ghost" (click)="signOut.emit()">Sign out</lib-button>
     } @else {
-      <lib-button variant="solid" (click)="signIn.emit()">Sign in</lib-button>
+      <a href="/sign-in">Sign in</a>
     }
   </div>
 </nav>

@@ -1,12 +1,13 @@
 <div class="admin-users-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1>User management</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
   <table>
     <thead><tr><th>Email</th><th>Roles</th></tr></thead>
     <tbody>

@@ -1,4 +1,23 @@
 <div class="sign-in-page">
-  <!-- SignInPage scaffold -->
-  <ng-content></ng-content>
+  <h1>Sign in</h1>
+  <button type="button" (click)="startProvider('Microsoft')">Continue with Microsoft</button>
+  <button type="button" (click)="startProvider('Google')">Continue with Google</button>
+  <form>
+    <label>
+      Email
+      <input #emailInput name="email" type="email" />
+    </label>
+    <label>
+      Password
+      <input #passwordInput name="password" type="password" />
+    </label>
+    <label>
+      <input name="remember" type="checkbox" />
+      Remember me
+    </label>
+    <button type="button" (click)="submitCredentials(emailInput.value, passwordInput.value)">Sign in</button>
+  </form>
+  @if (error(); as message) {
+    <p role="alert">{{ message }}</p>
+  }
 </div>

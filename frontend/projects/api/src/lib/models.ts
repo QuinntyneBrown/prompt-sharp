@@ -24,3 +24,5 @@ export * from './models/tutorial-list-query';
 export * from './models/admin-tutorial-list-query';
 export * from './models/api-problem-details';
 export * from './models/api-validation-problem-details';
+export * from './models/contact-submission';
+export * from './models/contact-submission-input';

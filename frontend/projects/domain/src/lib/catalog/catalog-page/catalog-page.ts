@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import {
   Category,
+  DifficultyLevel,
   PagedResult,
   PromptSharpCategoriesApi,
   PromptSharpTutorialsApi,
@@ -19,6 +20,10 @@ export class CatalogPage implements OnInit {
 
   protected readonly tutorials = signal<PagedResult<TutorialListItem> | null>(null);
   protected readonly categories = signal<readonly Category[]>([]);
+  protected readonly searchQuery = signal<string>('');
+  protected readonly categoryFilter = signal<string | null>(null);
+  protected readonly difficultyFilter = signal<DifficultyLevel | null>(null);
+  protected readonly viewMode = signal<'grid' | 'list'>('grid');
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
 
@@ -29,7 +34,13 @@ export class CatalogPage implements OnInit {
   protected load(): void {
     this.loading.set(true);
     this.error.set(null);
-    this.tutorialsApi.list({ page: 1, pageSize: 24 }).subscribe({
+    this.tutorialsApi.list({
+      search: this.searchQuery() || null,
+      category: this.categoryFilter(),
+      difficulty: this.difficultyFilter(),
+      page: 1,
+      pageSize: 24,
+    }).subscribe({
       next: (page) => {
         this.tutorials.set(page);
         this.loading.set(false);
@@ -40,5 +51,33 @@ export class CatalogPage implements OnInit {
       },
     });
     this.categoriesApi.list().subscribe({ next: (c) => this.categories.set(c) });
+  }
+
+  protected search(query: string): void {
+    this.searchQuery.set(query.trim());
+    this.load();
+  }
+
+  protected setCategory(slug: string): void {
+    this.categoryFilter.set(slug || null);
+    this.load();
+  }
+
+  protected setDifficulty(difficulty: string): void {
+    this.difficultyFilter.set(difficulty ? (difficulty as DifficultyLevel) : null);
+    this.load();
+  }
+
+  protected setListView(): void {
+    this.viewMode.set('list');
+  }
+
+  protected resetFilters(searchInput: HTMLInputElement): void {
+    searchInput.value = '';
+    this.searchQuery.set('');
+    this.categoryFilter.set(null);
+    this.difficultyFilter.set(null);
+    this.viewMode.set('grid');
+    this.load();
   }
 }

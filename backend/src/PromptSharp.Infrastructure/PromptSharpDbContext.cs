@@ -30,6 +30,8 @@ public sealed class PromptSharpDbContext(DbContextOptions<PromptSharpDbContext> 
 
     public DbSet<TutorialProgress> TutorialProgress => Set<TutorialProgress>();
 
+    public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ConfigureTutorial(modelBuilder);
@@ -43,6 +45,7 @@ public sealed class PromptSharpDbContext(DbContextOptions<PromptSharpDbContext> 
         ConfigureUserRole(modelBuilder);
         ConfigureBookmark(modelBuilder);
         ConfigureTutorialProgress(modelBuilder);
+        ConfigureContactSubmission(modelBuilder);
     }
 
     private static void ConfigureTutorial(ModelBuilder modelBuilder)
@@ -225,5 +228,16 @@ public sealed class PromptSharpDbContext(DbContextOptions<PromptSharpDbContext> 
             .WithMany()
             .HasForeignKey(progress => progress.TutorialId)
             .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    private static void ConfigureContactSubmission(ModelBuilder modelBuilder)
+    {
+        var builder = modelBuilder.Entity<ContactSubmission>();
+        builder.ToTable("ContactSubmissions");
+        builder.HasKey(submission => submission.Id);
+        builder.Property(submission => submission.Name).HasMaxLength(200).IsRequired();
+        builder.Property(submission => submission.Email).HasMaxLength(320).IsRequired();
+        builder.Property(submission => submission.Message).HasMaxLength(4000).IsRequired();
+        builder.HasIndex(submission => submission.CreatedAt);
     }
 }

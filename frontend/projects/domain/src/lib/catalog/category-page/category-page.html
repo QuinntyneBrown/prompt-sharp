@@ -1,16 +1,45 @@
 <div class="category-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
-  @if (category(); as cat) {
-    <h1 class="category-page__title">{{ cat.name }}</h1>
+  <h1 class="category-page__title">
+    {{ routeKind() === 'tag' ? 'Tag' : 'Category' }}:
+    {{ category()?.name ?? slug() ?? 'Tutorials' }}
+  </h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
   }
+  <div class="category-page__controls">
+    <label>
+      Sort
+      <select>
+        <option>Newest</option>
+        <option>Title</option>
+      </select>
+    </label>
+    <label>
+      Difficulty
+      <select>
+        <option>Any difficulty</option>
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+      </select>
+    </label>
+  </div>
   @if (tutorials(); as page) {
     <p class="category-page__count">{{ page.totalCount }} tutorials</p>
+    <section [attr.data-testid]="routeKind() === 'tag' ? 'tag-tutorials' : 'category-tutorials'">
+      @for (tutorial of page.items; track tutorial.id) {
+        <article data-testid="tutorial-card">
+          <h2>
+            <a [href]="'/tutorials/' + tutorial.slug">{{ tutorial.title }}</a>
+          </h2>
+          <p>{{ tutorial.summary }}</p>
+        </article>
+      }
+    </section>
   }
 </div>

@@ -15,6 +15,7 @@ public sealed class TutorialsController(ISender sender) : ControllerBase
     [HttpGet]
     [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
     public Task<PagedResult<TutorialListItemDto>> GetTutorials(
+        [FromQuery] string? search,
         [FromQuery] string? category,
         [FromQuery] string? tag,
         [FromQuery] DifficultyLevel? difficulty,
@@ -23,7 +24,7 @@ public sealed class TutorialsController(ISender sender) : ControllerBase
         [FromQuery] string? sort = null,
         CancellationToken cancellationToken = default)
     {
-        return sender.Send(new GetTutorialsQuery(category, tag, difficulty, page, pageSize, sort), cancellationToken);
+        return sender.Send(new GetTutorialsQuery(search, category, tag, difficulty, page, pageSize, sort), cancellationToken);
     }
 
     [HttpGet("featured")]

@@ -1,5 +1,9 @@
 <lib-empty-state icon="block" display="Access denied" description="You don't have permission to view this page.">
   <div empty-state-actions>
-    <lib-button variant="solid"><a href="/">Back home</a></lib-button>
+    <lib-button variant="solid"><a href="/admin">Dashboard</a></lib-button>
+    <lib-button variant="ghost" (click)="requestAccess()">Request access</lib-button>
   </div>
 </lib-empty-state>
+@if (status(); as message) {
+  <p role="status">{{ message }}</p>
+}

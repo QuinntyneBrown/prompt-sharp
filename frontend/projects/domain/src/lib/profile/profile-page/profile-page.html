@@ -1,14 +1,19 @@
 <div class="profile-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1>My profile</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
   @if (user(); as u) {
-    <h1>{{ u.email }}</h1>
+    <h2>{{ u.displayName }}</h2>
+    <p>{{ u.email }}</p>
+    <p>Roles: {{ u.roles.join(', ') }}</p>
     <p>{{ bookmarks().length }} bookmarks</p>
   }
+  <a href="/me/progress">Progress and bookmarks</a>
+  <button type="button" (click)="signOut()">Sign out</button>
 </div>

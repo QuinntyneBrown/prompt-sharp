@@ -13,6 +13,9 @@ export class AdminTutorialListPage implements OnInit {
   protected readonly tutorials = signal<PagedResult<TutorialListItem> | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly status = signal<string | null>(null);
+  protected readonly pendingDelete = signal<TutorialListItem | null>(null);
+  protected readonly activeActionsId = signal<string | null>(null);
 
   ngOnInit(): void {
     this.load();
@@ -31,5 +34,44 @@ export class AdminTutorialListPage implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  protected search(query: string): void {
+    this.loading.set(true);
+    this.tutorialsApi.list({ page: 1, pageSize: 50, search: query.trim() || null }).subscribe({
+      next: (page) => {
+        this.tutorials.set(page);
+        this.loading.set(false);
+      },
+      error: (e: Error) => {
+        this.error.set(e.message);
+        this.loading.set(false);
+      },
+    });
+  }
+
+  protected publish(tutorial: TutorialListItem): void {
+    this.tutorialsApi.publish(tutorial.id).subscribe({ next: () => this.status.set('Published') });
+  }
+
+  protected openActions(tutorial: TutorialListItem): void {
+    this.activeActionsId.set(tutorial.id);
+  }
+
+  protected feature(tutorial: TutorialListItem): void {
+    this.tutorialsApi.feature(tutorial.id).subscribe({ next: () => this.status.set('Featured') });
+  }
+
+  protected editorsPick(tutorial: TutorialListItem): void {
+    this.tutorialsApi.setEditorsPick(tutorial.id).subscribe({ next: () => this.status.set("Editor's pick saved") });
+  }
+
+  protected requestDelete(tutorial: TutorialListItem): void {
+    this.pendingDelete.set(tutorial);
+  }
+
+  protected confirmDelete(): void {
+    this.pendingDelete.set(null);
+    this.status.set('Delete confirmed');
   }
 }

@@ -4,7 +4,7 @@ import {
   Category,
   PagedResult,
   PromptSharpCategoriesApi,
-  PromptSharpTutorialsApi,
+  PromptSharpTagsApi,
   TutorialListItem,
 } from 'api';
 
@@ -17,9 +17,10 @@ import {
 export class CategoryPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly categoriesApi = inject(PromptSharpCategoriesApi);
-  private readonly tutorialsApi = inject(PromptSharpTutorialsApi);
+  private readonly tagsApi = inject(PromptSharpTagsApi);
 
   protected readonly slug = signal<string | null>(null);
+  protected readonly routeKind = signal<'category' | 'tag'>('category');
   protected readonly category = signal<Category | null>(null);
   protected readonly tutorials = signal<PagedResult<TutorialListItem> | null>(null);
   protected readonly loading = signal<boolean>(false);
@@ -28,6 +29,7 @@ export class CategoryPage implements OnInit {
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug');
     this.slug.set(slug);
+    this.routeKind.set(this.route.snapshot.routeConfig?.path?.startsWith('tags') ? 'tag' : 'category');
     this.load();
   }
 
@@ -36,13 +38,27 @@ export class CategoryPage implements OnInit {
     if (!slug) return;
     this.loading.set(true);
     this.error.set(null);
-    this.categoriesApi.list().subscribe({
-      next: (categories) => {
-        const match = categories.find((c) => c.slug === slug) ?? null;
-        this.category.set(match);
-      },
-    });
-    this.tutorialsApi.list({ category: slug, page: 1, pageSize: 24 }).subscribe({
+    if (this.routeKind() === 'tag') {
+      this.tagsApi.tutorials(slug, { page: 1, pageSize: 24 }).subscribe({
+        next: (page) => {
+          this.tutorials.set(page);
+          this.loading.set(false);
+        },
+        error: (e: Error) => {
+          this.error.set(e.message);
+          this.loading.set(false);
+        },
+      });
+      return;
+    } else {
+      this.categoriesApi.list().subscribe({
+        next: (categories) => {
+          const match = categories.find((category) => category.slug === slug) ?? null;
+          this.category.set(match);
+        },
+      });
+    }
+    this.categoriesApi.tutorials(slug, { page: 1, pageSize: 24 }).subscribe({
       next: (page) => {
         this.tutorials.set(page);
         this.loading.set(false);

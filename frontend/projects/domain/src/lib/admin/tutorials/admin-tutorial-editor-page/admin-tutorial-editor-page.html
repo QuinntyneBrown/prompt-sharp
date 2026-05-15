@@ -1,13 +1,106 @@
 <div class="admin-tutorial-editor-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1>
+    @if (isStepRoute()) {
+      Step editor
+    } @else if (tutorial()) {
+      Edit tutorial
+    } @else {
+      New tutorial editor
+    }
+  </h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
   @if (tutorial(); as t) {
-    <h1>{{ t.title }}</h1>
+    <h2>{{ t.title }}</h2>
+  }
+  @if (validation(); as message) {
+    <p role="alert">{{ message }}</p>
+  }
+  @if (!isStepRoute()) {
+    <div class="admin-tutorial-editor-page__actions">
+      <button type="button" (click)="saveDraft()">Save draft</button>
+      <button type="button" (click)="preview()">Preview</button>
+      <button type="button" (click)="publish()">Publish</button>
+    </div>
+    <form>
+      <label>
+        Title
+        <input type="text" />
+      </label>
+      <label>
+        Slug
+        <input type="text" />
+      </label>
+      <label>
+        Summary
+        <textarea></textarea>
+      </label>
+      <label>
+        Category
+        <select>
+          @for (category of categories(); track category.id) {
+            <option>{{ category.name }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        Difficulty
+        <select>
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+      </label>
+      <label>
+        Estimated minutes
+        <input type="text" />
+      </label>
+    </form>
+    <button type="button" (click)="addStep()">Add step</button>
+    <ul data-testid="tutorial-steps-editor">
+      @for (step of stepRows(); track step) {
+        <li>{{ step }}</li>
+      }
+    </ul>
+  }
+  @if (isStepRoute()) {
+    <section>
+    <p class="admin-tutorial-editor-page__section-title">Step editor</p>
+    <label>
+      Step title
+      <input type="text" />
+    </label>
+    <label>
+      Body markdown
+      <textarea></textarea>
+    </label>
+    <label>
+      Code snippet
+      <textarea></textarea>
+    </label>
+    <label>
+      Code language
+      <select>
+        <option>Bash</option>
+        <option>CSharp</option>
+      </select>
+    </label>
+    <label>
+      Image media
+      <input type="file" />
+    </label>
+    <button type="button" (click)="moveUp()">Move up</button>
+    <button type="button" (click)="saveStep()">Save step</button>
+    <div data-testid="step-preview">Preview</div>
+    </section>
+  }
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
   }
 </div>

@@ -13,6 +13,9 @@ export class AdminTaxonomyPage implements OnInit {
 
   protected readonly categories = signal<readonly Category[]>([]);
   protected readonly tags = signal<readonly Tag[]>([]);
+  protected readonly categoryFormOpen = signal<boolean>(false);
+  protected readonly tagFormOpen = signal<boolean>(false);
+  protected readonly status = signal<string | null>(null);
   protected readonly loading = signal<boolean>(false);
   protected readonly error = signal<string | null>(null);
 
@@ -46,6 +49,40 @@ export class AdminTaxonomyPage implements OnInit {
       error: (e: Error) => {
         this.error.set(e.message);
         done();
+      },
+    });
+  }
+
+  protected openCategoryForm(): void {
+    this.categoryFormOpen.set(true);
+  }
+
+  protected openTagForm(): void {
+    this.tagFormOpen.set(true);
+  }
+
+  protected createCategory(name: string, slug: string): void {
+    this.categoryFormOpen.set(false);
+    this.categoriesApi.create({ name, slug, order: this.categories().length + 1 }).subscribe({
+      next: (category) => {
+        this.categories.update((items) => [...items, category]);
+        this.status.set('Category saved');
+      },
+      error: (e: Error) => {
+        this.error.set(e.message);
+      },
+    });
+  }
+
+  protected createTag(name: string, slug: string): void {
+    this.tagFormOpen.set(false);
+    this.tagsApi.create({ name, slug }).subscribe({
+      next: (tag) => {
+        this.tags.update((items) => [...items, tag]);
+        this.status.set('Tag saved');
+      },
+      error: (e: Error) => {
+        this.error.set(e.message);
       },
     });
   }

@@ -20,6 +20,15 @@ internal sealed class CatalogQueryHandlers(IPromptSharpDbContext dbContext) :
             .AsNoTracking()
             .Where(tutorial => tutorial.IsPublished);
 
+        if (!string.IsNullOrWhiteSpace(request.Search))
+        {
+            query = query.Where(tutorial =>
+                tutorial.Title.Contains(request.Search) ||
+                tutorial.Slug.Contains(request.Search) ||
+                tutorial.Summary.Contains(request.Search) ||
+                tutorial.TutorialTags.Any(tutorialTag => tutorialTag.Tag!.Name.Contains(request.Search)));
+        }
+
         if (!string.IsNullOrWhiteSpace(request.Category))
         {
             query = query.Where(tutorial => tutorial.Category!.Slug == request.Category);

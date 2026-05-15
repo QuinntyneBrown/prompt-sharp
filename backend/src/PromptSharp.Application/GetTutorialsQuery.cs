@@ -6,6 +6,7 @@ using PromptSharp.Domain;
 namespace PromptSharp.Application.Features;
 
 public sealed record GetTutorialsQuery(
+    string? Search = null,
     string? Category = null,
     string? Tag = null,
     DifficultyLevel? Difficulty = null,

@@ -25,7 +25,7 @@ export class SearchPage implements OnInit {
   protected load(): void {
     this.loading.set(true);
     this.error.set(null);
-    this.tutorialsApi.list({ page: 1, pageSize: 24 }).subscribe({
+    this.tutorialsApi.list({ search: this.query() || null, page: 1, pageSize: 24 }).subscribe({
       next: (page) => {
         this.results.set(page);
         this.loading.set(false);
@@ -35,5 +35,10 @@ export class SearchPage implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  protected search(query: string): void {
+    this.query.set(query.trim());
+    this.load();
   }
 }

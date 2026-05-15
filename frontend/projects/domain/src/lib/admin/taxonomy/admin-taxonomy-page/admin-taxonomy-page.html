@@ -1,26 +1,64 @@
 <div class="admin-taxonomy-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1>Taxonomy</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
+  <button type="button" (click)="openCategoryForm()">New category</button>
+  @if (categoryFormOpen()) {
+    <form>
+      <label>
+        Category name
+        <input #categoryName type="text" />
+      </label>
+      <label>
+        Slug
+        <input #categorySlug type="text" />
+      </label>
+      <button type="button" (click)="createCategory(categoryName.value, categorySlug.value)">
+        Save category
+      </button>
+    </form>
+  }
+  <button type="button" (click)="openTagForm()">New tag</button>
+  @if (tagFormOpen()) {
+    <form>
+      <label>
+        Tag name
+        <input #tagName type="text" />
+      </label>
+      <label>
+        Slug
+        <input #tagSlug type="text" />
+      </label>
+      <button type="button" (click)="createTag(tagName.value, tagSlug.value)">Save tag</button>
+    </form>
+  }
   <section class="admin-taxonomy-page__categories">
-    <h2>Categories</h2>
-    <ul>
+    <p class="admin-taxonomy-page__section-title">Categories</p>
+    <table aria-label="Categories">
+      <tbody>
       @for (c of categories(); track c.id) {
-        <li>{{ c.name }}</li>
+        <tr><td>{{ c.name }}</td><td>{{ c.slug }}</td></tr>
       }
-    </ul>
+      </tbody>
+    </table>
   </section>
   <section class="admin-taxonomy-page__tags">
-    <h2>Tags</h2>
-    <ul>
+    <p class="admin-taxonomy-page__section-title">Tags</p>
+    <table aria-label="Tags">
+      <tbody>
       @for (t of tags(); track t.id) {
-        <li>{{ t.name }}</li>
+        <tr><td>{{ t.name }}</td><td>{{ t.slug }}</td></tr>
       }
-    </ul>
+      </tbody>
+    </table>
   </section>
+  @if (status(); as message) {
+    <p role="status">{{ message }}</p>
+  }
 </div>

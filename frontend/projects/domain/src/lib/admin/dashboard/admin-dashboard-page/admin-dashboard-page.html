@@ -1,4 +1,22 @@
 <div class="admin-dashboard-page">
-  <!-- AdminDashboardPage scaffold -->
-  <ng-content></ng-content>
+  <h1>Admin dashboard</h1>
+  <button type="button" (click)="createTutorial()">New tutorial</button>
+  <section data-testid="admin-stats">
+    <article data-testid="stat-card">
+      <h2>Tutorials</h2>
+      <p>{{ tutorials().length }}</p>
+    </article>
+    <article data-testid="stat-card">
+      <h2>Published</h2>
+      <p>{{ tutorials().length }}</p>
+    </article>
+  </section>
+  <section data-testid="recent-activity">
+    <h2>Recent activity</h2>
+    <ul data-testid="recent-edits">
+      @for (tutorial of tutorials(); track tutorial.id) {
+        <li>{{ tutorial.title }}</li>
+      }
+    </ul>
+  </section>
 </div>

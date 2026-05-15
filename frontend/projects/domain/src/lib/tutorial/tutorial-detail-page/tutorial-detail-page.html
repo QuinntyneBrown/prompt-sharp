@@ -1,16 +1,47 @@
 <div class="tutorial-detail-page">
-      @if (loading()) {
-        <p class="state state--loading">Loading…</p>
-      } @else if (error(); as message) {
-        <div class="state state--error">
-          <p>{{ message }}</p>
-          <button type="button" (click)="load()">Retry</button>
-        </div>
-      }
+  <h1>{{ tutorial()?.title ?? 'Tutorial walkthrough' }}</h1>
+  @if (loading()) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (error(); as message) {
+    <div class="state state--error">
+      <p>{{ message }}</p>
+      <button type="button" (click)="load()">Retry</button>
+    </div>
+  }
   @if (tutorial(); as t) {
     <header class="tutorial-detail-page__hero">
-      <h1>{{ t.title }}</h1>
       <p>{{ t.summary }}</p>
+      <p>
+        <a [href]="'/categories/' + t.categorySlug">{{ t.categoryName }}</a>
+        @for (tag of t.tags; track tag.id) {
+          <a [href]="'/tags/' + tag.slug">{{ tag.name }}</a>
+        }
+      </p>
+      <button type="button" (click)="startTutorial()">Start tutorial</button>
+      <button type="button" (click)="bookmark()">Bookmark</button>
     </header>
+    <div data-testid="tutorial-progress">
+      {{ completedStepIds().length }} / {{ t.steps.length }} complete
+    </div>
+    <ol data-testid="tutorial-steps">
+      @for (step of t.steps; track step.id) {
+        <li>{{ step.title }}</li>
+      }
+    </ol>
+    @if (currentStep(); as step) {
+      <article data-testid="current-step">
+        <h2>Step {{ step.order }}: {{ step.title }}</h2>
+        <p>{{ step.bodyMarkdown }}</p>
+        @if (step.codeSnippet) {
+          <pre data-testid="code-block"><code>{{ step.codeSnippet }}</code></pre>
+          <button type="button" (click)="copyCurrentCode()">Copy code</button>
+        }
+        <button type="button" (click)="completeCurrentStep()">Mark step complete</button>
+        <button type="button" (click)="nextStep()">Next step</button>
+      </article>
+    }
+    @if (status(); as message) {
+      <p role="status">{{ message }}</p>
+    }
   }
 </div>
