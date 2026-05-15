@@ -1,3 +1,4 @@
+@use 'tokens' as t;
 @use '../skeleton/shimmer' as s;
 
 :host {
@@ -6,9 +7,25 @@
   @include s.shimmer;
 }
 
+:host([data-inline]) { display: inline-block; vertical-align: middle; }
+
 :host([data-size='sm']) { height: 8px; }
 :host([data-size='lg']) { height: 18px; }
 :host([data-size='xl']) { height: 28px; }
 
 :host([data-delay='1']) { animation-delay: -1.1s; }
 :host([data-delay='2']) { animation-delay: -2.0s; }
+
+:host([data-rounded]) { border-radius: t.$border-radius-pill; }
+
+:host([data-tone='muted']) {
+  background: linear-gradient(
+    100deg,
+    #{t.$color-rule-soft} 0%,
+    #{t.$color-rule-soft} 28%,
+    #{t.$color-skel} 50%,
+    #{t.$color-rule-soft} 72%,
+    #{t.$color-rule-soft} 100%
+  );
+  background-size: 220% 100%;
+}
