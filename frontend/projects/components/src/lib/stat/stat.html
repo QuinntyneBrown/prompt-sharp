@@ -1,2 +1,5 @@
 <span class="value">{{ value() }}</span>
 <span class="label">{{ label() }}</span>
+@if (supportingLabel(); as supporting) {
+  <span class="supporting">{{ supporting }}</span>
+}

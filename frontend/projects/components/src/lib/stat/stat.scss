@@ -22,3 +22,18 @@
   text-transform: uppercase;
   color: t.$color-muted;
 }
+
+.supporting {
+  font-family: t.$font-mono;
+  font-size: t.$font-size-mono-xs;
+  color: t.$color-ink-dim;
+  letter-spacing: t.$tracking-mono;
+}
+
+:host([data-tone='accent']) .value { color: t.$color-accent; }
+:host([data-tone='success']) .value { color: t.$color-accent-2; }
+:host([data-tone='warning']) .value { color: t.$color-gold; }
+:host([data-tone='danger']) .value { color: #FFB4AB; }
+
+:host([data-trend='up']) .supporting::before { content: '▲ '; color: t.$color-accent-2; }
+:host([data-trend='down']) .supporting::before { content: '▼ '; color: #FFB4AB; }
