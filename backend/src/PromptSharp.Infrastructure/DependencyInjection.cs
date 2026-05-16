@@ -1,10 +1,13 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using PromptSharp.Application;
+using PromptSharp.Application.Abstractions;
+using PromptSharp.Infrastructure.Ai;
+using PromptSharp.Infrastructure.Auth;
+using PromptSharp.Infrastructure.Options;
+using PromptSharp.Infrastructure.Persistence;
 using PromptSharp.Infrastructure.Services;
+using PromptSharp.Infrastructure.Skills;
 
 namespace PromptSharp.Infrastructure;
 
@@ -12,27 +15,22 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<AppSettingsOptions>(configuration.GetSection(AppSettingsOptions.SectionName));
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+        services.Configure<AzureOpenAiOptions>(configuration.GetSection("AzureOpenAi"));
+        services.Configure<AgentSkillOptions>(configuration.GetSection("AgentSkills"));
 
         services.AddDbContext<PromptSharpDbContext>(options =>
-        {
-            var connectionString = configuration.GetConnectionString("PromptSharpDb");
-            options.UseSqlServer(connectionString, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
-        });
+            options.UseSqlServer(configuration.GetConnectionString("PromptSharp")));
 
         services.AddScoped<IPromptSharpDbContext>(provider => provider.GetRequiredService<PromptSharpDbContext>());
-        services.AddHttpContextAccessor();
+        services.AddScoped<ITransactionRunner, EfCoreTransactionRunner>();
+        services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
+        services.AddScoped<IPasswordService, PasswordService>();
+        services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ICurrentUser, HttpCurrentUser>();
-        services.AddScoped<IClaimsTransformation, DatabaseClaimsTransformation>();
-        services.AddScoped<IMediaStore>(provider =>
-        {
-            var options = provider.GetRequiredService<IOptions<AppSettingsOptions>>().Value;
-            return string.Equals(options.Media.Provider, "AzureBlob", StringComparison.OrdinalIgnoreCase)
-                ? ActivatorUtilities.CreateInstance<AzureBlobMediaStore>(provider)
-                : ActivatorUtilities.CreateInstance<LocalMediaStore>(provider);
-        });
-        services.AddSingleton(TimeProvider.System);
-        services.AddSingleton<IBootstrapAdminProvider>(provider => provider.GetRequiredService<IOptions<AppSettingsOptions>>().Value);
+        services.AddScoped<IAgentSkillCatalog, FileAgentSkillCatalog>();
+        services.AddScoped<IAiPromptPlanner, AzureOpenAiPromptPlanner>();
+        services.AddScoped<IAzureDeploymentNameProvider, ConfiguredAzureDeploymentNameProvider>();
         services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
         return services;

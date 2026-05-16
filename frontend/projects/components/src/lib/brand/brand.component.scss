@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+  line-height: 1;
+}
+
+.ps-brand {
+  font-family: var(--ps-sans);
+  font-variation-settings: 'wdth' 82, 'wght' 700;
+  font-size: 22px;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  color: var(--ps-ink);
+  text-decoration: none;
+
+  &__slash {
+    color: var(--ps-accent);
+    font-style: italic;
+    font-variation-settings: 'wdth' 92, 'wght' 500;
+  }
+}

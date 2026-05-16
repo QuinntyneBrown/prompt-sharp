@@ -1,0 +1,17 @@
+<a class="ps-project-row" [routerLink]="['/projects', project().id]">
+  <div class="ps-project-row__num">№ {{ project().id }}</div>
+  <div class="ps-project-row__body">
+    <h3 class="ps-project-row__title">{{ project().idea }}</h3>
+    <div class="ps-project-row__meta">
+      <span>{{ project().promptCount }} prompts</span>
+      <span class="ps-project-row__sep">·</span>
+      <span>{{ project().whenLabel }}</span>
+    </div>
+  </div>
+  <div class="ps-project-row__right">
+    <span class="ps-project-row__status" [class.ps-project-row__status--done]="isDone()">
+      {{ project().status }}
+    </span>
+    <span class="ps-project-row__arr">→</span>
+  </div>
+</a>

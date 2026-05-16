@@ -1,0 +1,108 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+:host::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(255, 152, 0, 0.10), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, rgba(138, 168, 255, 0.06), transparent 70%);
+}
+
+.ps-error-page {
+  &__main {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 24px var(--ps-gutter) 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__well {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__glyph {
+    font-family: var(--ps-sans);
+    font-variation-settings: 'wdth' 75, 'wght' 700;
+    font-size: clamp(120px, 22vw, 220px);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: var(--ps-ink);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0;
+  }
+
+  &__slash {
+    color: var(--ps-accent);
+    font-style: italic;
+    font-variation-settings: 'wdth' 90, 'wght' 500;
+  }
+
+  &__eyebrow {
+    font-family: var(--ps-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ps-accent);
+  }
+
+  &__title {
+    font-family: var(--ps-sans);
+    font-variation-settings: 'wdth' 80, 'wght' 600;
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0;
+
+    em {
+      font-style: italic;
+      color: var(--ps-accent);
+      font-variation-settings: 'wdth' 90, 'wght' 500;
+    }
+  }
+
+  &__copy {
+    color: var(--ps-ink-dim);
+    font-size: 15px;
+    margin: 0;
+    max-width: 44ch;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  &__trace {
+    margin-top: 20px;
+    font-family: var(--ps-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ps-muted);
+    padding-top: 18px;
+    border-top: 1px solid var(--ps-rule-soft);
+    width: 100%;
+    max-width: 480px;
+  }
+}

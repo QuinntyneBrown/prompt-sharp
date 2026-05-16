@@ -1,55 +1,90 @@
-using System.Xml.Linq;
+using System.Text.RegularExpressions;
 using FluentAssertions;
 
 namespace PromptSharp.Application.Tests;
 
-public sealed class ArchitectureTests
+public sealed partial class ArchitectureTests
 {
     [Fact]
-    public void Domain_has_no_project_references()
+    public void Project_references_follow_clean_architecture()
     {
-        var project = LoadProject("src", "PromptSharp.Domain", "PromptSharp.Domain.csproj");
+        var backend = FindBackendRoot();
 
-        ProjectReferences(project).Should().BeEmpty();
+        File.ReadAllText(Path.Combine(backend, "src", "PromptSharp.Domain", "PromptSharp.Domain.csproj"))
+            .Should().NotContain("<ProjectReference");
+
+        File.ReadAllText(Path.Combine(backend, "src", "PromptSharp.Application", "PromptSharp.Application.csproj"))
+            .Should().Contain("PromptSharp.Domain.csproj")
+            .And.NotContain("PromptSharp.Infrastructure.csproj")
+            .And.NotContain("PromptSharp.Api.csproj");
+
+        File.ReadAllText(Path.Combine(backend, "src", "PromptSharp.Infrastructure", "PromptSharp.Infrastructure.csproj"))
+            .Should().Contain("PromptSharp.Application.csproj")
+            .And.Contain("PromptSharp.Domain.csproj")
+            .And.NotContain("PromptSharp.Api.csproj");
+
+        File.ReadAllText(Path.Combine(backend, "src", "PromptSharp.Api", "PromptSharp.Api.csproj"))
+            .Should().Contain("PromptSharp.Application.csproj")
+            .And.Contain("PromptSharp.Infrastructure.csproj");
     }
 
     [Fact]
-    public void Application_does_not_reference_infrastructure()
+    public void Api_does_not_use_minimal_api_endpoint_shapes()
     {
-        var project = LoadProject("src", "PromptSharp.Application", "PromptSharp.Application.csproj");
+        var apiSource = Path.Combine(FindBackendRoot(), "src", "PromptSharp.Api");
+        var source = string.Join(Environment.NewLine, Directory.EnumerateFiles(apiSource, "*.cs", SearchOption.AllDirectories).Select(File.ReadAllText));
 
-        ProjectReferences(project).Should().NotContain(reference => reference.Contains("PromptSharp.Infrastructure"));
+        source.Should().NotContain("MapGet(");
+        source.Should().NotContain("MapPost(");
+        source.Should().NotContain("MapGroup(");
     }
 
-    private static XDocument LoadProject(params string[] relativePath)
+    [Fact]
+    public void Each_csharp_file_declares_at_most_one_public_type()
     {
-        var root = FindBackendRoot();
-        return XDocument.Load(Path.Combine([root, .. relativePath]));
-    }
-
-    private static string[] ProjectReferences(XDocument project)
-    {
-        return project
-            .Descendants("ProjectReference")
-            .Select(element => element.Attribute("Include")?.Value)
-            .Where(value => !string.IsNullOrWhiteSpace(value))
-            .Select(value => value!)
+        var files = Directory.EnumerateFiles(Path.Combine(FindBackendRoot(), "src"), "*.cs", SearchOption.AllDirectories);
+        var offenders = files
+            .Select(file => new
+            {
+                File = file,
+                PublicTypeCount = PublicTypeRegex().Matches(File.ReadAllText(file)).Count
+            })
+            .Where(result => result.PublicTypeCount > 1)
+            .Select(result => Path.GetRelativePath(FindBackendRoot(), result.File))
             .ToArray();
+
+        offenders.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Mapper_libraries_are_not_referenced_and_mediatr_is_pinned()
+    {
+        var backend = FindBackendRoot();
+        var packageProps = File.ReadAllText(Path.Combine(backend, "Directory.Packages.props"));
+        packageProps.Should().NotContain("AutoMapper");
+        packageProps.Should().Contain("<PackageVersion Include=\"MediatR\" Version=\"12.5.0\" />");
+
+        var source = string.Join(Environment.NewLine, Directory.EnumerateFiles(Path.Combine(backend, "src"), "*.cs", SearchOption.AllDirectories).Select(File.ReadAllText));
+        source.Should().NotContain("AutoMapper");
     }
 
     private static string FindBackendRoot()
     {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null)
+        var current = new DirectoryInfo(AppContext.BaseDirectory);
+        while (current is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "PromptSharp.sln")))
+            var candidate = Path.Combine(current.FullName, "PromptSharp.sln");
+            if (File.Exists(candidate))
             {
-                return directory.FullName;
+                return current.FullName;
             }
 
-            directory = directory.Parent;
+            current = current.Parent;
         }
 
         throw new DirectoryNotFoundException("Could not find backend root.");
     }
+
+    [GeneratedRegex("""public\s+(?:sealed\s+|static\s+|partial\s+|abstract\s+)*(?:class|record|interface|enum)\s+""")]
+    private static partial Regex PublicTypeRegex();
 }

@@ -1,8 +1,0 @@
-@if (src(); as src) {
-  <img class="img" [attr.src]="src" [attr.alt]="name()" />
-} @else {
-  <span class="initials" aria-hidden="true">{{ initials() }}</span>
-}
-@if (status(); as s) {
-  <span class="indicator" [attr.data-status]="s" aria-hidden="true"></span>
-}

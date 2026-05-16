@@ -1,9 +1,0 @@
-@if (open()) {
-  <div class="snackbar" [attr.role]="tone() === 'danger' ? 'alert' : 'status'">
-    <span class="message">{{ message() }}</span>
-    @if (actionLabel(); as label) {
-      <button type="button" class="action" (click)="onAction()">{{ label }}</button>
-    }
-    <button type="button" class="dismiss" aria-label="Dismiss" (click)="onDismiss()">×</button>
-  </div>
-}

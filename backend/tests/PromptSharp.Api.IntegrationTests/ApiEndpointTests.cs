@@ -1,198 +1,95 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
-using PromptSharp.Application;
-using PromptSharp.Domain;
+using Microsoft.Extensions.DependencyInjection;
+using PromptSharp.Api.IntegrationTests.Support;
+using PromptSharp.Application.Account;
+using PromptSharp.Application.Auth;
+using PromptSharp.Infrastructure.Persistence;
 
 namespace PromptSharp.Api.IntegrationTests;
 
 public sealed class ApiEndpointTests(PromptSharpApiFactory factory) : IClassFixture<PromptSharpApiFactory>
 {
     [Fact]
-    public async Task Public_catalog_endpoint_returns_ok()
+    public async Task Auth_endpoints_happy_path_and_account_endpoint_work()
     {
-        if (!factory.IsEnabled)
-        {
-            return;
-        }
-
         var client = factory.CreateClient();
+        var registered = await client.RegisterAsync($"auth-{Guid.NewGuid():N}@example.com");
 
-        var response = await client.GetAsync("/api/v1/tutorials");
+        registered.AccessToken.Should().NotBeNullOrWhiteSpace();
+        registered.RefreshToken.Should().NotBeNullOrWhiteSpace();
 
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        client.Authorize(registered.AccessToken);
+        var account = await client.GetFromJsonAsync<UserDto>("/api/v1/account");
+        account!.Email.Should().Be(registered.User.Email);
+
+        var refreshResponse = await client.PostAsJsonAsync("/api/v1/auth/refresh", new RefreshTokenRequestDto(registered.RefreshToken));
+        refreshResponse.EnsureSuccessStatusCode();
+        var refreshed = await refreshResponse.Content.ReadFromJsonAsync<AuthResponseDto>();
+        refreshed!.RefreshToken.Should().NotBe(registered.RefreshToken);
+
+        var logoutResponse = await client.PostAsJsonAsync("/api/v1/auth/logout", new LogoutRequestDto(refreshed.RefreshToken));
+        logoutResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     [Fact]
-    public async Task Protected_endpoint_without_auth_returns_unauthorized()
+    public async Task Protected_endpoints_return_401_without_token()
     {
-        if (!factory.IsEnabled)
-        {
-            return;
-        }
-
         var client = factory.CreateClient();
 
-        var response = await client.GetAsync("/api/v1/me");
+        var response = await client.GetAsync("/api/v1/account");
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
-    public async Task Admin_endpoint_with_user_role_returns_forbidden()
+    public async Task Users_cannot_access_another_users_project()
     {
-        if (!factory.IsEnabled)
-        {
-            return;
-        }
+        var ownerClient = factory.CreateClient();
+        var otherClient = factory.CreateClient();
 
-        await factory.SeedUserAsync("user-sub", RoleNames.User);
-        var client = factory.CreateClient();
-        client.AuthenticateAs("user-sub", RoleNames.User);
+        var owner = await ownerClient.RegisterAsync($"owner-{Guid.NewGuid():N}@example.com");
+        ownerClient.Authorize(owner.AccessToken);
+        var project = await ownerClient.CreateProjectAsync("Private app");
 
-        var response = await client.GetAsync("/api/v1/admin/users");
+        var other = await otherClient.RegisterAsync($"other-{Guid.NewGuid():N}@example.com");
+        otherClient.Authorize(other.AccessToken);
 
-        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        var response = await otherClient.GetAsync($"/api/v1/projects/{project.Id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
-    public async Task Current_user_endpoint_returns_profile_for_authenticated_user()
+    public async Task OpenApi_endpoint_exists()
     {
-        if (!factory.IsEnabled)
-        {
-            return;
-        }
-
-        await factory.SeedUserAsync("admin-sub", RoleNames.Admin, RoleNames.User);
         var client = factory.CreateClient();
-        client.AuthenticateAs("admin-sub", RoleNames.Admin, RoleNames.User);
 
-        var response = await client.GetAsync("/api/v1/me");
+        var response = await client.GetAsync("/openapi/v1.json");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
-    public async Task Planned_endpoint_surface_is_exercised_once()
+    public async Task Health_ready_fails_when_database_is_unavailable()
     {
-        if (!factory.IsEnabled)
+        var localFactory = new PromptSharpApiFactory();
+        await localFactory.InitializeAsync();
+        try
         {
-            return;
+            await using var scope = localFactory.Services.CreateAsyncScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<PromptSharpDbContext>();
+            await dbContext.Database.EnsureDeletedAsync();
+
+            var response = await localFactory.CreateClient().GetAsync("/health/ready");
+
+            response.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
         }
-
-        var subject = $"admin-flow-{Guid.NewGuid():N}";
-        await factory.SeedUserAsync(subject, RoleNames.Admin, RoleNames.Editor, RoleNames.User);
-        var client = factory.CreateClient();
-        client.AuthenticateAs(subject, RoleNames.Admin, RoleNames.Editor, RoleNames.User);
-
-        var category = await PostJson<CategoryDto>(client, "/api/v1/admin/categories", new CategoryUpsertDto("apps", "Apps", 1));
-        await GetOk(client, "/api/v1/admin/categories");
-        category = await PutJson<CategoryDto>(client, $"/api/v1/admin/categories/{category.Id}", new CategoryUpsertDto("apps", "Applications", 1));
-        var tag = await PostJson<TagDto>(client, "/api/v1/admin/tags", new TagUpsertDto("dotnet", ".NET"));
-        await GetOk(client, "/api/v1/admin/tags");
-        tag = await PutJson<TagDto>(client, $"/api/v1/admin/tags/{tag.Id}", new TagUpsertDto("dotnet", ".NET"));
-
-        var tutorial = await PostJson<TutorialDetailDto>(client, "/api/v1/admin/tutorials", new TutorialUpsertDto(
-            "build-app",
-            "Build App",
-            "Build an app with .NET.",
-            DifficultyLevel.Beginner,
-            25,
-            category.Id,
-            [tag.Id]));
-
-        await GetOk(client, "/api/v1/admin/tutorials");
-        await GetOk(client, $"/api/v1/admin/tutorials/{tutorial.Id}");
-        tutorial = await PutJson<TutorialDetailDto>(client, $"/api/v1/admin/tutorials/{tutorial.Id}", new TutorialUpsertDto(
-            "build-app",
-            "Build App Updated",
-            "Build an app with .NET.",
-            DifficultyLevel.Beginner,
-            30,
-            category.Id,
-            [tag.Id]));
-        tutorial = await PutJson<TutorialDetailDto>(client, $"/api/v1/admin/tutorials/{tutorial.Id}/steps", new[]
+        finally
         {
-            new TutorialStepUpsertDto("Create", "Run dotnet new.", null, null, null)
-        });
-        tutorial = await PostJson<TutorialDetailDto>(client, $"/api/v1/admin/tutorials/{tutorial.Id}/publish", new { });
-        await PostJson<TutorialDetailDto>(client, $"/api/v1/admin/tutorials/{tutorial.Id}/feature", new { });
-        await PostJson<TutorialDetailDto>(client, $"/api/v1/admin/tutorials/{tutorial.Id}/editors-pick", new { });
-
-        await GetOk(client, "/api/v1/tutorials");
-        await GetOk(client, $"/api/v1/tutorials/{tutorial.Slug}");
-        await GetOk(client, "/api/v1/tutorials/featured");
-        await GetOk(client, "/api/v1/tutorials/editors-pick");
-        await GetOk(client, "/api/v1/categories");
-        await GetOk(client, $"/api/v1/categories/{category.Slug}/tutorials");
-        await GetOk(client, $"/api/v1/tags/{tag.Slug}/tutorials");
-
-        await GetOk(client, "/api/v1/me");
-        await GetOk(client, "/api/v1/me/bookmarks");
-        await PostNoContent(client, $"/api/v1/me/bookmarks/{tutorial.Id}");
-        await DeleteNoContent(client, $"/api/v1/me/bookmarks/{tutorial.Id}");
-        await GetOk(client, $"/api/v1/me/progress/{tutorial.Id}");
-        await PutJson<TutorialProgressDto>(client, $"/api/v1/me/progress/{tutorial.Id}", new ProgressUpsertDto(tutorial.Steps[0].Id, [tutorial.Steps[0].Id]));
-
-        await GetOk(client, "/api/v1/admin/media");
-        var media = await UploadMedia(client);
-        await DeleteNoContent(client, $"/api/v1/admin/media/{media.Id}");
-
-        await GetOk(client, "/api/v1/admin/users");
-        await PutJson<UserDto>(client, $"/api/v1/admin/users/{await CurrentUserId(client)}/roles", new UserRolesUpsertDto([RoleNames.Admin, RoleNames.User]));
-
-        await DeleteNoContent(client, $"/api/v1/admin/tutorials/{tutorial.Id}");
-        await DeleteNoContent(client, $"/api/v1/admin/tags/{tag.Id}");
-        await DeleteNoContent(client, $"/api/v1/admin/categories/{category.Id}");
-    }
-
-    private static async Task<T> PostJson<T>(HttpClient client, string url, object body)
-    {
-        var response = await client.PostAsJsonAsync(url, body);
-        response.EnsureSuccessStatusCode();
-        return (await response.Content.ReadFromJsonAsync<T>())!;
-    }
-
-    private static async Task PostNoContent(HttpClient client, string url)
-    {
-        var response = await client.PostAsync(url, null);
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    }
-
-    private static async Task<T> PutJson<T>(HttpClient client, string url, object body)
-    {
-        var response = await client.PutAsJsonAsync(url, body);
-        response.EnsureSuccessStatusCode();
-        return (await response.Content.ReadFromJsonAsync<T>())!;
-    }
-
-    private static async Task DeleteNoContent(HttpClient client, string url)
-    {
-        var response = await client.DeleteAsync(url);
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    }
-
-    private static async Task GetOk(HttpClient client, string url)
-    {
-        var response = await client.GetAsync(url);
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    private static async Task<MediaDto> UploadMedia(HttpClient client)
-    {
-        using var form = new MultipartFormDataContent();
-        using var content = new ByteArrayContent([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
-        content.Headers.ContentType = new("image/png");
-        form.Add(content, "file", "sample.png");
-
-        var response = await client.PostAsync("/api/v1/admin/media", form);
-        response.EnsureSuccessStatusCode();
-        return (await response.Content.ReadFromJsonAsync<MediaDto>())!;
-    }
-
-    private static async Task<Guid> CurrentUserId(HttpClient client)
-    {
-        var user = await client.GetFromJsonAsync<UserDto>("/api/v1/me");
-        return user!.Id;
+            await ((IAsyncLifetime)localFactory).DisposeAsync();
+            localFactory.Dispose();
+        }
     }
 }

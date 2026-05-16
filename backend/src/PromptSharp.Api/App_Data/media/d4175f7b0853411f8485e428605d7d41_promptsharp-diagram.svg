@@ -1,7 +1,0 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" role="img" aria-label="PromptSharp diagram">
-  <rect width="320" height="180" fill="#101820" />
-  <rect x="24" y="28" width="272" height="124" rx="8" fill="#f6f2ed" />
-  <text x="48" y="70" font-family="Arial, sans-serif" font-size="18" fill="#101820">PromptSharp</text>
-  <text x="48" y="104" font-family="Arial, sans-serif" font-size="12" fill="#334155">API -> Application -> Domain -> Infrastructure</text>
-  <circle cx="252" cy="60" r="18" fill="#dc2626" />
-</svg>

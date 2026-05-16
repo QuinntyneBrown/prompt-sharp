@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp — Project / v1 Skeleton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* =========================================================
+       PromptSharp v1 · Project workspace (skeleton)
+
+       The page shows every prompt generated from the user's idea,
+       grouped into phases, as numbered cards. One download button
+       gets the full plan as a .txt.
+       ========================================================= */
+
+    :root {
+      --bg:         #00000F;
+      --surface:    #002A54;
+      --surface-2:  #003E80AA;
+      --rule:       #003E80;
+      --rule-soft:  #001A36;
+
+      --ink:        #FBFFFF;
+      --ink-dim:    #C5CDE4;
+      --muted:      #6B7AAF;
+      --hush:       #3A4880;
+
+      --accent:     #FF9800;
+      --accent-2:   #8AA8FF;
+
+      --sans:       "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono:       "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+      --max-w:      1100px;
+      --gutter:     clamp(20px, 4vw, 48px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(900px 500px at 90% -10%, rgba(255, 152, 0, 0.08), transparent 60%),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(251, 255, 255, 0.01) 3px 4px);
+    }
+
+    .mono { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-dim); }
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ---------- Nav ---------- */
+    ps-nav {
+      display: block;
+      position: sticky; top: 0;
+      border-bottom: 1px solid var(--rule);
+      background: rgba(0, 0, 15, 0.82);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      backdrop-filter: blur(14px) saturate(160%);
+      z-index: 50;
+    }
+    ps-nav .inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 32px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+    }
+    .brand {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 82, "wght" 700;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      display: inline-flex; align-items: baseline; gap: 0;
+      color: var(--ink); text-decoration: none;
+    }
+    .brand .slash {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 92, "wght" 500;
+    }
+    ps-nav .crumbs {
+      display: flex; gap: 14px; align-items: center;
+      font-family: var(--mono); font-size: 12px;
+      color: var(--muted); letter-spacing: 0.06em;
+    }
+    ps-nav .crumbs .sep { color: var(--hush); }
+    ps-nav .crumbs .here { color: var(--ink); }
+    ps-nav .actions {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 12px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 18px; border: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 12px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink); background: transparent; cursor: pointer;
+      line-height: 1;
+    }
+    .btn.solid { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+    .btn.ghost { color: var(--ink-dim); }
+    .btn.ghost:hover { color: var(--ink); border-color: var(--ink-dim); }
+    .btn.sm { padding: 7px 12px; font-size: 11px; }
+
+    /* ---------- Shell ---------- */
+    ps-shell {
+      display: block;
+      position: relative; z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* =========================================================
+       HEADER — user's idea + summary + download
+       ========================================================= */
+    ps-head {
+      display: block;
+      padding: 56px 0 40px;
+      border-bottom: 1px solid var(--rule);
+    }
+    ps-head .row1 {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 32px;
+    }
+    ps-head .idea {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 80, "wght" 500;
+      font-size: clamp(28px, 3.6vw, 42px);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin: 12px 0 0;
+      max-width: 32ch;
+    }
+    ps-head .meta {
+      margin-top: 28px;
+      display: flex; flex-wrap: wrap; gap: 22px;
+      font-family: var(--mono); font-size: 11px;
+      color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    ps-head .meta b { color: var(--accent); font-weight: 600; }
+    ps-head .download {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+    }
+    ps-head .download .help {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
+    }
+
+    /* =========================================================
+       PHASES + PROMPT CARDS
+       ========================================================= */
+    ps-plan { display: block; padding: 48px 0 64px; }
+    .phase {
+      margin-bottom: 56px;
+    }
+    .phase-head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .phase-head .ix {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.2em; color: var(--accent);
+    }
+    .phase-head h2 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 78, "wght" 600;
+      font-size: clamp(24px, 3vw, 32px);
+      letter-spacing: -0.025em;
+      margin: 0; line-height: 1;
+    }
+    .phase-head .count {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--ink-dim); letter-spacing: 0.12em;
+    }
+
+    .cards { display: flex; flex-direction: column; gap: 14px; }
+    .card {
+      border: 1px solid var(--rule);
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      position: relative;
+    }
+    .card .num {
+      border-right: 1px solid var(--rule);
+      padding: 22px 0;
+      display: flex; align-items: flex-start; justify-content: center;
+      font-family: var(--mono);
+      font-size: 18px; font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .card .body {
+      padding: 20px 22px 18px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .card h3 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 90, "wght" 550;
+      font-size: 18px; letter-spacing: -0.015em;
+      line-height: 1.25; margin: 0;
+      color: var(--ink);
+    }
+    .card .prompt {
+      font-family: var(--mono);
+      font-size: 13px; line-height: 1.6;
+      color: var(--ink-dim);
+      white-space: pre-wrap;
+      margin: 4px 0 8px;
+    }
+    .card footer {
+      border-top: 1px solid var(--rule-soft);
+      margin: 6px -22px -18px;
+      padding: 12px 22px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px;
+      color: var(--muted); letter-spacing: 0.08em;
+    }
+    .card footer .tags { display: flex; gap: 10px; }
+    .card footer .tag {
+      color: var(--ink-dim);
+      border: 1px solid var(--rule-soft);
+      padding: 3px 8px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: 10px;
+    }
+    .card footer .copy {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--ink); cursor: pointer;
+      padding: 4px 0;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .card footer .copy:hover { color: var(--accent); }
+
+    /* =========================================================
+       Footer
+       ========================================================= */
+    ps-footer {
+      display: block;
+      border-top: 1px solid var(--rule-soft);
+      position: relative; z-index: 1;
+    }
+    .foot-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .foot-inner .links { display: flex; gap: 22px; }
+    .foot-inner .links span { cursor: pointer; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 720px) {
+      ps-nav .inner { grid-template-columns: 1fr auto; gap: 14px; }
+      ps-nav .crumbs { display: none; }
+      ps-head { padding: 36px 0 28px; }
+      ps-head .row1 { grid-template-columns: 1fr; }
+      ps-head .download { align-items: flex-start; }
+      .phase-head { grid-template-columns: 1fr; gap: 8px; }
+      .card { grid-template-columns: 56px 1fr; }
+      .card .num { padding: 16px 0; font-size: 15px; }
+      .card .body { padding: 16px 16px 14px; }
+      .card footer { margin: 4px -16px -14px; padding: 10px 16px; flex-direction: column; gap: 8px; align-items: flex-start; }
+      .foot-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-nav></ps-nav>
+  <ps-shell></ps-shell>
+  <ps-footer></ps-footer>
+
+  <script type="module">
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+      }
+      #rendered = false;
+      render() { return ""; }
+    }
+
+    class PsShell extends LightElement {
+      render() {
+        return `
+          <ps-head></ps-head>
+          <ps-plan></ps-plan>
+        `;
+      }
+    }
+
+    class PsNav extends LightElement {
+      render() {
+        return `
+          <div class="inner">
+            <a class="brand" href="home.html">Prompt<span class="slash">/</span>Sharp</a>
+            <div class="crumbs">
+              <span>Projects</span>
+              <span class="sep">/</span>
+              <span class="here">№ 0142</span>
+            </div>
+            <div class="actions">
+              <button class="btn ghost sm">Sign out</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    class PsHead extends LightElement {
+      render() {
+        return `
+          <div class="row1">
+            <div>
+              <div class="eyebrow">Project № 0142 · Created 4m ago</div>
+              <h1 class="idea">A markdown note-taking app with realtime sync, end-to-end encryption, and OAuth.</h1>
+              <div class="meta">
+                <span><b>14</b> prompts</span>
+                <span><b>5</b> phases</span>
+                <span>est. <b>~3 days</b></span>
+              </div>
+            </div>
+            <div class="download">
+              <button class="btn solid">Download .txt ↓</button>
+              <span class="help">All 14 prompts, in order</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    class PsPlan extends LightElement {
+      render() {
+        const phases = [
+          {
+            ix: "01",
+            title: "Foundation",
+            prompts: [
+              {
+                n: "01",
+                h: "Write the product spec",
+                p: "Draft a one-page spec for the app. Cover: target user, top 3 user stories, must-have features, explicit non-goals, success metric. Keep it under 300 words.",
+                tags: ["spec", "30 min"]
+              },
+              {
+                n: "02",
+                h: "Choose the stack",
+                p: "Pick a stack that fits the spec. Justify each choice in one sentence: language, framework, database, hosting, auth provider. Avoid trendy choices without reason.",
+                tags: ["architecture", "15 min"]
+              },
+              {
+                n: "03",
+                h: "Initialize the repo",
+                p: "Create a new repo, set up the project skeleton, configure linting, formatting, and a CI pipeline that runs lint and typecheck on every push.",
+                tags: ["setup", "45 min"]
+              }
+            ]
+          },
+          {
+            ix: "02",
+            title: "Data & Auth",
+            prompts: [
+              {
+                n: "04",
+                h: "Design the data model",
+                p: "Define the database schema for users, notes, and sync events. Write the migration file. Include indexes for the most common queries.",
+                tags: ["schema", "1 hr"]
+              },
+              {
+                n: "05",
+                h: "Implement OAuth sign-in",
+                p: "Add OAuth with Google and GitHub. Store the user record on first sign-in. Add a /me endpoint that returns the current user. Cover both happy path and error states.",
+                tags: ["auth", "2 hr"]
+              },
+              {
+                n: "06",
+                h: "Set up end-to-end encryption keys",
+                p: "On first sign-in, generate a per-user keypair in the browser. Store the public key server-side. Persist the private key in IndexedDB. Document the key rotation story.",
+                tags: ["security", "3 hr"]
+              }
+            ]
+          },
+          {
+            ix: "03",
+            title: "Core features",
+            prompts: [
+              {
+                n: "07",
+                h: "Build note CRUD",
+                p: "Implement create, read, update, and delete for notes. Encrypt the body client-side before sending. The server should never see plaintext.",
+                tags: ["feature", "4 hr"]
+              },
+              {
+                n: "08",
+                h: "Markdown editor with live preview",
+                p: "Build a markdown editor with a side-by-side preview. Support common shortcuts. Persist changes locally first, then sync.",
+                tags: ["ui", "1 day"]
+              },
+              {
+                n: "09",
+                h: "Realtime sync with CRDT",
+                p: "Add realtime sync using a CRDT library. Reconcile changes from multiple devices. Test offline → online transitions explicitly.",
+                tags: ["sync", "1.5 days"]
+              }
+            ]
+          },
+          {
+            ix: "04",
+            title: "Quality",
+            prompts: [
+              {
+                n: "10",
+                h: "Write integration tests for the auth + sync flows",
+                p: "Cover sign-in, key generation, note create, edit on a second device, conflict resolution. Tests should hit a real test database, not mocks.",
+                tags: ["tests", "4 hr"]
+              },
+              {
+                n: "11",
+                h: "Add error tracking and logging",
+                p: "Wire up error tracking on both client and server. Redact note content from logs. Add a basic dashboard for error rates.",
+                tags: ["observability", "2 hr"]
+              },
+              {
+                n: "12",
+                h: "Security review",
+                p: "Audit the encryption flow, OAuth handling, and any place user content touches the server. Document the threat model.",
+                tags: ["security", "3 hr"]
+              }
+            ]
+          },
+          {
+            ix: "05",
+            title: "Ship",
+            prompts: [
+              {
+                n: "13",
+                h: "Set up production deployment",
+                p: "Configure the hosting environment, environment variables, and database migrations. Add a one-command deploy. Set up a staging environment that mirrors prod.",
+                tags: ["deploy", "3 hr"]
+              },
+              {
+                n: "14",
+                h: "Write the landing page and launch",
+                p: "Draft a one-page landing site. Include the value prop, a short demo, and a sign-up CTA. Announce on one channel. Watch the error tracker.",
+                tags: ["launch", "1 day"]
+              }
+            ]
+          }
+        ];
+
+        const renderCard = (c) => `
+          <article class="card">
+            <div class="num">${c.n}</div>
+            <div class="body">
+              <h3>${c.h}</h3>
+              <div class="prompt">${c.p}</div>
+              <footer>
+                <div class="tags">
+                  ${c.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+                </div>
+                <span class="copy">Copy →</span>
+              </footer>
+            </div>
+          </article>
+        `;
+
+        return phases.map(ph => `
+          <section class="phase">
+            <header class="phase-head">
+              <div class="ix">PHASE ${ph.ix}</div>
+              <h2>${ph.title}</h2>
+              <div class="count">${ph.prompts.length} prompts</div>
+            </header>
+            <div class="cards">
+              ${ph.prompts.map(renderCard).join("")}
+            </div>
+          </section>
+        `).join("");
+      }
+    }
+
+    class PsFooter extends LightElement {
+      render() {
+        return `
+          <div class="foot-inner">
+            <span>© 2026 · Prompt/Sharp</span>
+            <div class="links">
+              <span>About</span>
+              <span>Privacy</span>
+              <span>Terms</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    customElements.define("ps-nav",    PsNav);
+    customElements.define("ps-head",   PsHead);
+    customElements.define("ps-plan",   PsPlan);
+    customElements.define("ps-shell",  PsShell);
+    customElements.define("ps-footer", PsFooter);
+  </script>
+</body>
+</html>

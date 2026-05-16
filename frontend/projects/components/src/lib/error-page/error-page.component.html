@@ -1,0 +1,21 @@
+<lib-nav-center />
+
+<main class="ps-error-page__main">
+  <section class="ps-error-page__well">
+    <div class="ps-error-page__glyph">
+      <span>4</span><span class="ps-error-page__slash">0</span><span>4</span>
+    </div>
+    <div class="ps-error-page__eyebrow">Page not found</div>
+    <h1 class="ps-error-page__title">That prompt led <em>nowhere.</em></h1>
+    <p class="ps-error-page__copy">
+      The page you're looking for doesn't exist, was moved, or never made it past the spec phase. Head back home and start fresh.
+    </p>
+    <div class="ps-error-page__actions">
+      <a class="ps-btn ps-btn--solid" routerLink="/">Back to home →</a>
+      <a class="ps-btn ps-btn--ghost" routerLink="/projects">My projects</a>
+    </div>
+    <div class="ps-error-page__trace">Trace · {{ traceId }} · {{ timestamp }}</div>
+  </section>
+</main>
+
+<lib-footer-thin />

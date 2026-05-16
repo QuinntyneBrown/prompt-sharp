@@ -1,0 +1,59 @@
+<lib-nav-center />
+
+<main class="ps-signin-page__main">
+  <section class="ps-signin-page__card">
+    <h1 class="ps-signin-page__title">Sign <em>in</em></h1>
+    <p class="ps-signin-page__sub">
+      Save your projects. Download your prompts. Pick up where you left off.
+    </p>
+
+    <form (submit)="onSubmit(); $event.preventDefault()">
+      <div class="ps-signin-page__field">
+        <label class="ps-signin-page__label" for="ps-signin-email">Email</label>
+        <input
+          id="ps-signin-email"
+          class="ps-signin-page__input"
+          type="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          name="email" />
+      </div>
+      <button type="submit" class="ps-btn ps-btn--solid ps-btn--block">
+        Send magic link →
+      </button>
+    </form>
+
+    <div class="ps-signin-page__divider">
+      <div class="ps-signin-page__divider-line"></div>
+      <div class="ps-signin-page__divider-label">or</div>
+      <div class="ps-signin-page__divider-line"></div>
+    </div>
+
+    <div class="ps-signin-page__oauth">
+      <button type="button" class="ps-btn ps-btn--ghost ps-btn--block" (click)="oauthClicked.emit('google')">
+        <span class="ps-signin-page__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.35 11.1H12v2.93h5.35c-.23 1.4-1.66 4.12-5.35 4.12-3.22 0-5.85-2.67-5.85-5.95s2.63-5.95 5.85-5.95c1.83 0 3.06.78 3.76 1.45l2.56-2.46C16.74 3.91 14.6 3 12 3 6.96 3 2.87 7.04 2.87 12s4.09 9 9.13 9c5.27 0 8.76-3.7 8.76-8.92 0-.6-.06-1.05-.41-.98z" />
+          </svg>
+        </span>
+        Continue with Google
+      </button>
+      <button type="button" class="ps-btn ps-btn--ghost ps-btn--block" (click)="oauthClicked.emit('github')">
+        <span class="ps-signin-page__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.36 6.84 9.71.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.72-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05A9.43 9.43 0 0 1 12 6.84c.85 0 1.71.12 2.51.34 1.91-1.32 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.35 4.81-4.58 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49C19.13 20.61 22 16.78 22 12.25 22 6.58 17.52 2 12 2z" />
+          </svg>
+        </span>
+        Continue with GitHub
+      </button>
+    </div>
+
+    <div class="ps-signin-page__fineprint">
+      By continuing, you agree to our <a>Terms</a> and <a>Privacy Policy</a>. New here? An account is created automatically.
+    </div>
+  </section>
+</main>
+
+<lib-footer-thin />

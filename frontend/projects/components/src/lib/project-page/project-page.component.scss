@@ -1,0 +1,106 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+:host::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(900px 500px at 90% -10%, rgba(255, 152, 0, 0.08), transparent 60%);
+}
+
+.ps-project-page {
+  &__main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    max-width: var(--ps-max-w);
+    margin: 0 auto;
+    padding: 0 var(--ps-gutter);
+    width: 100%;
+  }
+
+  &__crumbs {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-family: var(--ps-mono);
+    font-size: 12px;
+    color: var(--ps-muted);
+    letter-spacing: 0.06em;
+
+    a { color: inherit; cursor: pointer; }
+  }
+
+  &__crumb-sep { color: var(--ps-hush); }
+  &__crumb-here { color: var(--ps-ink); }
+
+  &__head {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--ps-rule);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 32px;
+  }
+
+  &__idea {
+    font-family: var(--ps-sans);
+    font-variation-settings: 'wdth' 80, 'wght' 500;
+    font-size: clamp(28px, 3.6vw, 42px);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ps-ink);
+    margin: 12px 0 0;
+    max-width: 32ch;
+  }
+
+  &__meta {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    font-family: var(--ps-mono);
+    font-size: 11px;
+    color: var(--ps-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    b { color: var(--ps-accent); font-weight: 600; }
+  }
+
+  &__download {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  &__help {
+    font-family: var(--ps-mono);
+    font-size: 10px;
+    color: var(--ps-muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  &__plan {
+    display: block;
+    padding: 48px 0 64px;
+  }
+}
+
+@media (max-width: 720px) {
+  .ps-project-page {
+    &__head { padding: 36px 0 28px; }
+    &__row { grid-template-columns: 1fr; }
+    &__download { align-items: flex-start; }
+  }
+}

@@ -4,9 +4,15 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "api": ["./dist/api"],
-      "components": ["./dist/components"],
-      "domain": ["./dist/domain"]
+      "api": [
+        "./projects/api/src/public-api.ts"
+      ],
+      "components": [
+        "./projects/components/src/public-api.ts"
+      ],
+      "containers": [
+        "./projects/containers/src/public-api.ts"
+      ]
     },
     "strict": true,
     "noImplicitOverride": true,
@@ -29,28 +35,28 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/api/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/api/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/domain/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/domain/tsconfig.spec.json"
-    },
-    {
       "path": "./projects/components/tsconfig.lib.json"
     },
     {
       "path": "./projects/components/tsconfig.spec.json"
     },
     {
-      "path": "./projects/promp-sharp/tsconfig.app.json"
+      "path": "./projects/containers/tsconfig.lib.json"
     },
     {
-      "path": "./projects/promp-sharp/tsconfig.spec.json"
+      "path": "./projects/containers/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/api/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/api/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/prompt-sharp/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/prompt-sharp/tsconfig.spec.json"
     }
   ]
 }

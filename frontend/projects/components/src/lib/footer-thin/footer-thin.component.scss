@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--ps-rule-soft);
+}
+
+.ps-footer-thin {
+  &__inner {
+    max-width: var(--ps-max-w);
+    margin: 0 auto;
+    padding: 18px var(--ps-gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--ps-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ps-muted);
+  }
+
+  &__links {
+    display: flex;
+    gap: 22px;
+
+    span { cursor: pointer; }
+    span:hover { color: var(--ps-ink-dim); }
+  }
+}
+
+@media (max-width: 720px) {
+  .ps-footer-thin__inner {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,83 @@
+<lib-nav-bar>
+  <a slot="actions" class="ps-btn ps-btn--ghost ps-btn--sm" routerLink="/projects">Projects</a>
+  <a slot="actions" class="ps-btn ps-btn--solid ps-btn--sm" routerLink="/">+ New project</a>
+</lib-nav-bar>
+
+<main class="ps-account-page__main">
+  <header class="ps-account-page__head">
+    <div class="ps-eyebrow">Settings</div>
+    <h1 class="ps-account-page__title"><em>Account</em></h1>
+  </header>
+
+  <section class="ps-account-page__section">
+    <header class="ps-account-page__sec-head">
+      <h2 class="ps-account-page__sec-title">Profile</h2>
+      <span class="ps-account-page__hint">Visible only to you</span>
+    </header>
+    <div class="ps-account-page__rows">
+      <div class="ps-account-page__row">
+        <span class="ps-account-page__label">Name</span>
+        <span class="ps-account-page__value">{{ user().name }}</span>
+        <button type="button" class="ps-btn ps-btn--ghost ps-btn--sm" (click)="editNameClicked.emit()">Edit</button>
+      </div>
+      <div class="ps-account-page__row">
+        <span class="ps-account-page__label">Email</span>
+        <span class="ps-account-page__value ps-account-page__value--dim">{{ user().email }}</span>
+        <button type="button" class="ps-btn ps-btn--ghost ps-btn--sm" (click)="changeEmailClicked.emit()">Change</button>
+      </div>
+      <div class="ps-account-page__row">
+        <span class="ps-account-page__label">Member since</span>
+        <span class="ps-account-page__value ps-account-page__value--dim">{{ user().memberSinceLabel }}</span>
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-account-page__section">
+    <header class="ps-account-page__sec-head">
+      <h2 class="ps-account-page__sec-title">Plan</h2>
+      <span class="ps-account-page__hint">Resets monthly</span>
+    </header>
+    <div class="ps-account-page__plan-body">
+      <div>
+        <h3 class="ps-account-page__plan-name">
+          {{ user().plan.name }} <em>{{ user().plan.tier }}</em>
+        </h3>
+        <div class="ps-account-page__plan-meta">
+          <b>{{ user().plan.projectsUsed }}</b>
+          of {{ user().plan.projectQuota }} projects used this month · resets {{ user().plan.resetsLabel }}
+        </div>
+      </div>
+      <button type="button" class="ps-btn ps-btn--solid" (click)="upgradeClicked.emit()">Upgrade →</button>
+    </div>
+  </section>
+
+  <section class="ps-account-page__section">
+    <header class="ps-account-page__sec-head">
+      <h2 class="ps-account-page__sec-title">Session</h2>
+      <span class="ps-account-page__hint">Signed in on this device</span>
+    </header>
+    <div class="ps-account-page__rows">
+      <div class="ps-account-page__row">
+        <span class="ps-account-page__label">Last sign-in</span>
+        <span class="ps-account-page__value ps-account-page__value--dim">{{ sessionLabel() }}</span>
+        <button type="button" class="ps-btn ps-btn--ghost ps-btn--sm" (click)="signOutClicked.emit()">Sign out</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-account-page__section ps-account-page__section--danger">
+    <header class="ps-account-page__sec-head">
+      <h2 class="ps-account-page__sec-title">Delete account</h2>
+      <span class="ps-account-page__hint">Permanent · cannot be undone</span>
+    </header>
+    <div class="ps-account-page__plan-body">
+      <div class="ps-account-page__value ps-account-page__value--dim ps-account-page__danger-copy">
+        Removes your account, all projects, and all generated prompts. You'll receive a confirmation email before anything is deleted.
+      </div>
+      <button type="button" class="ps-btn ps-btn--danger" (click)="deleteAccountClicked.emit()">Delete account</button>
+    </div>
+  </section>
+</main>
+
+<lib-footer-thin />

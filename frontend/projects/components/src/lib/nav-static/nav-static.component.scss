@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.ps-nav-static {
+  &__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 22px var(--ps-gutter);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .ps-nav-static__inner {
+    padding: 18px var(--ps-gutter);
+  }
+}

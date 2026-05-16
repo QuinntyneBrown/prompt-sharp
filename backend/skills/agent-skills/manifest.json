@@ -1,0 +1,16 @@
+{
+  "sourceRepo": "https://github.com/addyosmani/agent-skills",
+  "sourceCommitSha": "5b4c6dade5e6b5a48067d08861a11732d8e3a2bf",
+  "version": "v1-curated-2026-05-15",
+  "hash": "5721015955e5b698d11f1e68e7a8941c46f31100f66a2cdf78cd6fc3399596ef",
+  "skills": [
+    "spec-driven-development",
+    "planning-and-task-breakdown",
+    "api-and-interface-design",
+    "frontend-ui-engineering",
+    "test-driven-development",
+    "code-review-and-quality",
+    "security-and-hardening",
+    "shipping-and-launch"
+  ]
+}

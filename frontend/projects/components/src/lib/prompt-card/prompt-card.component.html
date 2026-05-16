@@ -1,0 +1,17 @@
+<article class="ps-prompt-card">
+  <div class="ps-prompt-card__num">{{ prompt().n }}</div>
+  <div class="ps-prompt-card__body">
+    <h3 class="ps-prompt-card__title">{{ prompt().title }}</h3>
+    <div class="ps-prompt-card__text">{{ prompt().body }}</div>
+    <footer class="ps-prompt-card__footer">
+      <div class="ps-prompt-card__tags">
+        @for (tag of prompt().tags; track tag) {
+          <span class="ps-prompt-card__tag">{{ tag }}</span>
+        }
+      </div>
+      <button type="button" class="ps-prompt-card__copy" (click)="onCopy()">
+        Copy →
+      </button>
+    </footer>
+  </div>
+</article>

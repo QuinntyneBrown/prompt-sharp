@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp — 404 / v1 Skeleton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* =========================================================
+       PromptSharp v1 · 404 (skeleton)
+       ========================================================= */
+
+    :root {
+      --bg:         #00000F;
+      --surface:    #002A54;
+      --rule:       #003E80;
+      --rule-soft:  #001A36;
+
+      --ink:        #FBFFFF;
+      --ink-dim:    #C5CDE4;
+      --muted:      #6B7AAF;
+      --hush:       #3A4880;
+
+      --accent:     #FF9800;
+      --accent-2:   #8AA8FF;
+
+      --sans:       "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono:       "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+      --gutter:     clamp(20px, 4vw, 48px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    html { background: var(--bg); }
+    body {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      display: flex; flex-direction: column;
+      min-height: 100vh;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(900px 500px at 50% -10%, rgba(255, 152, 0, 0.10), transparent 60%),
+        radial-gradient(700px 400px at 50% 110%, rgba(138, 168, 255, 0.06), transparent 70%),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(251, 255, 255, 0.01) 3px 4px);
+    }
+
+    /* Nav */
+    ps-nav { display: block; position: relative; z-index: 2; }
+    ps-nav .inner {
+      display: flex; justify-content: center;
+      padding: 28px var(--gutter);
+    }
+    .brand {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 82, "wght" 700;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      display: inline-flex; align-items: baseline; gap: 0;
+      color: var(--ink); text-decoration: none;
+    }
+    .brand .slash {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 92, "wght" 500;
+    }
+
+    /* Shell */
+    ps-shell {
+      display: flex; flex: 1;
+      align-items: center; justify-content: center;
+      padding: 24px var(--gutter) 48px;
+      position: relative; z-index: 1;
+    }
+    .well {
+      width: 100%; max-width: 600px;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 24px;
+    }
+    .glyph {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 75, "wght" 700;
+      font-size: clamp(120px, 22vw, 220px);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      color: var(--ink);
+      display: inline-flex; align-items: baseline; gap: 0;
+    }
+    .glyph .slash {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 90, "wght" 500;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .well h1 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 80, "wght" 600;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin: 0;
+    }
+    .well h1 em {
+      font-style: italic; color: var(--accent);
+      font-variation-settings: "wdth" 90, "wght" 500;
+    }
+    .well p {
+      color: var(--ink-dim); font-size: 15px;
+      margin: 0; max-width: 44ch;
+    }
+
+    .actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      margin-top: 8px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 22px; border: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 12px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink); background: transparent; cursor: pointer;
+      line-height: 1; text-decoration: none;
+    }
+    .btn.solid { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+    .btn.ghost { color: var(--ink-dim); }
+    .btn.ghost:hover { color: var(--ink); border-color: var(--ink-dim); }
+
+    .trace {
+      margin-top: 20px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 18px;
+      border-top: 1px solid var(--rule-soft);
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* Footer */
+    ps-footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--rule-soft);
+    }
+    .foot-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .foot-inner .links { display: flex; gap: 22px; }
+    .foot-inner .links span { cursor: pointer; }
+
+    @media (max-width: 720px) {
+      .foot-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-nav></ps-nav>
+  <ps-shell></ps-shell>
+  <ps-footer></ps-footer>
+
+  <script type="module">
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+      }
+      #rendered = false;
+      render() { return ""; }
+    }
+
+    class PsNav extends LightElement {
+      render() {
+        return `
+          <div class="inner">
+            <a class="brand" href="home.html">Prompt<span class="slash">/</span>Sharp</a>
+          </div>
+        `;
+      }
+    }
+
+    class PsShell extends LightElement {
+      render() {
+        return `
+          <div class="well">
+            <div class="glyph">4<span class="slash">0</span>4</div>
+            <div class="eyebrow">Page not found</div>
+            <h1>That prompt led <em>nowhere.</em></h1>
+            <p>The page you're looking for doesn't exist, was moved, or never made it past the spec phase. Head back home and start fresh.</p>
+            <div class="actions">
+              <a class="btn solid" href="home.html">Back to home →</a>
+              <a class="btn ghost" href="projects.html">My projects</a>
+            </div>
+            <div class="trace">Trace · req-7c4f9a · 2026-05-15 10:42:18 UTC</div>
+          </div>
+        `;
+      }
+    }
+
+    class PsFooter extends LightElement {
+      render() {
+        return `
+          <div class="foot-inner">
+            <span>© 2026 · Prompt/Sharp</span>
+            <div class="links">
+              <span>About</span>
+              <span>Privacy</span>
+              <span>Terms</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    customElements.define("ps-nav",    PsNav);
+    customElements.define("ps-shell",  PsShell);
+    customElements.define("ps-footer", PsFooter);
+  </script>
+</body>
+</html>

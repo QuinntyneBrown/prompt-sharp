@@ -1,0 +1,29 @@
+- generic [ref=e4]:
+  - link "Prompt / Sharp" [ref=e8] [cursor=pointer]:
+    - /url: /
+    - generic [ref=e9]: Prompt
+    - generic [ref=e10]: /
+    - generic [ref=e11]: Sharp
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: "4"
+        - generic [ref=e16]: "0"
+        - generic [ref=e17]: "4"
+      - generic [ref=e18]: Page not found
+      - heading "That prompt led nowhere." [level=1] [ref=e19]:
+        - text: That prompt led
+        - emphasis [ref=e20]: nowhere.
+      - paragraph [ref=e21]: The page you're looking for doesn't exist, was moved, or never made it past the spec phase. Head back home and start fresh.
+      - generic [ref=e22]:
+        - link "Back to home →" [ref=e23] [cursor=pointer]:
+          - /url: /
+        - link "My projects" [ref=e24] [cursor=pointer]:
+          - /url: /projects
+      - generic [ref=e25]: Trace · req-qtgey9 · 2026-05-15 23:55:35 UTC
+  - generic [ref=e27]:
+    - generic [ref=e28]: © 2026 · Prompt/Sharp
+    - generic [ref=e29]:
+      - generic [ref=e30] [cursor=pointer]: About
+      - generic [ref=e31] [cursor=pointer]: Privacy
+      - generic [ref=e32] [cursor=pointer]: Terms

@@ -1,50 +1,24 @@
-# PromptSharp Backend
+# PromptSharp v1 Backend
 
-.NET 9 Clean Architecture backend for the Prompt/Sharp tutorial platform.
+This backend implements `docs/backend-v1-plan.md` for the v1 prompt-pack product.
 
-## Local Development
+## Runtime Decision
 
-```powershell
-docker compose up -d
-dotnet restore
-dotnet run --project src/PromptSharp.Api
+The plan prefers .NET 10 LTS. This workspace has .NET 9 installed and the repository root README already pins .NET 9, so v1 is implemented on `net9.0` with `backend/global.json` pinned to the 9.0.1xx SDK feature band and `latestPatch` roll-forward. Upgrade to .NET 10 should be scheduled before .NET 9 support ends.
+
+## Local Database
+
+Development and tests target SQL Server Express:
+
+```json
+"Server=localhost\\SQLEXPRESS;Database=PromptSharpDev;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True"
 ```
 
-The API listens on `https://localhost:5001` and exposes OpenAPI at `/openapi/v1.json`.
-
-For local SQL Express or Playwright e2e verification, override the development connection string with:
-
-```powershell
-$env:ConnectionStrings__PromptSharpDb='Server=.\SQLEXPRESS;Database=PromptSharp;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False'
-dotnet run --project src/PromptSharp.Api
-```
+Development startup applies EF Core migrations automatically. Production deployments should run migrations explicitly.
 
 ## Verification
 
 ```powershell
-dotnet build PromptSharp.sln --warnaserror
-dotnet test PromptSharp.sln
+dotnet build backend/PromptSharp.sln --warnaserror
+dotnet test backend/PromptSharp.sln
 ```
-
-SQL Server integration tests use Testcontainers when `RUN_TESTCONTAINERS=true`. They are disabled on ARM64 because the SQL Server 2022 Linux container image is amd64-only.
-
-## Database
-
-Development startup applies EF Core migrations automatically. Production startup does not apply migrations; run:
-
-```powershell
-dotnet ef database update --project src/PromptSharp.Infrastructure --startup-project src/PromptSharp.Api
-```
-
-## Media Storage
-
-Local development stores media under `App_Data/media` and serves it from `/media`. Production can switch to Azure Blob Storage by setting:
-
-```text
-AppSettings__Media__Provider=AzureBlob
-AppSettings__Media__AzureConnectionString=<connection string>
-AppSettings__Media__AzureContainerName=media
-AppSettings__Media__CdnBaseUrl=<cdn base url>
-```
-
-SVG uploads are sanitized for script and event-handler content. EXIF stripping is intentionally not implemented in v1.

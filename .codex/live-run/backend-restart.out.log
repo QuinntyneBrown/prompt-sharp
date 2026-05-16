@@ -297,3 +297,17 @@ SELECT 1
 [08:31:57 INF] Executed endpoint 'Health checks'
 [08:31:57 INF] The response could not be cached for this request.
 [08:31:57 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/health/ready - 200 null text/plain 48.0027ms
+[08:32:51 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/health/live - null null
+[08:32:51 INF] No cached response available for this request.
+[08:32:51 INF] Executing endpoint 'Health checks'
+[08:32:51 INF] Executed endpoint 'Health checks'
+[08:32:51 INF] The response could not be cached for this request.
+[08:32:51 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/health/live - 200 null text/plain 2.2449ms
+[08:33:10 INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/health/ready - null null
+[08:33:10 INF] No cached response available for this request.
+[08:33:10 INF] Executing endpoint 'Health checks'
+[08:33:10 INF] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[08:33:10 INF] Executed endpoint 'Health checks'
+[08:33:10 INF] The response could not be cached for this request.
+[08:33:10 INF] Request finished HTTP/1.1 GET http://127.0.0.1:5000/health/ready - 200 null text/plain 48.0025ms

@@ -1,0 +1,9 @@
+@if (user(); as u) {
+  <lib-account-page
+    [user]="u"
+    (editNameClicked)="onEditName()"
+    (changeEmailClicked)="onChangeEmail()"
+    (upgradeClicked)="onUpgrade()"
+    (signOutClicked)="onSignOut()"
+    (deleteAccountClicked)="onDeleteAccount()" />
+}

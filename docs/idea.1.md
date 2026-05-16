@@ -1,0 +1,2 @@
+- user enters a prompt and app uses https://github.com/addyosmani/agent-skills skills and provides a markdown of all the prompts needed to build the app end to end with gold standard quality
+- mobile first response web app, viewable on mobile, tablet and desktop

@@ -1,0 +1,40 @@
+<lib-nav-bar>
+  <div slot="middle" class="ps-project-page__crumbs">
+    <a routerLink="/projects">Projects</a>
+    <span class="ps-project-page__crumb-sep">/</span>
+    <span class="ps-project-page__crumb-here">№ {{ project().id }}</span>
+  </div>
+  <button slot="actions" type="button" class="ps-btn ps-btn--ghost ps-btn--sm" (click)="signOutClicked.emit()">
+    Sign out
+  </button>
+</lib-nav-bar>
+
+<main class="ps-project-page__main">
+  <header class="ps-project-page__head">
+    <div class="ps-project-page__row">
+      <div>
+        <div class="ps-eyebrow">Project № {{ project().id }} · Created {{ project().createdLabel }}</div>
+        <h1 class="ps-project-page__idea">{{ project().idea }}</h1>
+        <div class="ps-project-page__meta">
+          <span><b>{{ project().promptCount }}</b> prompts</span>
+          <span><b>{{ project().phaseCount }}</b> phases</span>
+          <span>est. <b>{{ project().estimate }}</b></span>
+        </div>
+      </div>
+      <div class="ps-project-page__download">
+        <button type="button" class="ps-btn ps-btn--solid" (click)="downloadClicked.emit()">
+          Download .txt ↓
+        </button>
+        <span class="ps-project-page__help">All {{ project().promptCount }} prompts, in order</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="ps-project-page__plan">
+    @for (phase of project().phases; track phase.ix) {
+      <lib-phase-block [phase]="phase" (promptCopied)="promptCopied.emit($event)" />
+    }
+  </section>
+</main>
+
+<lib-footer-thin />

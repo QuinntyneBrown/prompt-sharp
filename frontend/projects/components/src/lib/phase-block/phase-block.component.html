@@ -1,0 +1,12 @@
+<section class="ps-phase-block">
+  <header class="ps-phase-block__head">
+    <div class="ps-phase-block__ix">PHASE {{ phase().ix }}</div>
+    <h2 class="ps-phase-block__title">{{ phase().title }}</h2>
+    <div class="ps-phase-block__count">{{ phase().prompts.length }} prompts</div>
+  </header>
+  <div class="ps-phase-block__cards">
+    @for (p of phase().prompts; track p.n) {
+      <lib-prompt-card [prompt]="p" (copyClicked)="promptCopied.emit($event)" />
+    }
+  </div>
+</section>

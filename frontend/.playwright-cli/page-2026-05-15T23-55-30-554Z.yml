@@ -1,0 +1,34 @@
+- generic [ref=e4]:
+  - link "Prompt / Sharp" [ref=e8] [cursor=pointer]:
+    - /url: /
+    - generic [ref=e9]: Prompt
+    - generic [ref=e10]: /
+    - generic [ref=e11]: Sharp
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - text: ACCESS
+      - heading "Sign in" [level=1] [ref=e14]:
+        - text: Sign
+        - emphasis [ref=e15]: in
+      - paragraph [ref=e16]: Save your projects. Download your prompts. Pick up where you left off.
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Email
+          - textbox "Email" [ref=e20]:
+            - /placeholder: you@example.com
+        - button "Send magic link →" [ref=e21] [cursor=pointer]
+      - generic [ref=e24]: or
+      - generic [ref=e26]:
+        - button "Continue with Google" [ref=e27] [cursor=pointer]:
+          - img [ref=e29]
+          - text: Continue with Google
+        - button "Continue with GitHub" [ref=e31] [cursor=pointer]:
+          - img [ref=e33]
+          - text: Continue with GitHub
+      - generic [ref=e35]: By continuing, you agree to our Terms and Privacy Policy. New here? An account is created automatically.
+  - generic [ref=e37]:
+    - generic [ref=e38]: © 2026 · Prompt/Sharp
+    - generic [ref=e39]:
+      - generic [ref=e40] [cursor=pointer]: About
+      - generic [ref=e41] [cursor=pointer]: Privacy
+      - generic [ref=e42] [cursor=pointer]: Terms

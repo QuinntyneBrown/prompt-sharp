@@ -1,0 +1,65 @@
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - link "Prompt / Sharp" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e9]: Prompt
+      - generic [ref=e10]: /
+      - generic [ref=e11]: Sharp
+    - generic [ref=e12]:
+      - link "Projects" [ref=e13] [cursor=pointer]:
+        - /url: /projects
+      - link "+ New project" [ref=e14] [cursor=pointer]:
+        - /url: /
+  - main [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e17]: Settings
+      - heading "Account" [level=1] [ref=e18]:
+        - emphasis [ref=e19]: Account
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Profile" [level=2] [ref=e22]
+        - generic [ref=e23]: Visible only to you
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: Name
+          - generic [ref=e27]: Quinntyne Brown
+          - button "Edit" [ref=e28] [cursor=pointer]
+        - generic [ref=e29]:
+          - generic [ref=e30]: Email
+          - generic [ref=e31]: quinntynebrown@gmail.com
+          - button "Change" [ref=e32] [cursor=pointer]
+        - generic [ref=e33]:
+          - generic [ref=e34]: Member since
+          - generic [ref=e35]: May 15, 2026
+    - generic [ref=e36]:
+      - generic [ref=e37]:
+        - heading "Plan" [level=2] [ref=e38]
+        - generic [ref=e39]: Resets monthly
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - heading "Free tier" [level=3] [ref=e42]:
+            - text: Free
+            - emphasis [ref=e43]: tier
+          - generic [ref=e44]: 3 of 5 projects used this month · resets June 1
+        - button "Upgrade →" [ref=e45] [cursor=pointer]
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - heading "Session" [level=2] [ref=e48]
+        - generic [ref=e49]: Signed in on this device
+      - generic [ref=e51]:
+        - generic [ref=e52]: Last sign-in
+        - generic [ref=e53]: Today, 10:42 AM · Windows · Chrome
+        - button "Sign out" [ref=e54] [cursor=pointer]
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - heading "Delete account" [level=2] [ref=e57]
+        - generic [ref=e58]: Permanent · cannot be undone
+      - generic [ref=e59]:
+        - generic [ref=e60]: Removes your account, all projects, and all generated prompts. You'll receive a confirmation email before anything is deleted.
+        - button "Delete account" [ref=e61] [cursor=pointer]
+  - generic [ref=e63]:
+    - generic [ref=e64]: © 2026 · Prompt/Sharp
+    - generic [ref=e65]:
+      - generic [ref=e66] [cursor=pointer]: About
+      - generic [ref=e67] [cursor=pointer]: Privacy
+      - generic [ref=e68] [cursor=pointer]: Terms

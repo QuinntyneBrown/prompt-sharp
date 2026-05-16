@@ -1,14 +1,10 @@
-import { Guid } from './guid';
-import { IsoDateTimeString } from './iso-date-time-string';
-import { RoleName } from './role-name';
+import { Plan } from './plan';
+import { Session } from './session';
 
 export interface User {
-  id: Guid;
-  sub: string;
-  email: string;
-  displayName: string;
-  avatarUrl: string | null;
-  createdAt: IsoDateTimeString;
-  lastSeenAt: IsoDateTimeString;
-  roles: RoleName[];
+  readonly name: string;
+  readonly email: string;
+  readonly memberSinceLabel: string;
+  readonly plan: Plan;
+  readonly session: Session;
 }

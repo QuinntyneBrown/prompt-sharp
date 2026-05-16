@@ -1,0 +1,32 @@
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - link "Prompt / Sharp" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e9]: Prompt
+      - generic [ref=e10]: /
+      - generic [ref=e11]: Sharp
+    - link "Sign in" [ref=e13] [cursor=pointer]:
+      - /url: /signin
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - heading "What do you want to build?" [level=1] [ref=e16]:
+        - text: What do you want to
+        - emphasis [ref=e17]: build?
+      - generic [ref=e18]:
+        - textbox "Describe the app you want to build…" [ref=e19]
+        - generic [ref=e20]:
+          - generic [ref=e22]: ⌘ + ↵ to start
+          - button "Start →" [ref=e23] [cursor=pointer]:
+            - text: Start
+            - generic [ref=e24]: →
+      - generic [ref=e25]:
+        - button "A habit tracker with streaks" [ref=e26] [cursor=pointer]
+        - button "An invoicing tool with Stripe" [ref=e27] [cursor=pointer]
+        - button "A realtime chat app" [ref=e28] [cursor=pointer]
+        - button "A personal blog with search" [ref=e29] [cursor=pointer]
+  - generic [ref=e31]:
+    - generic [ref=e32]: © 2026 · Prompt/Sharp
+    - generic [ref=e33]:
+      - generic [ref=e34] [cursor=pointer]: About
+      - generic [ref=e35] [cursor=pointer]: Privacy
+      - generic [ref=e36] [cursor=pointer]: Terms

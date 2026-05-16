@@ -1,0 +1,43 @@
+<lib-nav-bar>
+  <a slot="actions" class="ps-btn ps-btn--solid ps-btn--sm" routerLink="/">+ New project</a>
+  <a slot="actions" class="ps-btn ps-btn--ghost ps-btn--sm" routerLink="/account">Account</a>
+</lib-nav-bar>
+
+<main class="ps-projects-page__main">
+  <header class="ps-projects-page__head">
+    <div>
+      <div class="ps-eyebrow">{{ totalCount() }} projects · {{ inProgressCount() }} in progress</div>
+      <h1 class="ps-projects-page__title">Your <em>projects</em></h1>
+    </div>
+  </header>
+
+  <section class="ps-projects-page__tools">
+    <div class="ps-projects-page__tools-row">
+      <input
+        type="search"
+        class="ps-projects-page__search"
+        placeholder="Search by idea, tag, or prompt…"
+        [ngModel]="query()"
+        (ngModelChange)="query.set($event)" />
+      <div class="ps-projects-page__filters">
+        @for (f of filters; track f) {
+          <button
+            type="button"
+            class="ps-projects-page__chip"
+            [class.ps-projects-page__chip--active]="activeFilter() === f"
+            (click)="setFilter(f)">
+            {{ toLabel(f) }}
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-projects-page__list">
+    @for (p of visible(); track p.id) {
+      <lib-project-row [project]="p" />
+    }
+  </section>
+</main>
+
+<lib-footer-thin />

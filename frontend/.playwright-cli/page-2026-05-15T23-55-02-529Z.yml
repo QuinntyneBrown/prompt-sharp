@@ -1,0 +1,140 @@
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - link "Prompt / Sharp" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e9]: Prompt
+      - generic [ref=e10]: /
+      - generic [ref=e11]: Sharp
+    - generic [ref=e12]:
+      - link "+ New project" [ref=e13] [cursor=pointer]:
+        - /url: /
+      - link "Account" [ref=e14] [cursor=pointer]:
+        - /url: /account
+  - main [ref=e15]:
+    - generic [ref=e17]:
+      - generic [ref=e18]: 9 projects · 4 in progress
+      - heading "Your projects" [level=1] [ref=e19]:
+        - text: Your
+        - emphasis [ref=e20]: projects
+    - generic [ref=e22]:
+      - searchbox "Search by idea, tag, or prompt…" [ref=e23]
+      - generic [ref=e24]:
+        - button "All" [ref=e25] [cursor=pointer]
+        - button "In progress" [ref=e26] [cursor=pointer]
+        - button "Shipped" [ref=e27] [cursor=pointer]
+        - button "Archived" [ref=e28] [cursor=pointer]
+    - generic [ref=e29]:
+      - link "№ 0142 A markdown note-taking app with realtime sync, end-to-end encryption, and OAuth 14 prompts · 4m ago in progress →" [ref=e31] [cursor=pointer]:
+        - /url: /projects/0142
+        - generic [ref=e32]: № 0142
+        - generic [ref=e33]:
+          - heading "A markdown note-taking app with realtime sync, end-to-end encryption, and OAuth" [level=3] [ref=e34]
+          - generic [ref=e35]:
+            - generic [ref=e36]: 14 prompts
+            - generic [ref=e37]: ·
+            - generic [ref=e38]: 4m ago
+        - generic [ref=e39]:
+          - generic [ref=e40]: in progress
+          - generic [ref=e41]: →
+      - link "№ 0141 A focus timer for ADHD brains, with a one-button mode and visible body-doubling 38 prompts · 3h ago in progress →" [ref=e43] [cursor=pointer]:
+        - /url: /projects/0141
+        - generic [ref=e44]: № 0141
+        - generic [ref=e45]:
+          - heading "A focus timer for ADHD brains, with a one-button mode and visible body-doubling" [level=3] [ref=e46]
+          - generic [ref=e47]:
+            - generic [ref=e48]: 38 prompts
+            - generic [ref=e49]: ·
+            - generic [ref=e50]: 3h ago
+        - generic [ref=e51]:
+          - generic [ref=e52]: in progress
+          - generic [ref=e53]: →
+      - link "№ 0140 A team retro tool with anonymous voting and AI summary 29 prompts · yesterday in progress →" [ref=e55] [cursor=pointer]:
+        - /url: /projects/0140
+        - generic [ref=e56]: № 0140
+        - generic [ref=e57]:
+          - heading "A team retro tool with anonymous voting and AI summary" [level=3] [ref=e58]
+          - generic [ref=e59]:
+            - generic [ref=e60]: 29 prompts
+            - generic [ref=e61]: ·
+            - generic [ref=e62]: yesterday
+        - generic [ref=e63]:
+          - generic [ref=e64]: in progress
+          - generic [ref=e65]: →
+      - link "№ 0139 A wedding RSVP site that doesn't suck 21 prompts · 2d ago shipped →" [ref=e67] [cursor=pointer]:
+        - /url: /projects/0139
+        - generic [ref=e68]: № 0139
+        - generic [ref=e69]:
+          - heading "A wedding RSVP site that doesn't suck" [level=3] [ref=e70]
+          - generic [ref=e71]:
+            - generic [ref=e72]: 21 prompts
+            - generic [ref=e73]: ·
+            - generic [ref=e74]: 2d ago
+        - generic [ref=e75]:
+          - generic [ref=e76]: shipped
+          - generic [ref=e77]: →
+      - link "№ 0138 A static blog with MDX and full-text search 18 prompts · 4d ago shipped →" [ref=e79] [cursor=pointer]:
+        - /url: /projects/0138
+        - generic [ref=e80]: № 0138
+        - generic [ref=e81]:
+          - heading "A static blog with MDX and full-text search" [level=3] [ref=e82]
+          - generic [ref=e83]:
+            - generic [ref=e84]: 18 prompts
+            - generic [ref=e85]: ·
+            - generic [ref=e86]: 4d ago
+        - generic [ref=e87]:
+          - generic [ref=e88]: shipped
+          - generic [ref=e89]: →
+      - link "№ 0137 An invoice tool with Stripe checkout and PDF export 32 prompts · 1w ago shipped →" [ref=e91] [cursor=pointer]:
+        - /url: /projects/0137
+        - generic [ref=e92]: № 0137
+        - generic [ref=e93]:
+          - heading "An invoice tool with Stripe checkout and PDF export" [level=3] [ref=e94]
+          - generic [ref=e95]:
+            - generic [ref=e96]: 32 prompts
+            - generic [ref=e97]: ·
+            - generic [ref=e98]: 1w ago
+        - generic [ref=e99]:
+          - generic [ref=e100]: shipped
+          - generic [ref=e101]: →
+      - link "№ 0136 A habit tracker with streaks and weekly reviews 24 prompts · 1w ago in progress →" [ref=e103] [cursor=pointer]:
+        - /url: /projects/0136
+        - generic [ref=e104]: № 0136
+        - generic [ref=e105]:
+          - heading "A habit tracker with streaks and weekly reviews" [level=3] [ref=e106]
+          - generic [ref=e107]:
+            - generic [ref=e108]: 24 prompts
+            - generic [ref=e109]: ·
+            - generic [ref=e110]: 1w ago
+        - generic [ref=e111]:
+          - generic [ref=e112]: in progress
+          - generic [ref=e113]: →
+      - link "№ 0135 A realtime chat app with AI moderation 41 prompts · 2w ago shipped →" [ref=e115] [cursor=pointer]:
+        - /url: /projects/0135
+        - generic [ref=e116]: № 0135
+        - generic [ref=e117]:
+          - heading "A realtime chat app with AI moderation" [level=3] [ref=e118]
+          - generic [ref=e119]:
+            - generic [ref=e120]: 41 prompts
+            - generic [ref=e121]: ·
+            - generic [ref=e122]: 2w ago
+        - generic [ref=e123]:
+          - generic [ref=e124]: shipped
+          - generic [ref=e125]: →
+      - link "№ 0134 A meal planner that respects dietary restrictions 27 prompts · 3w ago shipped →" [ref=e127] [cursor=pointer]:
+        - /url: /projects/0134
+        - generic [ref=e128]: № 0134
+        - generic [ref=e129]:
+          - heading "A meal planner that respects dietary restrictions" [level=3] [ref=e130]
+          - generic [ref=e131]:
+            - generic [ref=e132]: 27 prompts
+            - generic [ref=e133]: ·
+            - generic [ref=e134]: 3w ago
+        - generic [ref=e135]:
+          - generic [ref=e136]: shipped
+          - generic [ref=e137]: →
+  - generic [ref=e139]:
+    - generic [ref=e140]: © 2026 · Prompt/Sharp
+    - generic [ref=e141]:
+      - generic [ref=e142] [cursor=pointer]: About
+      - generic [ref=e143] [cursor=pointer]: Privacy
+      - generic [ref=e144] [cursor=pointer]: Terms

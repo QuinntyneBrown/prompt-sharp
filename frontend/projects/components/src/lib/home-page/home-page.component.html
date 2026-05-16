@@ -1,0 +1,39 @@
+<lib-nav-static>
+  <a slot="actions" class="ps-btn ps-btn--ghost" routerLink="/signin">Sign in</a>
+</lib-nav-static>
+
+<main class="ps-home-page__main">
+  <section class="ps-home-page__hero">
+    <h1 class="ps-home-page__title">
+      What do you want to <em>build?</em>
+    </h1>
+
+    <form class="ps-home-page__panel" (submit)="onSubmit(); $event.preventDefault()">
+      <textarea
+        class="ps-home-page__textarea"
+        placeholder="Describe the app you want to build…"
+        [ngModel]="value()"
+        (ngModelChange)="value.set($event)"
+        (keydown)="onKeydown($event)"
+        name="prompt"></textarea>
+      <div class="ps-home-page__bar">
+        <div class="ps-home-page__hint">
+          <span><kbd class="ps-home-page__kbd">⌘</kbd> + <kbd class="ps-home-page__kbd">↵</kbd> to start</span>
+        </div>
+        <button type="submit" class="ps-btn ps-btn--solid">
+          Start <span class="ps-btn__arr">→</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="ps-home-page__examples">
+      @for (s of suggestions(); track s.label) {
+        <button type="button" class="ps-home-page__chip" (click)="onPick(s.prompt)">
+          {{ s.label }}
+        </button>
+      }
+    </div>
+  </section>
+</main>
+
+<lib-footer-thin />

@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.ps-nav-center__inner {
+  display: flex;
+  justify-content: center;
+  padding: 28px var(--ps-gutter);
+}

@@ -1,0 +1,202 @@
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - link "Prompt / Sharp" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e9]: Prompt
+      - generic [ref=e10]: /
+      - generic [ref=e11]: Sharp
+    - generic [ref=e13]:
+      - link "Projects" [ref=e14] [cursor=pointer]:
+        - /url: /projects
+      - generic [ref=e15]: /
+      - generic [ref=e16]: № 0142
+    - button "Sign out" [ref=e18] [cursor=pointer]
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: Project № 0142 · Created 4m ago
+        - heading "A markdown note-taking app with realtime sync, end-to-end encryption, and OAuth." [level=1] [ref=e24]
+        - generic [ref=e25]:
+          - generic [ref=e26]: 14 prompts
+          - generic [ref=e27]: 5 phases
+          - generic [ref=e28]: est. ~3 days
+      - generic [ref=e29]:
+        - button "Download .txt ↓" [ref=e30] [cursor=pointer]
+        - generic [ref=e31]: All 14 prompts, in order
+    - generic [ref=e32]:
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: PHASE 01
+          - heading "Foundation" [level=2] [ref=e37]
+          - generic [ref=e38]: 3 prompts
+        - generic [ref=e39]:
+          - article [ref=e41]:
+            - generic [ref=e42]: "01"
+            - generic [ref=e43]:
+              - heading "Write the product spec" [level=3] [ref=e44]
+              - generic [ref=e45]: "Draft a one-page spec for the app. Cover: target user, top 3 user stories, must-have features, explicit non-goals, success metric. Keep it under 300 words."
+              - generic [ref=e46]:
+                - generic [ref=e47]:
+                  - generic [ref=e48]: spec
+                  - generic [ref=e49]: 30 min
+                - button "Copy →" [ref=e50] [cursor=pointer]
+          - article [ref=e52]:
+            - generic [ref=e53]: "02"
+            - generic [ref=e54]:
+              - heading "Choose the stack" [level=3] [ref=e55]
+              - generic [ref=e56]: "Pick a stack that fits the spec. Justify each choice in one sentence: language, framework, database, hosting, auth provider. Avoid trendy choices without reason."
+              - generic [ref=e57]:
+                - generic [ref=e58]:
+                  - generic [ref=e59]: architecture
+                  - generic [ref=e60]: 15 min
+                - button "Copy →" [ref=e61] [cursor=pointer]
+          - article [ref=e63]:
+            - generic [ref=e64]: "03"
+            - generic [ref=e65]:
+              - heading "Initialize the repo" [level=3] [ref=e66]
+              - generic [ref=e67]: Create a new repo, set up the project skeleton, configure linting, formatting, and a CI pipeline that runs lint and typecheck on every push.
+              - generic [ref=e68]:
+                - generic [ref=e69]:
+                  - generic [ref=e70]: setup
+                  - generic [ref=e71]: 45 min
+                - button "Copy →" [ref=e72] [cursor=pointer]
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e76]: PHASE 02
+          - heading "Data & Auth" [level=2] [ref=e77]
+          - generic [ref=e78]: 3 prompts
+        - generic [ref=e79]:
+          - article [ref=e81]:
+            - generic [ref=e82]: "04"
+            - generic [ref=e83]:
+              - heading "Design the data model" [level=3] [ref=e84]
+              - generic [ref=e85]: Define the database schema for users, notes, and sync events. Write the migration file. Include indexes for the most common queries.
+              - generic [ref=e86]:
+                - generic [ref=e87]:
+                  - generic [ref=e88]: schema
+                  - generic [ref=e89]: 1 hr
+                - button "Copy →" [ref=e90] [cursor=pointer]
+          - article [ref=e92]:
+            - generic [ref=e93]: "05"
+            - generic [ref=e94]:
+              - heading "Implement OAuth sign-in" [level=3] [ref=e95]
+              - generic [ref=e96]: Add OAuth with Google and GitHub. Store the user record on first sign-in. Add a /me endpoint that returns the current user. Cover both happy path and error states.
+              - generic [ref=e97]:
+                - generic [ref=e98]:
+                  - generic [ref=e99]: auth
+                  - generic [ref=e100]: 2 hr
+                - button "Copy →" [ref=e101] [cursor=pointer]
+          - article [ref=e103]:
+            - generic [ref=e104]: "06"
+            - generic [ref=e105]:
+              - heading "Set up end-to-end encryption keys" [level=3] [ref=e106]
+              - generic [ref=e107]: On first sign-in, generate a per-user keypair in the browser. Store the public key server-side. Persist the private key in IndexedDB. Document the key rotation story.
+              - generic [ref=e108]:
+                - generic [ref=e109]:
+                  - generic [ref=e110]: security
+                  - generic [ref=e111]: 3 hr
+                - button "Copy →" [ref=e112] [cursor=pointer]
+      - generic [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e116]: PHASE 03
+          - heading "Core features" [level=2] [ref=e117]
+          - generic [ref=e118]: 3 prompts
+        - generic [ref=e119]:
+          - article [ref=e121]:
+            - generic [ref=e122]: "07"
+            - generic [ref=e123]:
+              - heading "Build note CRUD" [level=3] [ref=e124]
+              - generic [ref=e125]: Implement create, read, update, and delete for notes. Encrypt the body client-side before sending. The server should never see plaintext.
+              - generic [ref=e126]:
+                - generic [ref=e127]:
+                  - generic [ref=e128]: feature
+                  - generic [ref=e129]: 4 hr
+                - button "Copy →" [ref=e130] [cursor=pointer]
+          - article [ref=e132]:
+            - generic [ref=e133]: "08"
+            - generic [ref=e134]:
+              - heading "Markdown editor with live preview" [level=3] [ref=e135]
+              - generic [ref=e136]: Build a markdown editor with a side-by-side preview. Support common shortcuts. Persist changes locally first, then sync.
+              - generic [ref=e137]:
+                - generic [ref=e138]:
+                  - generic [ref=e139]: ui
+                  - generic [ref=e140]: 1 day
+                - button "Copy →" [ref=e141] [cursor=pointer]
+          - article [ref=e143]:
+            - generic [ref=e144]: "09"
+            - generic [ref=e145]:
+              - heading "Realtime sync with CRDT" [level=3] [ref=e146]
+              - generic [ref=e147]: Add realtime sync using a CRDT library. Reconcile changes from multiple devices. Test offline → online transitions explicitly.
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - generic [ref=e150]: sync
+                  - generic [ref=e151]: 1.5 days
+                - button "Copy →" [ref=e152] [cursor=pointer]
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - generic [ref=e156]: PHASE 04
+          - heading "Quality" [level=2] [ref=e157]
+          - generic [ref=e158]: 3 prompts
+        - generic [ref=e159]:
+          - article [ref=e161]:
+            - generic [ref=e162]: "10"
+            - generic [ref=e163]:
+              - heading "Write integration tests for the auth + sync flows" [level=3] [ref=e164]
+              - generic [ref=e165]: Cover sign-in, key generation, note create, edit on a second device, conflict resolution. Tests should hit a real test database, not mocks.
+              - generic [ref=e166]:
+                - generic [ref=e167]:
+                  - generic [ref=e168]: tests
+                  - generic [ref=e169]: 4 hr
+                - button "Copy →" [ref=e170] [cursor=pointer]
+          - article [ref=e172]:
+            - generic [ref=e173]: "11"
+            - generic [ref=e174]:
+              - heading "Add error tracking and logging" [level=3] [ref=e175]
+              - generic [ref=e176]: Wire up error tracking on both client and server. Redact note content from logs. Add a basic dashboard for error rates.
+              - generic [ref=e177]:
+                - generic [ref=e178]:
+                  - generic [ref=e179]: observability
+                  - generic [ref=e180]: 2 hr
+                - button "Copy →" [ref=e181] [cursor=pointer]
+          - article [ref=e183]:
+            - generic [ref=e184]: "12"
+            - generic [ref=e185]:
+              - heading "Security review" [level=3] [ref=e186]
+              - generic [ref=e187]: Audit the encryption flow, OAuth handling, and any place user content touches the server. Document the threat model.
+              - generic [ref=e188]:
+                - generic [ref=e189]:
+                  - generic [ref=e190]: security
+                  - generic [ref=e191]: 3 hr
+                - button "Copy →" [ref=e192] [cursor=pointer]
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - generic [ref=e196]: PHASE 05
+          - heading "Ship" [level=2] [ref=e197]
+          - generic [ref=e198]: 2 prompts
+        - generic [ref=e199]:
+          - article [ref=e201]:
+            - generic [ref=e202]: "13"
+            - generic [ref=e203]:
+              - heading "Set up production deployment" [level=3] [ref=e204]
+              - generic [ref=e205]: Configure the hosting environment, environment variables, and database migrations. Add a one-command deploy. Set up a staging environment that mirrors prod.
+              - generic [ref=e206]:
+                - generic [ref=e207]:
+                  - generic [ref=e208]: deploy
+                  - generic [ref=e209]: 3 hr
+                - button "Copy →" [ref=e210] [cursor=pointer]
+          - article [ref=e212]:
+            - generic [ref=e213]: "14"
+            - generic [ref=e214]:
+              - heading "Write the landing page and launch" [level=3] [ref=e215]
+              - generic [ref=e216]: Draft a one-page landing site. Include the value prop, a short demo, and a sign-up CTA. Announce on one channel. Watch the error tracker.
+              - generic [ref=e217]:
+                - generic [ref=e218]:
+                  - generic [ref=e219]: launch
+                  - generic [ref=e220]: 1 day
+                - button "Copy →" [ref=e221] [cursor=pointer]
+  - generic [ref=e223]:
+    - generic [ref=e224]: © 2026 · Prompt/Sharp
+    - generic [ref=e225]:
+      - generic [ref=e226] [cursor=pointer]: About
+      - generic [ref=e227] [cursor=pointer]: Privacy
+      - generic [ref=e228] [cursor=pointer]: Terms

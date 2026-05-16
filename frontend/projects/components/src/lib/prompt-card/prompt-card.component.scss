@@ -1,0 +1,108 @@
+:host { display: block; }
+
+.ps-prompt-card {
+  border: 1px solid var(--ps-rule);
+  background: var(--ps-surface);
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  position: relative;
+
+  &__num {
+    border-right: 1px solid var(--ps-rule);
+    padding: 22px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: var(--ps-mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ps-accent);
+    letter-spacing: 0.04em;
+  }
+
+  &__body {
+    padding: 20px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__title {
+    font-family: var(--ps-sans);
+    font-variation-settings: 'wdth' 90, 'wght' 550;
+    font-size: 18px;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--ps-ink);
+  }
+
+  &__text {
+    font-family: var(--ps-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ps-ink-dim);
+    white-space: pre-wrap;
+    margin: 4px 0 8px;
+  }
+
+  &__footer {
+    border-top: 1px solid var(--ps-rule-soft);
+    margin: 6px -22px -18px;
+    padding: 12px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--ps-mono);
+    font-size: 11px;
+    color: var(--ps-muted);
+    letter-spacing: 0.08em;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__tag {
+    color: var(--ps-ink-dim);
+    border: 1px solid var(--ps-rule-soft);
+    padding: 3px 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  &__copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ps-ink);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 4px 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--ps-mono);
+    font-size: 11px;
+
+    &:hover { color: var(--ps-accent); }
+  }
+}
+
+@media (max-width: 720px) {
+  .ps-prompt-card {
+    grid-template-columns: 56px 1fr;
+
+    &__num { padding: 16px 0; font-size: 15px; }
+    &__body { padding: 16px 16px 14px; }
+    &__footer {
+      margin: 4px -16px -14px;
+      padding: 10px 16px;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+  }
+}

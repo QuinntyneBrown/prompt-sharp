@@ -6,58 +6,6 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "api": {
-      "projectType": "library",
-      "root": "projects/api",
-      "sourceRoot": "projects/api/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/api/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/api/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/api/tsconfig.spec.json"
-          }
-        }
-      }
-    },
-    "domain": {
-      "projectType": "library",
-      "root": "projects/domain",
-      "sourceRoot": "projects/domain/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/domain/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/domain/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/domain/tsconfig.spec.json"
-          }
-        }
-      }
-    },
     "components": {
       "projectType": "library",
       "root": "projects/components",
@@ -84,33 +32,84 @@
         }
       }
     },
-    "promp-sharp": {
+    "containers": {
+      "projectType": "library",
+      "root": "projects/containers",
+      "sourceRoot": "projects/containers/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/containers/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/containers/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/containers/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "api": {
+      "projectType": "library",
+      "root": "projects/api",
+      "sourceRoot": "projects/api/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/api/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/api/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/api/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "prompt-sharp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/promp-sharp",
-      "sourceRoot": "projects/promp-sharp/src",
+      "root": "projects/prompt-sharp",
+      "sourceRoot": "projects/prompt-sharp/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "projects/promp-sharp/src/main.ts",
-            "tsConfig": "projects/promp-sharp/tsconfig.app.json",
+            "browser": "projects/prompt-sharp/src/main.ts",
+            "tsConfig": "projects/prompt-sharp/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/promp-sharp/public"
+                "input": "projects/prompt-sharp/public"
               }
             ],
-            "styles": ["projects/promp-sharp/src/styles.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["projects/tokens"]
-            }
+            "styles": [
+              "projects/prompt-sharp/src/styles.scss"
+            ]
           },
           "configurations": {
             "production": {
@@ -140,10 +139,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "promp-sharp:build:production"
+              "buildTarget": "prompt-sharp:build:production"
             },
             "development": {
-              "buildTarget": "promp-sharp:build:development"
+              "buildTarget": "prompt-sharp:build:development"
             }
           },
           "defaultConfiguration": "development"

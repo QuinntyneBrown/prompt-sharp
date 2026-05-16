@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptSharp — Account / v1 Skeleton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..900;1,75..125,200..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* =========================================================
+       PromptSharp v1 · Account (skeleton)
+       Profile, plan, sign out. Three sections, nothing else.
+       ========================================================= */
+
+    :root {
+      --bg:         #00000F;
+      --surface:    #002A54;
+      --rule:       #003E80;
+      --rule-soft:  #001A36;
+
+      --ink:        #FBFFFF;
+      --ink-dim:    #C5CDE4;
+      --muted:      #6B7AAF;
+      --hush:       #3A4880;
+
+      --accent:     #FF9800;
+      --accent-2:   #8AA8FF;
+      --danger:     #FF6B6B;
+
+      --sans:       "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono:       "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+      --max-w:      820px;
+      --gutter:     clamp(20px, 4vw, 48px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 100, "wght" 400;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(900px 500px at 90% -10%, rgba(255, 152, 0, 0.06), transparent 60%),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(251, 255, 255, 0.01) 3px 4px);
+    }
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ---------- Nav ---------- */
+    ps-nav {
+      display: block;
+      position: sticky; top: 0;
+      border-bottom: 1px solid var(--rule);
+      background: rgba(0, 0, 15, 0.82);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      backdrop-filter: blur(14px) saturate(160%);
+      z-index: 50;
+    }
+    ps-nav .inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+    }
+    .brand {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 82, "wght" 700;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      display: inline-flex; align-items: baseline; gap: 0;
+      color: var(--ink); text-decoration: none;
+    }
+    .brand .slash {
+      color: var(--accent); font-style: italic;
+      font-variation-settings: "wdth" 92, "wght" 500;
+    }
+    ps-nav .actions {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 12px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 18px; border: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 12px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink); background: transparent; cursor: pointer;
+      line-height: 1;
+    }
+    .btn.solid { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+    .btn.ghost { color: var(--ink-dim); }
+    .btn.ghost:hover { color: var(--ink); border-color: var(--ink-dim); }
+    .btn.sm { padding: 7px 12px; font-size: 11px; }
+    .btn.danger { color: var(--danger); border-color: rgba(255, 107, 107, 0.4); }
+    .btn.danger:hover { background: var(--danger); color: var(--bg); border-color: var(--danger); }
+
+    /* ---------- Shell ---------- */
+    ps-shell {
+      display: block;
+      position: relative; z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* =========================================================
+       Head
+       ========================================================= */
+    ps-head { display: block; padding: 56px 0 32px; }
+    ps-head h1 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 78, "wght" 600;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: -0.035em;
+      line-height: 1;
+      margin: 12px 0 0;
+    }
+    ps-head h1 em {
+      font-style: italic; color: var(--accent);
+      font-variation-settings: "wdth" 88, "wght" 500;
+    }
+
+    /* =========================================================
+       Section blocks
+       ========================================================= */
+    .section {
+      border: 1px solid var(--rule);
+      background: var(--surface);
+      margin-bottom: 18px;
+    }
+    .section .sec-head {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid var(--rule-soft);
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 16px;
+    }
+    .section h2 {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 82, "wght" 550;
+      font-size: 22px; letter-spacing: -0.02em;
+      margin: 0; line-height: 1.1;
+    }
+    .section .sec-head .hint {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--muted); letter-spacing: 0.06em;
+    }
+
+    .row-list { display: flex; flex-direction: column; }
+    .row {
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .row:last-child { border-bottom: 0; }
+    .row .label {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .row .value {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 95, "wght" 450;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .row .value.dim { color: var(--ink-dim); }
+    .row .value .pill {
+      display: inline-block; margin-left: 8px;
+      padding: 2px 8px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--bg); background: var(--accent);
+      vertical-align: 2px;
+    }
+
+    /* Plan card body */
+    .plan-body {
+      padding: 22px 24px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+    .plan-name {
+      font-family: var(--sans);
+      font-variation-settings: "wdth" 80, "wght" 600;
+      font-size: 28px; letter-spacing: -0.025em;
+      margin: 0;
+    }
+    .plan-name em {
+      font-style: italic; color: var(--accent);
+      font-variation-settings: "wdth" 90, "wght" 500;
+    }
+    .plan-meta {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--ink-dim); letter-spacing: 0.06em;
+      margin-top: 6px;
+    }
+    .plan-meta b { color: var(--accent); }
+
+    /* Danger zone */
+    .section.danger { border-color: rgba(255, 107, 107, 0.25); }
+    .section.danger .sec-head h2 { color: var(--danger); }
+
+    /* Footer */
+    ps-footer {
+      display: block;
+      border-top: 1px solid var(--rule-soft);
+      position: relative; z-index: 1;
+      margin-top: 64px;
+    }
+    .foot-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .foot-inner .links { display: flex; gap: 22px; }
+    .foot-inner .links span { cursor: pointer; }
+
+    @media (max-width: 720px) {
+      .row { grid-template-columns: 1fr; gap: 8px; padding: 16px 18px; }
+      .plan-body { grid-template-columns: 1fr; }
+      .section .sec-head { padding: 18px 18px 14px; flex-direction: column; align-items: flex-start; gap: 6px; }
+      .foot-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <ps-nav></ps-nav>
+  <ps-shell></ps-shell>
+  <ps-footer></ps-footer>
+
+  <script type="module">
+    class LightElement extends HTMLElement {
+      connectedCallback() {
+        if (this.#rendered) return;
+        this.innerHTML = this.render();
+        this.#rendered = true;
+      }
+      #rendered = false;
+      render() { return ""; }
+    }
+
+    class PsNav extends LightElement {
+      render() {
+        return `
+          <div class="inner">
+            <a class="brand" href="home.html">Prompt<span class="slash">/</span>Sharp</a>
+            <div></div>
+            <div class="actions">
+              <a class="btn ghost sm" href="projects.html">Projects</a>
+              <a class="btn solid sm" href="home.html">+ New project</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    class PsShell extends LightElement {
+      render() {
+        return `
+          <ps-head></ps-head>
+
+          <section class="section">
+            <header class="sec-head">
+              <h2>Profile</h2>
+              <span class="hint">Visible only to you</span>
+            </header>
+            <div class="row-list">
+              <div class="row">
+                <span class="label">Name</span>
+                <span class="value">Quinntyne Brown</span>
+                <button class="btn ghost sm">Edit</button>
+              </div>
+              <div class="row">
+                <span class="label">Email</span>
+                <span class="value dim">quinntynebrown@gmail.com</span>
+                <button class="btn ghost sm">Change</button>
+              </div>
+              <div class="row">
+                <span class="label">Member since</span>
+                <span class="value dim">May 15, 2026</span>
+                <span></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <header class="sec-head">
+              <h2>Plan</h2>
+              <span class="hint">Resets monthly</span>
+            </header>
+            <div class="plan-body">
+              <div>
+                <h3 class="plan-name">Free <em>tier</em></h3>
+                <div class="plan-meta">
+                  <b>3</b> of 5 projects used this month · resets June 1
+                </div>
+              </div>
+              <button class="btn solid">Upgrade →</button>
+            </div>
+          </section>
+
+          <section class="section">
+            <header class="sec-head">
+              <h2>Session</h2>
+              <span class="hint">Signed in on this device</span>
+            </header>
+            <div class="row-list">
+              <div class="row">
+                <span class="label">Last sign-in</span>
+                <span class="value dim">Today, 10:42 AM · Windows · Chrome</span>
+                <button class="btn ghost sm">Sign out</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="section danger">
+            <header class="sec-head">
+              <h2>Delete account</h2>
+              <span class="hint">Permanent · cannot be undone</span>
+            </header>
+            <div class="plan-body">
+              <div class="value dim" style="max-width: 50ch;">
+                Removes your account, all projects, and all generated prompts. You'll receive a confirmation email before anything is deleted.
+              </div>
+              <button class="btn danger">Delete account</button>
+            </div>
+          </section>
+        `;
+      }
+    }
+
+    class PsHead extends LightElement {
+      render() {
+        return `
+          <div class="eyebrow">Settings</div>
+          <h1><em>Account</em></h1>
+        `;
+      }
+    }
+
+    class PsFooter extends LightElement {
+      render() {
+        return `
+          <div class="foot-inner">
+            <span>© 2026 · Prompt/Sharp</span>
+            <div class="links">
+              <span>About</span>
+              <span>Privacy</span>
+              <span>Terms</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    customElements.define("ps-nav",    PsNav);
+    customElements.define("ps-head",   PsHead);
+    customElements.define("ps-shell",  PsShell);
+    customElements.define("ps-footer", PsFooter);
+  </script>
+</body>
+</html>

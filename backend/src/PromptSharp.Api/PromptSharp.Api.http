@@ -1,12 +1,11 @@
-@PromptSharp.Api_HostAddress = https://localhost:5001
+@PromptSharp.Api_HostAddress = http://localhost:5042
 
 GET {{PromptSharp.Api_HostAddress}}/health/live
-
-###
-
-GET {{PromptSharp.Api_HostAddress}}/openapi/v1.json
-
-###
-
-GET {{PromptSharp.Api_HostAddress}}/api/v1/tutorials
 Accept: application/json
+
+###
+
+GET {{PromptSharp.Api_HostAddress}}/api/v1/suggestions
+Accept: application/json
+
+###
